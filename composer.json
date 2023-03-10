@@ -1,0 +1,11 @@
+{
+    "name": "vendor/finances",
+    "description": "Description of project finances.",
+    "authors": [
+        {
+            "name": "vitor.siqueira",
+            "email": "your@email.here"
+        }
+    ],
+    "require": {}
+}

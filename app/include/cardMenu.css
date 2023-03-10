@@ -1,0 +1,44 @@
+.card{
+
+}            
+.card:hover{
+    /*box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important*/
+    -webkit-box-shadow: -2px 2px 41px -14px rgba(0,0,0,0.75);
+    -moz-box-shadow: -2px 2px 41px -14px rgba(0,0,0,0.75);
+    box-shadow: -2px 2px 41px -14px rgba(0,0,0,0.75);       
+}
+.card:hover i{
+    color: #000;
+    font-size: 35px;
+    -webkit-transition: font-size 0.2s;
+    -moz-transition: font-size 0.2s;
+    transition: font-size 0.2s;
+}
+.border {
+    border-color: #ccc!important;
+    border-radius: .25rem!important;
+}
+.boxDiv{
+    background-color: #2271b1!important;
+    color: #ccc!important;
+}
+.pricing.start-grp li:nth-child(2) h3 {
+    color: #fff;
+}
+.icon{
+    font-size: 30px;
+    color: #fff;           
+}
+
+.clique{
+    color: #fff;
+    font-size: 12px;
+}
+.card:hover .clique{
+    font-weight: bolder;
+    color: #000;   
+    font-size: 12px;
+    -webkit-transition: font-size 0.2s;
+    -moz-transition: font-size 0.2s;
+    transition: font-size 0.2s;                
+}
