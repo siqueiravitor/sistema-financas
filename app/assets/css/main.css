@@ -153,6 +153,13 @@ body:not(.menu-icon) #subNavMenuUsuario{
     border-radius: 6px;
     width: 90%;
 }
+.fixed-bottom {
+    position: absolute;
+    bottom: 1rem;
+    left: unset;
+    right: 50%;
+    color: var(--btn-primary);
+}
 
 .space-1{
     letter-spacing: 1px;
@@ -9301,11 +9308,14 @@ ul.list-justify.large-number span {
     right: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden
+    overflow: hidden;
+    background: var(--color-dark)
 }
 
 .page-loader-wrapper p {
-    color: #fff
+    color: var(--color-border);
+    font-size: 1rem;
+    letter-spacing: 2px;
 }
 
 .page-loader-wrapper .loader {

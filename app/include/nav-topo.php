@@ -19,7 +19,7 @@
                     <div id="navbar-search m-0">
                         <span style="vertical-align: middle;">
                             <?php
-                            $usuario = str_replace('.', ' ', $_SESSION['nome']);
+                            $usuario = str_replace('.', ' ', $_SESSION['name']);
                             $nome = ucwords(strtolower($usuario));
                             $horario = date("H");
                             if ($horario >= 12 && $horario < 18) {
@@ -50,7 +50,7 @@
                                             <img src="<?= $_SESSION['foto'] ?>" class="rounded" width="50" alt="">
                                         </div>
                                         <div class="drop-right text-center space-1">
-                                            <h4 style="color: var(--color-light)"><?= $_SESSION["nome"] ?></h4>
+                                            <h4 style="color: var(--color-light)"><?= $_SESSION["name"] ?></h4>
                                         </div>
                                     </div>
                                     <div class="p-3 drop-list">

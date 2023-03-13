@@ -37,7 +37,7 @@ include '../config/connMysql.php';
                 $("#management-table").dataTable({
                     "aaSorting": [],
                     "columnDefs": [{
-                            "targets": [6,7],
+                            "targets": [6, 7],
                             "orderable": false
                         }]
                 });
@@ -54,15 +54,11 @@ include '../config/connMysql.php';
         </script>
     </head>
     <body>
-        <div class="page-loader-wrapper">
-            <div class="loader">
-                <div class="m-t-30"><img src="<?= BASE_ICO; ?>" width="48" height="48" alt="<?= TITLE; ?>"></div>
-                <p>Carregando...</p>        
-            </div>
-        </div>
+        
         <div class="overlay" style="display: none;"></div>
         <div id="wrapper">
             <?php
+            include '../include/loader.php';
             include '../include/nav-topo.php';
             include '../include/nav-lateral.php';
             ?>
@@ -184,22 +180,24 @@ include '../config/connMysql.php';
                                                             inner join categoria c on (c.id = f.idcategoria)
                                                             where idusuario = {$_SESSION['id']}";
                                                 $queryFinance = mysqli_query($con, $sqlFinance);
-                                                while ($finance = mysqli_fetch_array($queryFinance, MYSQLI_ASSOC)) {
-                                                    $data = dateConvert($finance['data'], '-', '/', true);
-                                                    $datager = dateConvert($finance['datager'], '-', '/', true);
-                                                    $recorrente = $finance['recorrente'] == 's' ? "Sim" : "Não";
-                                                    $valor = floatToMoney($finance['valor']);
+                                                if (mysqli_num_rows($queryFinance)) {
+                                                    while ($finance = mysqli_fetch_array($queryFinance, MYSQLI_ASSOC)) {
+                                                        $data = dateConvert($finance['data'], '-', '/', true);
+                                                        $datager = dateConvert($finance['datager'], '-', '/', true);
+                                                        $recorrente = $finance['recorrente'] == 's' ? "Sim" : "Não";
+                                                        $valor = floatToMoney($finance['valor']);
 
-                                                    echo "<tr>";
-                                                    echo "<td>{$valor}</td>";
-                                                    echo "<td>{$finance['categoria']}</td>";
-                                                    echo "<td>{$finance['descFinanca']}</td>";
-                                                    echo "<td>{$recorrente}</td>";
-                                                    echo "<td>{$data}</td>";
-                                                    echo "<td>{$datager}</td>";
-                                                    echo "<td></td>";
-                                                    echo "<td class='text-center p-0'><a href='./include/rIncoming.php?id={$finance['id']}' class='d-block'><i class='text-danger fa fa-trash'></i></a></td>";
-                                                    echo "</tr>";
+                                                        echo "<tr>";
+                                                        echo "<td>{$valor}</td>";
+                                                        echo "<td>{$finance['categoria']}</td>";
+                                                        echo "<td>{$finance['descFinanca']}</td>";
+                                                        echo "<td>{$recorrente}</td>";
+                                                        echo "<td>{$data}</td>";
+                                                        echo "<td>{$datager}</td>";
+                                                        echo "<td></td>";
+                                                        echo "<td class='text-center p-0'><a href='./include/rIncoming.php?id={$finance['id']}' class='d-block'><i class='text-danger fa fa-trash'></i></a></td>";
+                                                        echo "</tr>";
+                                                    }
                                                 }
                                                 ?>
                                             </tbody>
