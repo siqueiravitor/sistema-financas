@@ -24,7 +24,7 @@
                 <div class="">
                     <div class="cardLeft">
                         <div style="min-width: 10rem;max-width: 12rem;">
-                            <img src="./assets/images/logo.png" alt="Finanças" >
+                            <img src="./assets/images/temp/logo.png" alt="Finanças" >
                         </div>
 
                         <h4>Finanças</h4>
