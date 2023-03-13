@@ -2,7 +2,8 @@
     <div class="row">       
         <div class="col-md-4">
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="<?= BASED; ?>/index"><i class="icon-home"></i></a></li>      
+                <li class="breadcrumb-item"><a href="<?= BASED; ?>"><i class="icon-home"></i></a></li>      
+                
                     <?php
                     $breadcrumbs = explode('/', $_SERVER['REQUEST_URI']);
                     if(isset($_GET)){

@@ -9,7 +9,7 @@ if (!isset($_SESSION["user"])) {
     return;
 }
 //Nome do Sistema
-$sistema = 'Sistema';
+$sistema = 'E-Finanças';
 
 /* UTF Portugues Brasil */
 setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
@@ -23,20 +23,20 @@ date_default_timezone_set('America/Sao_Paulo');
 //$UrlAtual = $protocolo . '://' . $host;
 //$url = $UrlAtual;
 
-$url = 'http://localhost/finances';
+$url = 'http://localhost/sistema-financas';
 
 /* Parametros do sistema */
 //$empresa = mb_strtolower($_SESSION['empresa']);
 
-$empresa = 'Empresa';
+$empresa = 'SyntaxWeb';
 define('ID_SISTEMA', 1);
 define('NOME_EMPRESA', ucfirst($empresa));
 define('SISTEMA', ucfirst($sistema));
 define('TITLE', ucfirst($empresa));
-define('BASE_ICO', $url . '/assets/images/central/logos/binare_1.png');
+define('BASE_ICO', $url . '/app/assets/images/logo.png');
 define('BASEF', $url . '/');
 define('BASED', $url . '/app');
-define('BASES', '/var/www/html/manutencao');
+define('BASES', '/var/www/html/sistema-financa');
 
 /* Logged time limit */
 //if ($_SESSION["timer"] + 10 * 60 < time()) {

@@ -2,8 +2,6 @@
 include '../config/config.php';
 include '../config/func.php';
 include '../config/connMysql.php';
-//require '../vendor/autoload.php';            
-include '../include/icons.php';
 ?>
 <!doctype html>
 <html lang="pt-br">
@@ -19,6 +17,8 @@ include '../include/icons.php';
         <link rel="stylesheet" href="<?= BASEF; ?>/assets/vendor/animate-css/animate.min.css">
         <link rel="stylesheet" href="<?= BASEF; ?>/assets/vendor/font-awesome/css/font-awesome.min.css">
 
+        <script src="<?= BASED; ?>/include/func.js"></script>
+
         <!--Data Table-->
         <link rel="stylesheet" href="<?= BASEF; ?>/assets/vendor/jquery-datatable/dataTables.bootstrap4.min.css">
         <!--DataPicker-->
@@ -28,26 +28,29 @@ include '../include/icons.php';
 
         <!-- MAIN CSS -->
         <link rel="stylesheet" href="<?= BASED; ?>/assets/css/main.css">
-        <link rel="stylesheet" href="<?= BASED; ?>/assets/css/color_skins.css">
 
         <script>
             window.addEventListener('DOMContentLoaded', () => {
                 $('#date').datepicker({
                     todayHighlight: true
                 });
-                $("#management-table").dataTable();
+                $("#management-table").dataTable({
+                    "aaSorting": [],
+                    "columnDefs": [{
+                            "targets": [6,7],
+                            "orderable": false
+                        }]
+                });
                 $(".select2").select2();
+
+                $('#formRegister').on('submit', function (e) {
+                    let value = $('#value').val();
+                    let date = $('#date').val();
+                    if (!value || !date) {
+                        e.preventDefault();
+                    }
+                });
             });
-            function moneyMask(input) {
-                if (input.value) {
-                    // Remove all non-numeric characters from the input
-                    const numericInput = input.value.replace(/\D/g, '');
-                    // Format the numeric input to a currency format
-                    const formattedInput = (parseInt(numericInput) / 100).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
-                    // Set the input value to the formatted currency string
-                    input.value = formattedInput;
-                }
-            }
         </script>
     </head>
     <body>
@@ -68,18 +71,23 @@ include '../include/icons.php';
                     <?php
                     include '../include/breadcrumb.php';
                     ?>
-
+                    <?php
+                    if (!empty($_GET["msg"])) {
+                        $alert = isset($_GET["alert"]) ? $_GET["alert"] : 0;
+                        echo montaAlert($alert, $_GET["msg"]);
+                    }
+                    ?>
                     <div class="row"> 
                         <div class="col-md-4">
                             <div class="card shadow-sm">
                                 <div class="card-body">
-                                    <form method="POST" action="./include/gIncoming.php">
+                                    <form method="POST" action="./include/gIncoming.php" id="formRegister">
                                         <div class="border-bottom mb-4">
                                             <h5 class="text-muted text-center space-1">Registrar entrada/saída</h5>
                                         </div>
                                         <div class="form-group"> 
                                             <small><b>Valor</b></small>
-                                            <input class="form-control" placeholder="R$ 0,00" name="value" onkeyup="moneyMask(this)">
+                                            <input class="form-control" id="value" placeholder="R$ 0,00" name="value" onkeyup="moneyMask(this)" required>
                                         </div>
                                         <!--                                        <div class="form-group"> 
                                                                                     <small> <b> Tipo</b> </small>
@@ -91,17 +99,34 @@ include '../include/icons.php';
                                         <div class="form-group"> 
                                             <small> <b> Categoria</b> </small>
                                             <select class="form-control select2" name="category">
-                                                <optgroup label="Receita">
-                                                    <option value="salary">Salário</option>
-                                                </optgroup>
-                                                <optgroup label="Despesa">
-                                                    <option value="conta">Conta</option>
-                                                </optgroup>
+                                                <?php
+                                                $sqlCategoria = "select
+                                                                id,
+                                                                tipo,
+                                                                descricao
+                                                            from categoria
+                                                            order by tipo";
+                                                $queryCategoria = mysqli_query($con, $sqlCategoria);
+                                                $tipo = '';
+                                                while ($categoria = mysqli_fetch_array($queryCategoria, MYSQLI_NUM)) {
+                                                    if ($tipo != $categoria[1]) {
+                                                        $tipo = $categoria[1] == 'e' ? 'Receita' : 'Despesa';
+                                                        echo "<optgroup label='$tipo'>";
+                                                        $tipo = $categoria[1];
+                                                    }
+
+                                                    echo "<option value='$categoria[0]'>$categoria[2]</option>";
+
+                                                    if ($tipo != $categoria[1]) {
+                                                        echo "</optgroup>";
+                                                    }
+                                                }
+                                                ?>
                                             </select>
                                         </div>
                                         <div class="form-group"> 
                                             <small> <b> Data</b> </small>
-                                            <input class="form-control" id="date" name="date" value="<?= date('d/m/Y') ?>">
+                                            <input class="form-control" id="date" name="date" value="<?= date('d/m/Y') ?>" required>
                                         </div>
                                         <div class="form-group"> 
                                             <small> <b> Repetição</b> </small>
@@ -134,17 +159,49 @@ include '../include/icons.php';
                                         <table id="management-table" class="table table-sm table-hover table-striped table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
+                                                    <!--<th>#</th>-->
                                                     <th>Valor</th>
                                                     <th>Categoria</th>
                                                     <th>Descrição</th>
-                                                    <th>Repetição</th>
+                                                    <th>Recorrente</th>
                                                     <th>Data</th>
+                                                    <th>Gerado às</th>
+                                                    <th></th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <?php
+                                                $sqlFinance = "select
+                                                                f.id,
+                                                                c.descricao as categoria,
+                                                                f.valor,
+                                                                f.descricao as descFinanca,
+                                                                f.recorrente,
+                                                                f.data,
+                                                                f.datager
+                                                            from financa f
+                                                            inner join categoria c on (c.id = f.idcategoria)
+                                                            where idusuario = {$_SESSION['id']}";
+                                                $queryFinance = mysqli_query($con, $sqlFinance);
+                                                while ($finance = mysqli_fetch_array($queryFinance, MYSQLI_ASSOC)) {
+                                                    $data = dateConvert($finance['data'], '-', '/', true);
+                                                    $datager = dateConvert($finance['datager'], '-', '/', true);
+                                                    $recorrente = $finance['recorrente'] == 's' ? "Sim" : "Não";
+                                                    $valor = floatToMoney($finance['valor']);
 
+                                                    echo "<tr>";
+                                                    echo "<td>{$valor}</td>";
+                                                    echo "<td>{$finance['categoria']}</td>";
+                                                    echo "<td>{$finance['descFinanca']}</td>";
+                                                    echo "<td>{$recorrente}</td>";
+                                                    echo "<td>{$data}</td>";
+                                                    echo "<td>{$datager}</td>";
+                                                    echo "<td></td>";
+                                                    echo "<td class='text-center p-0'><a href='./include/rIncoming.php?id={$finance['id']}' class='d-block'><i class='text-danger fa fa-trash'></i></a></td>";
+                                                    echo "</tr>";
+                                                }
+                                                ?>
                                             </tbody>
                                         </table>
                                     </div>  

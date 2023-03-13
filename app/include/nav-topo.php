@@ -45,20 +45,22 @@
                                     <img class="rounded-circle border border-success box" src="<?= $_SESSION['foto'] ?>" width="30" height="30">
                                 </a>
                                 <div class="dropdown-menu animated flipInY user-profile" id="navProfile">
-                                    <div class="d-flex p-3 align-items-center" style="background: #2271b1">
+                                    <div class="d-flex p-3 align-items-center" style="background: var(--color-primary)">
                                         <div class="drop-left m-r-10">
                                             <img src="<?= $_SESSION['foto'] ?>" class="rounded" width="50" alt="">
                                         </div>
-                                        <div class="drop-right">
-                                            <h4 style="color: #fff;"><?= $_SESSION["nome"] ?></h4>
+                                        <div class="drop-right text-center space-1">
+                                            <h4 style="color: var(--color-light)"><?= $_SESSION["nome"] ?></h4>
                                         </div>
                                     </div>
-                                    <div class="m-t-10 p-3 drop-list">
+                                    <div class="p-3 drop-list">
                                         <div style="text-align: center;"><?= TITLE ?></div>
                                         <ul class="list-unstyled">
                                             <li class="divider"></li>
                                             <li id="navPerfil"><a href="<?= BASED; ?>/perfil/"><i class="icon-user"></i>Meu Perfil</a></li>
-                                            <li><a href="<?= BASED; ?>/sair.php" style='color:red'><i class="icon-power" style='color:red'></i>Sair</a></li>
+                                            <li id="navPerfil"><a href="<?= BASED; ?>/perfil/"><i class="icon-user"></i>Meu Perfil</a></li>
+                                            <li class="divider"></li>
+                                            <li id='logoff' class='text-center'><a href="<?= BASED; ?>/sair.php"><i class="icon-power"></i>Sair</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -70,3 +72,44 @@
         </div>
     </div> 
 </nav>
+<style>
+    .drop-list ul li:hover{
+        padding: 0 .7rem;
+        border-left: 3px solid var(--color-primary);
+    }
+    .drop-list ul li{
+        border-radius: 4px;
+        border-left: 3px solid transparent;
+        margin-bottom: .3rem;
+        transition: .3s;
+    }
+    .drop-list ul li a{
+        transition: .3s;
+        padding: .3rem;
+    }
+    #logoff{
+        margin-top: .6rem;
+    }
+    #logoff,
+    #logoff a{
+        border-left: none;
+        transition: .3s;
+    }
+    #logoff a{
+        color: var(--color-danger);
+        border-radius: 4px;
+        border: 1px solid red;
+    }
+    #logoff:hover{
+        padding: 0!important;
+    }
+    #logoff:hover a{
+        padding: .3rem !important;
+        color: var(--color-light);
+        background: var(--color-danger)
+    }
+    .navbar-nav .user-profile .drop-list li a {
+        padding: 0.3rem !important;
+        border-radius: 4px;
+    }
+</style>

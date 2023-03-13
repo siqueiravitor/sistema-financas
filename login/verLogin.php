@@ -24,37 +24,37 @@ session_start();
 $_SESSION['ip'] = $user_ip = getUserIP();
 
 $user = $_POST["user"];
-$password = $_POST["password"];
-$pass = md5($password);
+$password = md5($_POST["password"]);
 
-if (!$user || !$user){
+if (!$user || !$password){
     $msg = "Preencha todos os campos";
 } else {
-    echo $sql = "select 
+    $sql = "select 
                 id,
+                nome,
                 email,
-                name,
                 status
-            from user
+            from usuario
             where login = '$user' 
-            and password = '$pass'";
+            and senha = '$password'";
     $query = mysqlI_query($con, $sql);
     $row = mysqli_fetch_array($query);
     if ($query) {
-        mysqlI_close($con);
+        
         if ($row > 0) {
             if ($row[3] == 'a') {
-                $_SESSION['empresa'] = 'binare';
-                $_SESSION['iduser'] = $row[0];
+                $_SESSION['empresa'] = 'SyntaxWeb';
+                $_SESSION['id'] = $row[0];
                 $_SESSION['user'] = $user;
-                $_SESSION['nome'] = $row[2];
-                $_SESSION['email'] = $row[1];
+                $_SESSION['name'] = $row[1];
+                $_SESSION['email'] = $row[2];
                 $_SESSION['timer'] = time();
 
-//                header('Location: ../app/permissionamento.php');
+                mysqlI_close($con);
                 header('Location: ../app');
+                return;
             } else {
-                $msg = "Usuário inativado.";
+                $msg = "Usuário inválido";
             }
         } else {
             $msg = "Não foi possivel realizar login.";
@@ -63,4 +63,5 @@ if (!$user || !$user){
         $msg = "Erro ao tentar se conectar";
     }
 }
-//header("location: ../?msg=" . $msg);
+mysqlI_close($con);
+header("location: ../?msg=" . $msg);

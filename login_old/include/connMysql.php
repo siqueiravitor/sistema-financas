@@ -1,6 +1,7 @@
 <?php
 /* Mysql */
-$con = mysqlI_connect("localhost", "root", "", "financa");
+$schemaBase = "mslogin";
+$con = mysqlI_connect("hmlmysql01.corp.milanobrasil.com.br", "root", "MySql@2018!!", $schemaBase); // connJF - Servidor
 
 $sql = "SET NAMES 'utf8'";
 mysqli_query($con, $sql);

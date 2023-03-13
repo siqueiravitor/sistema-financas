@@ -4,7 +4,7 @@
             <ul id="main-menu" class="metismenu">
                 <?php
                 $nome = strtolower($_SESSION['nome']);
-                $nome = explode(" ", $nome)[0] . "." . explode(" ", $nome)[1];
+                $nome = explode(" ", $nome)[0] . isset(explode(" ", $nome)[1]) ?? "." . explode(" ", $nome)[1];
                 $active = empty(explode('/', $_SERVER['REQUEST_URI'])[3]) ? 'active' : '';
                 ?>
                 <li class="<?= $active ?>">
@@ -37,50 +37,11 @@
                 </li>
                 <?php
                 $page = explode('/', $_SERVER['REQUEST_URI'])[3] ?? '';
-
-//                $sqlModuloMenu = "select 
-//                                    id, 
-//                                    name, 
-//                                    icon, 
-//                                    directory,
-//                                    link
-//                                from module 
-//                                where status = 'a' 
-//                                and idsystems = " . ID_SISTEMA
-//                                . " order by ordering ";
-//                $resultModuloMenu = mysqli_query($con, $sqlModuloMenu);
-//                if (mysqli_num_rows($resultModuloMenu)) {
-//                    while ($rowModuloMenu = mysqli_fetch_array($resultModuloMenu)) {
-//                        $link = $rowModuloMenu[4] == 'y' ? BASED . "/$rowModuloMenu[3]" : BASED . "/menu.php?id=" . $rowModuloMenu[0];
-//                        $moduloAtivo = "";
-//                        if ((explode('.php', $page)[0] == 'menu' && isset($_GET['id']) && $_GET['id'] == $rowModuloMenu[0]) || $rowModuloMenu[3] == $page) {
-//                            $moduloAtivo = "active";
-//                            $active = '';
-//                        }
-//                        ?>
-<!--                        <li class="middle <?= $moduloAtivo ?>" >
-                            <a href="<?= $link ?>" >
-                                <i class="<?= $rowModuloMenu[2] ?> iconColor"></i>
-                                <span><?= $rowModuloMenu[1] ?></span>
-                            </a>
-                        </li>-->
-                        <?php
-//                    }
-//                }
                 ?>
-                <?php
-                $page = explode('/', $_SERVER['REQUEST_URI'])[2] ?? '';
-                ?>
-                <li class="middle <?= 'ambiente' == explode('/', $_SERVER['REQUEST_URI'])[2] ?? '' ? 'active' : '' ?>">
-                    <a href="<?= BASED . "/ambiente" ?>" >
+                <li class="middle <?= 'lancamento' == $page ? 'active' : '' ?>">
+                    <a href="<?= BASED . "/lancamento" ?>" >
                         <i class="icon-wrench iconColor"></i>
-                        <span>Ambiente</span>
-                    </a>
-                </li>
-                <li class="middle <?= 'cadastro' == $page ? 'active' : '' ?>">
-                    <a href="<?= BASED . "/cadastro" ?>" >
-                        <i class="icon-note iconColor"></i>
-                        <span>Cadastros</span>
+                        <span>Lançamento</span>
                     </a>
                 </li>
                 <li class="middle" id="navDocumentacao">

@@ -1,6 +1,6 @@
 <?php
 /* Mascara */
-function Mask($str, $mask){
+function mask($str, $mask){ // mask($cpf,'###.###.###-##');
     $str = str_replace(" ","",$str);
     for($i=0;$i<strlen($str);$i++){
         $mask[strpos($mask,"#")] = $str[$i];
@@ -8,50 +8,25 @@ function Mask($str, $mask){
     return $mask;
 }
 
-
-//function mask($val, $mask) {
-//    $maskared = '';
-//    $k = 0;
-//    for ($i = 0; $i <= strlen($mask) - 1; $i++) {
-//        if ($mask[$i] == '#') {
-//            if (isset($val[$k]))
-//                $maskared .= $val[$k++];
-//        } else {
-//            if (isset($mask[$i]))
-//                $maskared .= $mask[$i];
-//        }
-//    }
-//    return $maskared;
-//}
-
-/* Exemplo 
-  echo mask($cnpj,'##.###.###/####-##');
-  echo mask($cpf,'###.###.###-##');
-  echo mask($cep,'#####-###');
-  echo mask($data,'##/##/####');
- */
-
-function databanco($dt) {
-    $data = explode("/", $dt); //[29][06][2019]
-    $data = array_reverse($data); // [2019][06][29]
-    $dt = implode("-", $data);
-    return $dt; //2019-06-29
+function moneyToFloat($str){
+    $simbolRemove = str_replace('R$', '', $str);
+    $spaceRemove = substr($simbolRemove, 2); // Remove ghost space
+    $float = str_replace('.', '', $spaceRemove);
+    $floatValue = str_replace(',', '.', $float);
+    
+    return $floatValue;
+}
+function floatToMoney($amount, $currency = 'R$') {
+    $formatted = number_format($amount, 2, ',', '.');
+    return $currency . ' ' . $formatted;
 }
 
-function dataBuscaBanco($dt) {
-    $data = explode("-", $dt); //[2019][06][29]
-    $data = array_reverse($data); // [29][06][2019]
-    $dt = implode("/", $data);
+
+function dateConvert($dt, $separator, $separate, $reverse = false) {
+    $data = explode($separator, $dt); //[2019][06][29]
+    $reverse ? $data = array_reverse($data) : ''; // [29][06][2019]
+    $dt = implode($separate, $data);
     return $dt; // 29/06/2019
-}
-
-function dataMesAno($dt) {
-    //2013-06-29
-    $data = explode("-", $dt);  //[2019][06][29]
-    $data = array_reverse($data); // [29][06][2019]
-    list( $dia, $mes, $ano) = $data; //[29][06][2019]
-    $dt = $mes . '/' . $ano;
-    return $dt; // 06/2019
 }
 
 function ptexto($texto) {
@@ -82,11 +57,11 @@ function getEnum($var) {
 function montaAlert($status, $texto) {
     switch ($status) {
         Case 0://Sucesso
-            $icone = "fa fa-check-circle";
+            $icone = "fa fa-check";
             $classe = "success";
             break;
         Case 1://Erro
-            $icone = "fa fa-times-circle";
+            $icone = "fa fa-exclamation";
             $classe = "danger";
             break;
         Case 2://Cuidado
@@ -126,16 +101,3 @@ function gravaLogBanco($con, $tabela, $chatab, $user, $tipo) {
     }
 }
 
-function nomeSistemaOrgiem($text) {
-    switch ($text) {
-        case "oracleERPM":
-            $retorno = "ERP Milano";
-            break;
-        case "oracleERPA":
-            $retorno = "ERP Agile";
-            break;
-        default:
-            $retorno = $text;
-    }
-    return $retorno;
-}

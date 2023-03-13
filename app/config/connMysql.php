@@ -1,6 +1,6 @@
 <?php
 /* Mysql */
-$con = mysqlI_connect("localhost", "root", "", "finance");
+$con = mysqlI_connect("localhost", "root", "", "financa");
 
 $sql = "SET NAMES 'utf8'";
 mysqli_query($con, $sql);
