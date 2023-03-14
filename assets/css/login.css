@@ -11,18 +11,6 @@
     --color-light: #fff;
     --color-border: #aaa;
     --color-text-light: #6c757d;
-    /*
-    #2a323c
-    #323c48
-    #3b4654
-    #04a2b3
-    #c5d0d5
-    #2271
-    #E8F0FE
-    */
-}
-*:not(i){
-    font-family: 'montserrat'!important;
 }
 body{
     background-color: #f1f5f7;
@@ -65,7 +53,7 @@ body{
 .cardLeft h4{
     letter-spacing: 1px;
     margin: 10px 0 0;
-    font-size: 2.5rem
+    font-size: 2rem;
 }
 .cardRight{
     padding-top: 2rem;
@@ -151,6 +139,22 @@ img {
     background: none;
 }
 
+.imageArea{
+    min-width: 10rem;
+    max-width: 12rem;
+}
+
+@media (max-width: 380px){
+    .cardRight h4{
+        display: none;
+    }
+    .cardRight{
+        padding-top: 0;
+    }
+    .cardLeft h4{
+        font-size: 1.5rem;
+    }
+}
 @media (min-width: 1440px){
     .loginCard{
         min-width: 30%!important;
@@ -162,12 +166,12 @@ img {
 }
 @media (min-width: 768px) and (max-width: 1439px){
     .loginCard{
-        min-width: 50%!important;
+        min-width: 40%!important;
     }
-}
-@font-face {
-    font-family: 'montserrat';
-    src: url("../font/montserrat.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal
+    .imageArea{
+        max-width: 10rem!important;
+    }
+    .ph-fix .cardRight{
+        padding-top: 0;
+    }
 }

@@ -9,8 +9,64 @@
 @font-face {
     font-family: 'montserrat';
     /*src: url("../fonts/static/Montserrat-Medium.ttf") format("truetype");*/
-    src: url("../fonts/montserrat.ttf") format("truetype");
+    src: url("../fonts/Montserrat/static/Montserrat-Regular.ttf") format("truetype");
     font-weight: normal;
+    font-style: normal
+}
+@font-face {
+    font-family: 'montserrat';
+    /*src: url("../fonts/static/Montserrat-Medium.ttf") format("truetype");*/
+    src: url("../fonts/Montserrat/static/Montserrat-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal
+}
+@font-face {
+    font-family: 'montserrat';
+    /*src: url("../fonts/static/Montserrat-Medium.ttf") format("truetype");*/
+    src: url("../fonts/Montserrat/static/Montserrat-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal
+}
+@font-face {
+    font-family: 'montserrat_alt';
+    /*src: url("../fonts/static/Montserrat-Medium.ttf") format("truetype");*/
+    src: url("../fonts/Montserrat_Alternates/MontserratAlternates-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal
+}
+@font-face {
+    font-family: 'montserrat_alt';
+    /*src: url("../fonts/static/Montserrat-Medium.ttf") format("truetype");*/
+    src: url("../fonts/Montserrat_Alternates/MontserratAlternates-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal
+}
+@font-face {
+    font-family: 'montserrat_alt';
+    /*src: url("../fonts/static/Montserrat-Medium.ttf") format("truetype");*/
+    src: url("../fonts/Montserrat_Alternates/MontserratAlternates-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal
+}
+@font-face {
+    font-family: 'mukta';
+    /*src: url("../fonts/static/Montserrat-Medium.ttf") format("truetype");*/
+    src: url("../fonts/Mukta/Mukta-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal
+}
+@font-face {
+    font-family: 'mukta';
+    /*src: url("../fonts/static/Montserrat-Medium.ttf") format("truetype");*/
+    src: url("../fonts/Mukta/Mukta-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal
+}
+@font-face {
+    font-family: 'mukta';
+    /*src: url("../fonts/static/Montserrat-Medium.ttf") format("truetype");*/
+    src: url("../fonts/Mukta/Mukta-Bold.ttf") format("truetype");
+    font-weight: bold;
     font-style: normal
 }
 
@@ -38,7 +94,10 @@
         --color-warning: #ffcc33;
         --color-danger: #f32013;
         --color-dark: #212529;
-        --color-text-ligh: #6c757d;*/
+        --color-text-ligh: #6c757d;
+        00EFC8 -- Turquoise
+        2C94EA -- Blue
+        */
 
     --color-primary: #269471;
     --color-secondary: #22f1b1;
@@ -56,7 +115,12 @@
 
 }
 *:not(i){
-    font-family: 'montserrat'!important;
+    font-family: 'montserrat_alt';
+}
+.navbar *:not(i),
+.sidebar *:not(i){
+    font-family: 'mukta';
+    letter-spacing: 1px;
 }
 
 h5{

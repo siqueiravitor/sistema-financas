@@ -23,11 +23,11 @@
             <div class="loginCard ">
                 <div class="">
                     <div class="cardLeft">
-                        <div style="min-width: 10rem;max-width: 12rem;">
-                            <img src="./assets/images/temp/logo.png" alt="Finanças" >
+                        <div class='imageArea'>
+                            <img src="./assets/images/logo.png" alt="Finanças" >
                         </div>
 
-                        <h4>Finanças</h4>
+                        <h4><span>E</span>-Finanças</h4>
                         <h5 class="text-muted">SyntaxWeb</h5>
                     </div>
                 </div>

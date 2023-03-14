@@ -73,6 +73,9 @@
     </div> 
 </nav>
 <style>
+    .name{
+        font-family: 'montserrat_alt'!important;
+    }
     .drop-list ul li:hover{
         padding: 0 .7rem;
         border-left: 3px solid var(--color-primary);
