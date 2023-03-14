@@ -2,8 +2,8 @@
     <div class="container-fluid">
         <div class="navbar-brand">
             <a href="<?= BASED; ?>">
-                <img src="<?= BASE_ICO; ?>" alt="<?= NOME_EMPRESA; ?>" class="img-responsive logo">
-                <span class="name"><?= SISTEMA; ?></span>
+                <img src="<?= LOGOALT; ?>" alt="<?= COMPANY; ?>" class="img-responsive logo">
+                <span class="name"><?= SYSTEM; ?></span>
             </a>
         </div>
 
@@ -45,7 +45,7 @@
                                     <img class="rounded-circle border border-success box" src="<?= $_SESSION['foto'] ?>" width="30" height="30">
                                 </a>
                                 <div class="dropdown-menu animated flipInY user-profile" id="navProfile">
-                                    <div class="d-flex p-3 align-items-center" style="background: var(--color-primary)">
+                                    <div class="d-flex p-3 align-items-center bg-primary">
                                         <div class="drop-left m-r-10">
                                             <img src="<?= $_SESSION['foto'] ?>" class="rounded" width="50" alt="">
                                         </div>
@@ -54,7 +54,7 @@
                                         </div>
                                     </div>
                                     <div class="p-3 drop-list">
-                                        <div style="text-align: center;"><?= TITLE ?></div>
+                                        <div class="text-center"><?= TITLE ?></div>
                                         <ul class="list-unstyled">
                                             <li class="divider"></li>
                                             <li id="navPerfil"><a href="<?= BASED; ?>/perfil/"><i class="icon-user"></i>Meu Perfil</a></li>

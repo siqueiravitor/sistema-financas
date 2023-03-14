@@ -55,7 +55,7 @@
             </ul>
         </nav>
         <div class="fixed-bottom">
-            v1.0.0
+            <?= VERSION ?>
         </div>
     </div>
 </div>

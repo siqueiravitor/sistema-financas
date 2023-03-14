@@ -1,53 +1,63 @@
 <?php
-
-include_once '../vendor/autoload.php';
 include_once './config/connMysql.php';
-
 session_start();
-/* log de acesso */
-$login = $_SESSION['user'];
-$empresa = $_SESSION['empresa'];
-$ipcolaborador = $_SESSION['ip'];
-$idUser = $_SESSION['iduser'];
 
-$select_ultimoAcesso = "select 
-                            case when max(data) is not null 
-                                then max(data) 
-                                else now() 
-                            end as data 
-                            from logacesso where login ='" . $login . "'";
-$ultimoAcesso = mysqli_query($con, $select_ultimoAcesso);
-$retorno = mysqli_fetch_array($ultimoAcesso);
-$_SESSION['ultimoAcesso'] = $retorno[0];
+// Log de Acesso
+// $hoje = date('Y-m-d');
+// $agora = date('H:i:s');
+// $logAcesso = "insert into logacesso (idusuario, data, hora) 
+//                         values($_SESSION['id'],'$hoje','$agora)";
+// $mysqli_query($con, $logAcesso);
 
-$agora = date('Y-m-d H:i:s');
-$gravarLogAcesso = "insert into logacesso values(null,'$login','$agora')";
-$res = mysqli_query($con, $gravarLogAcesso);
+// URL do dominio
+// $protocolo = (strpos(strtolower($_SERVER['SERVER_PROTOCOL']), 'https') === false) ? 'http' : 'https';
+// $host = $_SERVER['HTTP_HOST'];
+// $UrlAtual = $protocolo . '://' . $host;
+// $url = $UrlAtual;
 
-/* URL do dominio */
-$protocolo = (strpos(strtolower($_SERVER['SERVER_PROTOCOL']), 'https') === false) ? 'http' : 'https';
-$host = $_SERVER['HTTP_HOST'];
-$UrlAtual = $protocolo . '://' . $host;
-$url = $UrlAtual;
+// Foto do usuário
+// $sqlFoto = "select foto from usuario where id = " . $_SESSION['id'];
+// $queryFoto = mysqli_query($con, $sqlFoto);
+// $foto = mysqli_fetch_array($queryFoto, MYSQLI_NUM)[0];
+// if ($foto) {
+//     $_SESSION['foto'] = $url . "/app_dev/app" . $foto;
+// } else { // Foto Placeholder
+//     $_SESSION['foto'] = $url . "/app/assets/images/central/perfil.png";
+// }
 
-$select_foto = "select foto from usuario where idusuario = " . $idUser;
-$mysql_foto = mysqli_query($con, $select_foto);
-$foto = mysqli_fetch_array($mysql_foto);
+// Dados do Sistema
+$sqlSistema = "select
+                empresa,
+                nome,
+                apelido,
+                logo,
+                logoalt,
+                versao,
+                status
+            from sistema";
 
-if ($foto[0] <> "") {
-    $_SESSION['foto'] = $url . "/app_dev/app" . $foto['foto'];
-} else {
-    $_SESSION['foto'] = $url . "/app/assets/images/central/perfil.png";
+$querySistema = mysqli_query($con, $sqlSistema);
+
+$mensagem = "Erro ao tentar realizar login";
+if ($querySistema) {
+    $sistema = mysqli_fetch_array($querySistema, MYSQLI_ASSOC);
+    if($sistema['status'] == 'a'){
+        $url = 'http://localhost/'. $sistema['apelido'];
+        $_SESSION['COMPANY'] = ucfirst($sistema['empresa']);
+        $_SESSION['SYSTEM'] = ucfirst($sistema['nome']);
+        $_SESSION['TITLE'] = ucfirst($sistema['empresa']);
+        $_SESSION['VERSION'] = ucfirst($sistema['versao']);
+        $_SESSION['LOGO'] = $url . '/app/assets/images/' . $sistema['logo'];
+        $_SESSION['LOGOALT'] = $url . '/app/assets/images/' . $sistema['logoalt'];
+        $_SESSION['BASEF'] = $url . '/';
+        $_SESSION['BASED'] = $url . '/app';
+        $_SESSION['BASES'] = '/var/www/html/'. $sistema['apelido'];
+        header("Location: ./");
+        return;
+    } elseif ($sistema['status'] == 'i'){
+        $mensagem = "Sistema indisponível";
+    } elseif ($sistema['status'] == 'm'){
+        $mensagem = "Sistema em manutenção";
+    }
 }
-
-$select_acessos = "select count(idlogacesso) from logacesso 
-                    where login = '" . $login . "' 
-                    and data > NOW() - INTERVAL 15 DAY";
-$mysql_acessos = mysqli_query($con, $select_acessos);
-$qtdAcesso = mysqli_fetch_array($mysql_acessos);
-mysqli_close($con);
-if ($qtdAcesso[0] == 0) {
-    header("Location: ./primeiroAcesso/");
-} else {
-    header("Location: ./");
-}
+header("Location: ../?msg=$mensagem");

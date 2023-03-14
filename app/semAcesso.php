@@ -9,15 +9,15 @@ include './config/func.php';
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-        <link rel="icon" href="<?= BASE_ICO; ?>" type="image/x-icon">	  
+        <link rel="icon" href="<?= LOGO; ?>" type="image/x-icon">	  
 
         <!-- VENDOR CSS -->       
-        <link rel="stylesheet" href="<?= BASEF; ?>/assets/vendor/bootstrap/css/bootstrap.min.css">        
-        <link rel="stylesheet" href="<?= BASEF; ?>/assets/vendor/animate-css/animate.min.css">
-        <link rel="stylesheet" href="<?= BASEF; ?>/assets/vendor/font-awesome/css/font-awesome.min.css">
-        <link rel="stylesheet" href="<?= BASEF; ?>/assets/vendor/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css">
-        <link rel="stylesheet" href="<?= BASEF; ?>/assets/vendor/chartist/css/chartist.min.css">
-        <link rel="stylesheet" href="<?= BASEF; ?>/assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css">
+        <link rel="stylesheet" href="<?= BASE; ?>/assets/vendor/bootstrap/css/bootstrap.min.css">        
+        <link rel="stylesheet" href="<?= BASE; ?>/assets/vendor/animate-css/animate.min.css">
+        <link rel="stylesheet" href="<?= BASE; ?>/assets/vendor/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="<?= BASE; ?>/assets/vendor/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css">
+        <link rel="stylesheet" href="<?= BASE; ?>/assets/vendor/chartist/css/chartist.min.css">
+        <link rel="stylesheet" href="<?= BASE; ?>/assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css">
 
         <!-- MAIN CSS -->
         <link rel="stylesheet" href="<?= BASED; ?>/assets/css/main.css">
@@ -28,7 +28,7 @@ include './config/func.php';
 
         <div class="page-loader-wrapper">
             <div class="loader">
-                <div class="m-t-30"><img src="<?= BASE_ICO; ?>" width="48" height="48" alt="<?= TITLE; ?>"></div>
+                <div class="m-t-30"><img src="<?= LOGO; ?>" width="48" height="48" alt="<?= TITLE; ?>"></div>
                 <p>Carregando...</p>        
             </div>
         </div>

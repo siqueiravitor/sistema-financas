@@ -1,41 +1,44 @@
 @font-face {
     font-family: 'montserrat';
+    src: url("../fonts/Montserrat-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal
+}
+@font-face {
+    font-family: 'montserrat';
+    src: url("../fonts/Montserrat-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal
+}
+@font-face {
+    font-family: 'montserrat';
+    src: url("../fonts/Montserrat-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal
+}
+@font-face {
+    font-family: 'montserrat_alt';
     src: url("../fonts/MontserratAlternates-Regular.ttf") format("truetype");
     font-weight: normal;
     font-style: normal
 }
 @font-face {
-    font-family: 'montserrat';
+    font-family: 'montserrat_alt';
     src: url("../fonts/MontserratAlternates-SemiBold.ttf") format("truetype");
     font-weight: 600;
     font-style: normal
 }
 @font-face {
-    font-family: 'montserrat';
+    font-family: 'montserrat_alt';
     src: url("../fonts/MontserratAlternates-Bold.ttf") format("truetype");
     font-weight: bold;
     font-style: normal
 }
-@font-face {
-    font-family: 'mukta';
-    src: url("../fonts/Mukta-Regular.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal
-}
-@font-face {
-    font-family: 'mukta';
-    src: url("../fonts/Mukta-SemiBold.ttf") format("truetype");
-    font-weight: 600;
-    font-style: normal
-}
-@font-face {
-    font-family: 'mukta';
-    src: url("../fonts/Mukta-Bold.ttf") format("truetype");
-    font-weight: bold;
-    font-style: normal
-}
 *:not(i){
-    font-family: 'montserrat'!important;
+    font-family: 'montserrat';
+}
+.cardLeft *{
+    font-family: 'montserrat_alt';
 }
 
 [data-icon]:before {

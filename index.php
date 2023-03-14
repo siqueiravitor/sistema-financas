@@ -17,6 +17,11 @@
         <!-- MAIN CSS -->
         <link rel="stylesheet" href="./assets/css/main.css">
         <link rel="stylesheet" href="./assets/css/login.css">
+        <script>
+            document.addEventListener("DOMContentLoaded", ()=>{
+                document.getElementById('user').focus();
+            })
+        </script>
     </head>
     <body>
         <form class="areaLogin" method="post" action="./login/verLogin.php" autocomplete="off">
@@ -46,7 +51,7 @@
                             <div class="text-center">
                                 <span>Usuário</span>
                             </div>
-                            <input type="text" class="form-control" name="user" required placeholder="usuario">
+                            <input type="text" class="form-control" id="user" name="user" required placeholder="usuario">
                         </div>
                         <div class="form-group">
                             <div class="text-center">

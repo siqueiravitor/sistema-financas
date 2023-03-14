@@ -1,3 +1,3 @@
 <?php
-include '../config/config.php';
-header("location: " . BASED . "/semAcesso ");
+include_once '../config/config.php';
+header("location: " . BASED . "/semAcesso.php");

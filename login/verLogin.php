@@ -51,7 +51,7 @@ if (!$user || !$password){
                 $_SESSION['timer'] = time();
 
                 mysqlI_close($con);
-                header('Location: ../app');
+                header('Location: ../app/permissionamento.php');
                 return;
             } else {
                 $msg = "Usuário inválido";
