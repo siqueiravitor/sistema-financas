@@ -1,0 +1,124 @@
+drop schema financa;
+create schema financa;
+use financa;
+
+create table sistema(
+    id int(11) primary key auto_increment,
+	empresa varchar(255),
+    nome varchar(255),
+    apelido varchar(255),
+    logo varchar(255),
+    logoalt varchar(255),
+    dominio varchar(255),
+    url varchar(255),
+    versao varchar(255),
+    status enum('a','i','m')
+);
+/* status
+a - Ativo
+i - Inativo
+m - Manutenção
+*/
+
+insert into sistema values (1, 'SyntaxWeb','E-Finanças', 'e-financa', 'logo.png', 'efinanca.com.br', 'https://efinanca.com.br', '1.0.0', 'a');
+
+CREATE TABLE usuario (
+	id int(11) AUTO_INCREMENT PRIMARY KEY,
+	login varchar(255),
+	senha varchar(255),
+	nome varchar(255),
+	email varchar(255),
+	saldo float(11,2),
+	status enum('a','i','b1','b2')
+);
+/* status
+a - Ativo
+i - Inativo
+b1 - Bloqueado 1
+b2 - Bloqueado 2
+*/
+
+insert into usuario values (1, 'admin', md5('senha123'), 'Administrador', 'admin@email.com.br', 0.00,'a');
+
+CREATE TABLE categoria (
+	id int(11) AUTO_INCREMENT PRIMARY KEY,
+	tipo enum('e','s'),
+	descricao varchar(255)
+);
+/* status
+e - Entrada
+s - Saída
+
+Paste Row's
+1	e	Salário
+2	e	Investimentos
+3	e	Vendas
+4	e	Outros
+5	s	Contas
+6	s	Alimentação
+7	s	Transporte
+8	s	Educação
+9	s	Lazer
+10	s	Saúde/Beleza
+11	s	Roupas
+12	s	Outros
+*/
+
+CREATE TABLE financa (
+	id int(11) AUTO_INCREMENT PRIMARY KEY,
+	idusuario int(11),
+	idcategoria int(11),
+	valor float(11,2),
+	descricao varchar(255),
+	data date DEFAULT NOW(),
+	datager date DEFAULT NOW(),
+	horager time DEFAULT NOW(),
+    
+	FOREIGN KEY(idusuario) REFERENCES usuario (id),
+	FOREIGN KEY(idcategoria) REFERENCES categoria (id)
+);
+
+CREATE TABLE tiporecorrencia (
+	id int(11) AUTO_INCREMENT PRIMARY KEY,
+	descricao varchar(255)
+);
+insert into tiporecorrencia values (1, 'Diário');
+insert into tiporecorrencia values (2, 'Semanal');
+insert into tiporecorrencia values (3, 'Quinzenal');
+insert into tiporecorrencia values (4, 'Mensal');
+insert into tiporecorrencia values (5, 'Bimestral');
+insert into tiporecorrencia values (6, 'Trimestral');
+insert into tiporecorrencia values (7, 'Semestral');
+insert into tiporecorrencia values (8, 'Anual');
+
+CREATE TABLE recorrencia (
+	id int(11) AUTO_INCREMENT PRIMARY KEY,
+	idfinanca int(11),
+	idtiporecorrencia int(11),
+	valor float(11,2),
+	recorrencia int(11),
+	parcelas int(11),
+	datager date DEFAULT NOW(),
+	datafim date,
+	dataupdate date,
+	status enum('p','a','f'),
+    
+    FOREIGN KEY(idfinanca) REFERENCES financa (id),
+    FOREIGN KEY(idtiporecorrencia) REFERENCES tiporecorrencia (id)
+);
+
+/* status
+p - Pendente
+a - Andamento
+f - Finalizado
+
+recorrencia
+A cada n tempo
+/*
+
+
+
+
+
+
+
