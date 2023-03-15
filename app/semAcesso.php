@@ -1,6 +1,8 @@
 <?php
 include './config/config.php';
 include './config/func.php';
+include './config/connMysql.php';
+
 ?>
 <!doctype html>
 <html lang="pt-br">
@@ -24,19 +26,10 @@ include './config/func.php';
         <link rel="stylesheet" href="<?= BASED; ?>/assets/css/color_skins.css">
     </head>
 
-    <body class="theme-<?php echo $empresa; ?>">
-
-        <div class="page-loader-wrapper">
-            <div class="loader">
-                <div class="m-t-30"><img src="<?= LOGO; ?>" width="48" height="48" alt="<?= TITLE; ?>"></div>
-                <p>Carregando...</p>        
-            </div>
-        </div>
-        <div class="overlay" style="display: none;"></div>
-
+    <body>
         <div id="wrapper">
             <?php
-            include './config/connMysql.php';
+            include './include/loader.php';
             include './include/nav-topo.php';
             include './include/nav-lateral.php';
             mysqli_close($con);
@@ -47,18 +40,18 @@ include './config/func.php';
                         <div class="row">       
                             <div class="col-lg-6">
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="<?= BASED; ?>/index"><i class="icon-home"></i></a></li>                            
-                                    <li class="breadcrumb-item active">Dashboard</li>
+                                    <li class="breadcrumb-item"><a href="<?= BASED; ?>"><i class="icon-home"></i></a></li>                            
+                                    <li class="breadcrumb-item active">SyntaxWeb</li>
                                 </ul>
                             </div>                      
                         </div>
                     </div>
                     <div class="row clearfix">
-                        <div class="col-lg-12 col-md-12">
-                            <div class="card open_task">
-                                <div class="body">                                    
-                                    <div style="font-size: 25px; margin-bottom: 10px;" class="align-center "> Sem acesso <br> </div>
-                                    <div class="align-center font-40"> <i style="color:red" class="icon-lock"></i> </div>
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="body text-center">                                    
+                                    <div class="font-25 mb-2"> Sem acesso </div>
+                                    <div class="font-40"> <i class="icon-lock text-danger"></i> </div>
                                 </div>
                             </div>
                         </div>

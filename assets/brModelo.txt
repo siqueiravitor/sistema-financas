@@ -4,7 +4,7 @@ use financa;
 
 create table sistema(
     id int(11) primary key auto_increment,
-	empresa varchar(255),
+    empresa varchar(255),
     nome varchar(255),
     apelido varchar(255),
     logo varchar(255),
@@ -20,7 +20,7 @@ i - Inativo
 m - Manutenção
 */
 
-insert into sistema values (1, 'SyntaxWeb','E-Finanças', 'e-financa', 'logo.png', 'efinanca.com.br', 'https://efinanca.com.br', '1.0.0', 'a');
+insert into sistema values (1, 'SyntaxWeb','E-Finanças', 'sistema-financas', 'logo.png', 'logo_alt.png', 'efinanca.com.br', 'https://efinanca.com.br', '1.0.0', 'a');
 
 CREATE TABLE usuario (
 	id int(11) AUTO_INCREMENT PRIMARY KEY,
@@ -70,6 +70,7 @@ CREATE TABLE financa (
 	idcategoria int(11),
 	valor float(11,2),
 	descricao varchar(255),
+        recorrente enum('s','n'),
 	data date DEFAULT NOW(),
 	datager date DEFAULT NOW(),
 	horager time DEFAULT NOW(),

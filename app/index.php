@@ -35,16 +35,10 @@ $diaSemana = date('w'); // Domingo = 0
         <link rel="stylesheet" href="<?= BASED; ?>/assets/css/color_skins.css">
 
     </head>
-    <body class="theme-<?= $empresa ?>">
-        <div class="page-loader-wrapper">
-            <div class="loader">
-                <div class="m-t-30"><img src="<?= LOGO; ?>" width="48" height="48" alt="<?= TITLE; ?>"></div>
-                <p>Carregando...</p>        
-            </div>
-        </div>
-        <div class="overlay" style="display: none;"></div>
+    <body>
         <div id="wrapper">
             <?php
+            include './include/loader.php';
             include './include/nav-topo.php';
             include './include/nav-lateral.php';
             ?>

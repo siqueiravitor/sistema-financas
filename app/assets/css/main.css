@@ -118,6 +118,9 @@
     letter-spacing: 1px; */
     font-family: 'montserrat';
 }
+.breadcrumb-item a{
+    color: var(--color-primary)
+}
 th{
     font-weight: 600!important;
 }

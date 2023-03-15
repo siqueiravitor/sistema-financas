@@ -55,8 +55,6 @@ include '../config/connMysql.php';
         </script>
     </head>
     <body>
-        
-        <div class="overlay" style="display: none;"></div>
         <div id="wrapper">
             <?php
             include '../include/loader.php';
