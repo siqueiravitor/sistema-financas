@@ -7,8 +7,8 @@ include_once '../config/connMysql.php';
 <html lang="pt-br">
 
 <head>
-    <title>Lançamento -
-        <?= TITLE; ?>
+    <title>
+        <?= SYSTEM . " - " . TITLE; ?>
     </title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -68,13 +68,11 @@ include_once '../config/connMysql.php';
                 ?>
                 <div class="row">
                     <div clas='col-md-12'>
-                        
+
                     </div>
                 </div>
             </div>
-            <div>
-                <?php include '../include/footer.php'; ?>
-            </div>
+            <?php include '../include/footer.php'; ?>
         </div>
     </div>
 

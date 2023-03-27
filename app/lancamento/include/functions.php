@@ -23,6 +23,7 @@ function dataFinance($userId) {
             c.descricao AS categoria,
             f.valor,
             f.descricao AS descFinanca,
+            f.pagamento,
             f.recorrente,
             f.data,
             f.datager
@@ -42,18 +43,19 @@ function registerFinance($fields){
   global $con;
   $recurrent = $fields['recurrent'] == 'u' ? 'n' : 's';
 
-  $insert = "INSERT INTO financa (idusuario, idcategoria, valor, descricao, recorrente, data) 
-    VALUES (?, ?, ?, ?, ?, ?)";
+  $insert = "INSERT INTO financa (idusuario, idcategoria, valor, descricao, pagamento, recorrente, data) 
+    VALUES (?, ?, ?, ?, ?, ?, ?)";
 
   $prepareInsert = mysqli_prepare($con, $insert);
-  mysqli_stmt_bind_param($prepareInsert, 'iidsss', $fieldUser, $fieldCategory, $fieldValue, $fieldDesc, $fieldRecurrent, $fieldDate);
+  mysqli_stmt_bind_param($prepareInsert, 'iidssss', $fieldUser, $fieldCategory, $fieldValue, $fieldDesc, $fieldPayment, $fieldRecurrent, $fieldDate);
 
-  $fieldUser = $fields['idusuario'];
-  $fieldCategory = $fields['idcategoria'];
-  $fieldValue = $fields['valor'];
-  $fieldDesc = $fields['descricao'];
+  $fieldUser = $fields['iduser'];
+  $fieldCategory = $fields['idcategory'];
+  $fieldValue = $fields['value'];
+  $fieldDesc = $fields['description'];
+  $fieldPayment = $fields['payment'];
   $fieldRecurrent = $recurrent;
-  $fieldDate = $fields['data'];
+  $fieldDate = $fields['date'];
 
   $result = mysqli_stmt_execute($prepareInsert);
   if(!$result){
@@ -65,7 +67,10 @@ function registerFinance($fields){
 
   return $id;
 }
+function registerRecurrence($id, $recurrence){
 
+  return;
+}
 function deleteFinance($id, $mult = false){
   global $con;
 

@@ -70,7 +70,8 @@ CREATE TABLE financa (
 	idcategoria int(11),
 	valor float(11,2),
 	descricao varchar(255),
-        recorrente enum('s','n'),
+	pagamento enum('d','p','cd','cc'),
+	recorrente enum('s','n') DEFAULT 'n',
 	data date DEFAULT NOW(),
 	datager date DEFAULT NOW(),
 	horager time DEFAULT NOW(),
@@ -78,6 +79,12 @@ CREATE TABLE financa (
 	FOREIGN KEY(idusuario) REFERENCES usuario (id),
 	FOREIGN KEY(idcategoria) REFERENCES categoria (id)
 );
+/* pagamento
+d - Dinheiro
+p - Pix
+cd - Cartão de Débito
+cc - Cartão de Crédito
+*/
 
 CREATE TABLE tiporecorrencia (
 	id int(11) AUTO_INCREMENT PRIMARY KEY,

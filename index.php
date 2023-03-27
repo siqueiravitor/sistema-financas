@@ -62,7 +62,7 @@
                         <input type="password" class="form-control" name="password" required placeholder="senha">
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Acessar</button>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Acessar</button>
                     <div class="bottomInfo d-flex flex-column align-items-center">
                         <a href="account/esqueceusenha">Esqueceu a senha?</a>
                         <a href="login/cadastrar">Criar nova conta</a>

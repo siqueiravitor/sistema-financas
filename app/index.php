@@ -62,7 +62,7 @@ $diaSemana = date('w'); // Domingo = 0
                     </div>
                 </div>
             </div>
-            <div class='d-flex justify-content-center'>
+            <div class='d-flex justify-content-center mb-2'>
                 <?php
                 include './include/footer.php';
                 ?>

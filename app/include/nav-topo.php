@@ -46,13 +46,24 @@
                             ?>
                             <li class="dropdown">
                                 <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown">
-                                    <img class="rounded-circle border border-success box" src="<?= $_SESSION['foto'] ?>"
-                                        width="30" height="30">
+                                    <?php
+                                            if(isset($_SESSION['foto'])){
+                                                echo "<img src='{$_SESSION['foto']}' class='rounded-circle border border-success box' width='30' height='30' alt='profilephoto'>";
+                                            } else {
+                                                echo "<img src='". BASED."/assets/images/perfil/003.png' class='rounded' width='30' height='30' alt='profilephoto'>";
+                                            }
+                                        ?>    
                                 </a>
                                 <div class="dropdown-menu animated fadeIn user-profile" id="navProfile">
-                                    <div class="d-flex p-3 align-items-center bg-primary">
+                                    <div class="d-flex p-3 align-items-center bg-gradient-dark-gray">
                                         <div class="drop-left m-r-10">
-                                            <img src="<?= $_SESSION['foto'] ?>" class="rounded" width="50" alt="">
+                                            <?php
+                                                if(isset($_SESSION['foto'])){
+                                                    echo "<img src='{$_SESSION['foto']}' class='rounded' width='50' alt='profilephoto'>";
+                                                } else {
+                                                    echo "<img src='". BASED."/assets/images/perfil/001.png' class='rounded' width='50' alt='profilephoto'>";
+                                                }
+                                            ?>
                                         </div>
                                         <div class="drop-right text-center space-1">
                                             <h4 style="color: var(--color-light)">
@@ -69,7 +80,8 @@
                                             <li id="navPerfil"><a href="<?= BASED; ?>/perfil/"><i
                                                         class="icon-user"></i>Meu Perfil</a></li>
                                             <li class="divider"></li>
-                                            <li id='logoff' class='text-center'><a href="<?= BASED; ?>/sair.php"><i class='powerIcon' data-feather="power"></i>Sair</a></li>
+                                            <li id='logoff' class='text-center'><a href="<?= BASED; ?>/sair.php"><i
+                                                        class='powerIcon' data-feather="power"></i>Sair</a></li>
                                         </ul>
                                     </div>
                                 </div>

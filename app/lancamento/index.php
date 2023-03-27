@@ -101,12 +101,6 @@ include_once './include/functions.php';
         }
     </script>
     <style>
-        .checkboxArea {
-            display: flex;
-            justify-content: center;
-            padding: .5rem !important;
-        }
-
         #management-table svg {
             width: .9rem !important;
             height: .9rem !important;
@@ -172,6 +166,18 @@ include_once './include/functions.php';
                                             required>
                                     </div>
                                     <div class="form-group">
+                                        <small> <b> Pagamento </b> </small>
+                                        <select class="form-control select2" name="payment">
+                                            <option value=""></option>
+                                            <option value="b">Dinheiro</option>
+                                            <option value="p">Pix</option>
+                                            <optgroup label='Cartão'>
+                                                <option value="c">Crédito</option>
+                                                <option value="d">Débito</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <small> <b> Repetição</b> </small>
                                         <select class="form-control select2" name="recurrence">
                                             <option value="u">Única</option>
@@ -179,6 +185,7 @@ include_once './include/functions.php';
                                             <option value="p">Parcelada</option>
                                         </select>
                                     </div>
+
 
                                     <div class="form-group">
                                         <small> <b> Descrição </b> </small>
@@ -199,21 +206,22 @@ include_once './include/functions.php';
                                     <h5 class="text-muted text-center space-1">Lançamentos</h5>
                                 </div>
                                 <div class='table-responsive'>
-                                    <div class='row' id='deleteSelected'>
-                                        <div style='position: absolute; top: 4rem; right: 1rem'>
+                                    <div class='row mr-0' id='deleteSelected'>
+                                        <div style='position: absolute; top: 4rem; right: 0; width: initial!important;'>
                                             <span id='quantity'> 0 </span> Selecionado(s)
                                         </div>
-                                        <div class='col-md-12'>
-                                            <button class='btn btn-outline-secondary mb-2'
+                                        <div class='col-md-12 pr-0'>
+                                            <button class='btn btn-outline-tertiary mb-2'
                                                 style='border-radius: 4px!important' onclick='checkAll()'>
                                                 Selecionar todos
                                             </button>
-                                            <button class='btn btn-outline-secondary btn-checkAll mb-2' disabled
+                                            <button class='btn btn-outline-tertiary btn-checkAll mb-2' disabled
                                                 style='border-radius: 4px!important' onclick='checkAll(false)'>
                                                 Deselecionar todos
                                             </button>
                                             <div class='d-inline-block float-right'>
-                                                <button onclick='deleteSelected()' class='btn btn-outline-danger btn-checkAll mb-2' disabled>
+                                                <button onclick='deleteSelected()'
+                                                    class='btn btn-outline-danger btn-checkAll mb-2' disabled>
                                                     Deletar selecionados
                                                 </button>
                                             </div>
@@ -228,9 +236,10 @@ include_once './include/functions.php';
                                                 <th>Valor</th>
                                                 <th>Categoria</th>
                                                 <th>Descrição</th>
+                                                <th>Pagamento</th>
                                                 <th>Recorrente</th>
                                                 <th>Data</th>
-                                                <th>Gerado às</th>
+                                                <th>Gerado</th>
                                                 <th></th>
                                                 <th></th>
                                             </tr>
@@ -242,21 +251,37 @@ include_once './include/functions.php';
                                             if ($finances[0] > 0) {
                                                 array_shift($finances);
                                                 foreach ($finances as $finance) {
-                                                    $data = dateConvert($finance['data'], '-', '/', true);
-                                                    $datager = dateConvert($finance['datager'], '-', '/', true);
-                                                    $recorrente = $finance['recorrente'] == 's' ? "Sim" : "Não";
-                                                    $valor = floatToMoney($finance['valor']);
+                                                    $date = dateConvert($finance['data'], '-', '/', true);
+                                                    $dategen = dateConvert($finance['datager'], '-', '/', true);
+                                                    $recurrence = $finance['recorrente'] == 's' ? "Sim" : "Não";
+                                                    $value = floatToMoney($finance['valor']);
+                                                    $payment = $finance['pagamento'];
+                                                    if ($payment == 'p') {
+                                                        $payment = 'Pix';
+                                                    }
+                                                    if ($payment == 'd') {
+                                                        $payment = 'Dinheiro';
+                                                    }
+                                                    if ($payment == 'cd') {
+                                                        $payment = 'Crédito';
+                                                    }
+                                                    if ($payment == 'cc') {
+                                                        $payment = 'Débito';
+                                                    }
 
                                                     echo "<tr>";
                                                     echo "<td class='checkboxArea'><input type='checkbox' value='" . $finance['id'] . "' class='checkRegister' onchange='checkCheckbox()'></td>";
-                                                    echo "<td>{$valor}</td>";
+                                                    echo "<td>{$value}</td>";
                                                     echo "<td>{$finance['categoria']}</td>";
                                                     echo "<td style='white-space: normal'>{$finance['descFinanca']}</td>";
-                                                    echo "<td>{$recorrente}</td>";
-                                                    echo "<td>{$data}</td>";
-                                                    echo "<td>{$datager}</td>";
+                                                    echo "<td>{$payment}</td>";
+                                                    echo "<td>{$recurrence}</td>";
+                                                    echo "<td>{$date}</td>";
+                                                    echo "<td>{$dategen}</td>";
                                                     echo "<td></td>";
-                                                    echo "<td class='text-center p-0'><a href='./include/dFinance.php?id={$finance['id']}' class='d-block'><i class='text-danger' data-feather='trash-2'></i></a></td>";
+                                                    echo "<td class='text-center p-0'><a href='./include/dFinance.php?id={$finance['id']}' class='d-block'>
+                                                            <i class='text-danger' data-feather='trash-2'></i></a>
+                                                        </td>";
                                                     echo "</tr>";
                                                 }
                                             }

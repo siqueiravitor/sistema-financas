@@ -1,4 +1,4 @@
-<div id="leftsidebar" class="sidebar" style="background: linear-gradient(290deg, #101525, 35%, #212529);">
+<div id="leftsidebar" class="sidebar bg-gradient">
     <div class="sidebar-scroll">
         <nav id="leftsidebar-nav" class="sidebar-nav mt-3">
             <ul id="main-menu" class="metismenu">
@@ -16,7 +16,7 @@
                 <li class="<?= $active ?>">
                     <a href="<?= BASED; ?>">
                         <i class='iconColor navIcon' data-feather="codesandbox"></i>
-                        <span>Dashboard</span>
+                        <span class='ml-2'>Dashboard</span>
                     </a>
                 </li>
 
@@ -24,10 +24,7 @@
                 <li class="middle" id="navMenuUsuario">
                     <a class="has-arrow">
                         <i class='iconColor navIcon' data-feather="user"></i>
-
-                        <span>
-                            <?= $nome ?>
-                        </span>
+                        <span class='ml-2'><?= $nome ?></span>
                     </a>
                     <ul id="subNavMenuUsuario">
                         <li>
@@ -41,7 +38,7 @@
                 <li class="middle <?= explode('/', $_SERVER['REQUEST_URI'])[3] == 'sistema' ? 'active' : '' ?>">
                     <a href="<?= BASED . "/sistema" ?>">
                         <i class='iconColor navIcon' data-feather="cpu"></i>
-                        <span>Sistema</span>
+                        <span class='ml-2'>Sistema</span>
                     </a>
                 </li>
                 <?php
@@ -50,7 +47,7 @@
                 <li class="middle <?= 'lancamento' == $page ? 'active' : '' ?>">
                     <a href="<?= BASED . "/lancamento" ?>">
                         <i class='iconColor navIcon' data-feather="dollar-sign"></i>
-                        <span>Lançamento</span>
+                        <span class='ml-2'>Lançamento</span>
                     </a>
                 </li>
                 <li class="middle" id="navDocumentacao">

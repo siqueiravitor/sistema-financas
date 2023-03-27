@@ -10,19 +10,21 @@ $value = moneyToFloat($_POST['value']);
 $category = $_POST['category'];
 $recurrence = $_POST['recurrence'];
 $description = empty($_POST['description']) ? null : $_POST['description'];
+$payment = empty($_POST['payment']) ? null : $_POST['payment'];
 
 $dataFinance = [
-    'idusuario' => $_SESSION['id'],
-    'idcategoria' => $category,
-    'valor' => $value,
-    'descricao' => $description,
+    'iduser' => $_SESSION['id'],
+    'idcategory' => $category,
+    'value' => $value,
+    'description' => $description,
+    'payment' => $payment,
     'recurrent' => $recurrence,
-    'data' => $date
+    'date' => $date
 ];
 
 if($id = registerFinance($dataFinance)){
     if($recurrence != 'u'){
-        //CODE
+        registerRecurrence($id, $recurrence);
     }
     mysqli_close($con);
 
