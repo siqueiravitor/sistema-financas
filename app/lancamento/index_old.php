@@ -83,18 +83,91 @@ include_once './include/functions.php';
                 }
                 ?>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <form method="POST" action="./include/rFinance.php" id="formRegister">
+                                    <div class="border-bottom mb-4">
+                                        <h5 class="text-muted text-center space-1">Registrar entrada/saída</h5>
+                                    </div>
+                                    <div class="form-group">
+                                        <small><b>Valor</b></small>
+                                        <input class="form-control" id="value" placeholder="R$ 0,00" name="value"
+                                            onkeyup="moneyMask(this)" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <small> <b> Categoria</b> </small>
+                                        <select class="form-control select2" name="category">
+                                            <?php
+                                            $tipo = '';
+                                            $categorias = categories();
+                                            foreach ($categorias as $categoria) {
+                                                if ($tipo != $categoria[1]) {
+                                                    $tipo = $categoria[1] == 'e' ? 'Receita' : 'Despesa';
+                                                    echo "<optgroup label='$tipo'>";
+                                                    $tipo = $categoria[1];
+                                                }
+
+                                                echo "<option value='$categoria[0]'>$categoria[2]</option>";
+
+                                                if ($tipo != $categoria[1]) {
+                                                    echo "</optgroup>";
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <small> <b> Data</b> </small>
+                                        <input class="form-control" id="date" name="date" value="<?= date('d/m/Y') ?>"
+                                            required>
+                                    </div>
+                                    <div class="form-group">
+                                        <small> <b> Pagamento </b> </small>
+                                        <select class="form-control select2" name="payment">
+                                            <option value=""></option>
+                                            <option value="b">Dinheiro</option>
+                                            <option value="p">Pix</option>
+                                            <optgroup label='Cartão'>
+                                                <option value="c">Crédito</option>
+                                                <option value="d">Débito</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <small> <b> Repetição</b> </small>
+                                        <select class="form-control select2" name="recurrence">
+                                            <option value="u">Única</option>
+                                            <option value="f">Fixa</option>
+                                            <option value="p">Parcelada</option>
+                                        </select>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <small> <b> Descrição </b> </small>
+                                        <textarea class="form-control" name="description"></textarea>
+                                    </div>
+
+                                    <div class="text-right">
+                                        <button class="btn w-50 btn-success space-1">Gravar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
                         <div class="card shadow-sm">
                             <div class="card-body">
                                 <div class="border-bottom mb-4">
                                     <h5 class="text-muted text-center space-1">Lançamentos</h5>
                                 </div>
                                 <div class='table-responsive'>
-                                    <div class='row' id='deleteSelected'>
+                                    <div class='row mr-0' id='deleteSelected'>
                                         <div style='position: absolute; top: 4rem; right: 0; width: initial!important;'>
                                             <span id='quantity'> 0 </span> Selecionado(s)
                                         </div>
-                                        <div class='col-md-12'>
+                                        <div class='col-md-12 pr-0'>
                                             <button class='btn btn-outline-tertiary mb-2'
                                                 style='border-radius: 4px!important' onclick='checkAll()'>
                                                 Selecionar todos
@@ -172,10 +245,6 @@ include_once './include/functions.php';
                                             ?>
                                         </tbody>
                                     </table>
-                                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                        data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right
-                                        offcanvas</button>
-                                    
 
                                 </div>
                             </div>
@@ -184,13 +253,10 @@ include_once './include/functions.php';
                 </div>
             </div>
             <?php
-            include './include/offcanvaRegisterFinance.php';
             include '../include/footer.php';
             ?>
         </div>
     </div>
-
-
     <script>
         function deleteSelected() {
             let data = $(".checkRegister");
@@ -239,7 +305,6 @@ include_once './include/functions.php';
     <!-- FeatherIcons -->
     <script src="<?= ICON ?>/feather.js"></script>
     <!-- Javascript -->
-    <script src="<?= BASE; ?>/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="<?= BASED; ?>/assets/bundles/libscripts.bundle.js"></script>
     <script src="<?= BASED; ?>/assets/bundles/vendorscripts.bundle.js"></script>
     <script src="<?= BASED; ?>/assets/bundles/mainscripts.bundle.js"></script>

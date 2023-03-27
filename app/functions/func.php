@@ -37,28 +37,28 @@ function shortenText($text) {
     return $shortText . "..."; //Returns Text + ...
 }
 
-function montaAlert($status, $texto) {
+function montaAlert($status, $text) {
     switch ($status) {
         Case 0://Sucesso
-            $icone = "fa fa-check";
-            $classe = "success";
+            $icon = "fa fa-check";
+            $class = "success";
             break;
         Case 1://Erro
-            $icone = "fa fa-exclamation";
-            $classe = "danger";
+            $icon = "fa fa-exclamation";
+            $class = "danger";
             break;
         Case 2://Cuidado
-            $icone = "fa fa-warning";
-            $classe = "warning";
+            $icon = "fa fa-warning";
+            $class = "warning";
             break;
         Case 3://Info
-            $icone = "fa fa-info-circle ";
-            $classe = "info";
+            $icon = "fa fa-info-circle ";
+            $class = "info";
             break;
     }
-    return '<div class="alert alert-' . $classe . ' alert-dismissible" role="alert">
+    return '<div class="alert alert-' . $class . ' alert-dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <i class="' . $icone . '"></i> ' . $texto . '
+                    <i class="' . $icon . '"></i> ' . $text . '
             </div>
             <script type="text/javascript">
                 window.setTimeout(function () {
