@@ -1,18 +1,14 @@
 <?php
-include './config/config.php';
-include './config/connMysql.php';
-//require '../vendor/autoload.php';
-
-$hoje = date('Y-m-d');
-$diaSemana = date('w'); // Domingo = 0
+include_once '../config/config.php';
+include_once '../config/connMysql.php';
 
 ?>
 <!doctype html>
 <html lang="pt-br">
 
 <head>
-    <title>
-        <?= SYSTEM . " - " . TITLE; ?>
+    <title>Lançamento -
+        <?= TITLE; ?>
     </title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,48 +20,60 @@ $diaSemana = date('w'); // Domingo = 0
     <link rel="stylesheet" href="<?= BASE; ?>/assets/vendor/animate-css/animate.min.css">
     <link rel="stylesheet" href="<?= BASE; ?>/assets/vendor/font-awesome/css/font-awesome.min.css">
 
-    <!-- Calendar -->
-    <link rel="stylesheet" href="<?= BASE; ?>/assets/vendor/fullcalendar/fullcalendar.min.css">
+    <script src="<?= BASED; ?>/include/func.js"></script>
+
     <!--Data Table-->
     <link rel="stylesheet" href="<?= BASE; ?>/assets/vendor/jquery-datatable/dataTables.bootstrap4.min.css">
-    <!--Gráficos-->
-    <link rel="stylesheet" href="<?= BASE; ?>/assets/vendor/chartist/css/chartist.css">
-    <link rel="stylesheet" href="<?= BASE; ?>/assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css">
+    <!--DataPicker-->
+    <link rel="stylesheet" href="<?= BASE; ?>/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="<?= BASE; ?>/assets/vendor/select2/select2.css" />
+
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="<?= BASED; ?>/assets/css/main.css">
 
+    <script>
+        // window.addEventListener('DOMContentLoaded', () => {
+        //     $('#date').datepicker({
+        //         todayHighlight: true
+        //     });
+        //     $("#management-table").dataTable({
+        //         "aaSorting": [],
+        //         "columnDefs": [{
+        //             "targets": [6, 7],
+        //             "orderable": false
+        //         }]
+        //     });
+        //     $(".select2").select2();
+        // })
+    </script>
 </head>
 
 <body>
     <div id="wrapper">
         <?php
-        include './include/loader.php';
-        include './include/nav-topo.php';
-        include './include/nav-lateral.php';
+        include '../include/loader.php';
+        include '../include/nav-topo.php';
+        include '../include/nav-lateral.php';
         ?>
         <div id="main-content">
             <div class="container-fluid">
-                <div class="block-header">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="<?= BASED; ?>/index"><i class="icon-home"></i></a>
-                                </li>
-                                <li class="breadcrumb-item active">
-                                    <?= COMPANY ?>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class='col-md-12'>
+                <?php
+                include '../include/breadcrumb.php';
 
-                        </div>
+                if (!empty($_GET["msg"])) {
+                    $alert = isset($_GET["alert"]) ? $_GET["alert"] : 0;
+                    echo montaAlert($alert, $_GET["msg"]);
+                }
+                ?>
+                <div class="row">
+                    <div clas='col-md-12'>
+                        
                     </div>
                 </div>
             </div>
-            <div class='d-flex justify-content-center'>
-                <?php
-                include './include/footer.php';
-                ?>
+            <div>
+                <?php include '../include/footer.php'; ?>
             </div>
         </div>
     </div>
@@ -76,15 +84,14 @@ $diaSemana = date('w'); // Domingo = 0
     <script src="<?= BASED; ?>/assets/bundles/libscripts.bundle.js"></script>
     <script src="<?= BASED; ?>/assets/bundles/vendorscripts.bundle.js"></script>
     <script src="<?= BASED; ?>/assets/bundles/mainscripts.bundle.js"></script>
-    <!-- Calendar -->
-    <script src="<?= BASED; ?>/assets/bundles/fullcalendarscripts.bundle.js"></script>
     <!-- Data Table -->
     <script src="<?= BASED; ?>/assets/bundles/datatablescripts.bundle.js"></script>
     <script src="<?= BASE; ?>/assets/vendor/jquery-datatable/buttons/dataTables.buttons.min.js"></script>
     <script src="<?= BASE; ?>/assets/vendor/jquery-datatable/buttons/buttons.bootstrap4.min.js"></script>
-    <!--GRAFICOS-->
-    <script src="<?= BASE; ?>/assets/vendor/chartist/js/chartist.js"></script>
-    <script src="<?= BASE; ?>/assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.min.js"></script>
+    <!-- Select2 Js -->
+    <script src="<?= BASE; ?>/assets/vendor/select2/select2.min.js"></script>
+    <!--DataPicker-->
+    <script src="<?= BASE; ?>/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 </body>
 
 </html>

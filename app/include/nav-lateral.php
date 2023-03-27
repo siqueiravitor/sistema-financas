@@ -3,13 +3,19 @@
         <nav id="leftsidebar-nav" class="sidebar-nav mt-3">
             <ul id="main-menu" class="metismenu">
                 <?php
-                $nome = strtolower($_SESSION['name']);
-                $nome = explode(" ", $nome)[0] . isset(explode(" ", $nome)[1]) ?? "." . explode(" ", $nome)[1];
+                $nome = ucwords(strtolower($_SESSION['name']));
+                $nome = explode(' ', $nome);
+                if (count($nome) > 1) {
+                    $nome = $nome[0] . " " . array_reverse($nome)[0];
+                } else {
+                    $nome = $nome[0];
+                }
+
                 $active = empty(explode('/', $_SERVER['REQUEST_URI'])[3]) ? 'active' : '';
                 ?>
                 <li class="<?= $active ?>">
                     <a href="<?= BASED; ?>">
-                        <i class="icon-home iconColor"></i>
+                        <i class='iconColor navIcon' data-feather="codesandbox"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
@@ -17,7 +23,8 @@
                 <li class="heading">Menu</li>
                 <li class="middle" id="navMenuUsuario">
                     <a class="has-arrow">
-                        <i class="icon-user iconColor"></i>
+                        <i class='iconColor navIcon' data-feather="user"></i>
+
                         <span>
                             <?= $nome ?>
                         </span>
@@ -33,7 +40,7 @@
                 <li class="divider"></li>
                 <li class="middle <?= explode('/', $_SERVER['REQUEST_URI'])[3] == 'sistema' ? 'active' : '' ?>">
                     <a href="<?= BASED . "/sistema" ?>">
-                        <i class="fa fa-cog iconColor"></i>
+                        <i class='iconColor navIcon' data-feather="cpu"></i>
                         <span>Sistema</span>
                     </a>
                 </li>
@@ -42,7 +49,7 @@
                 ?>
                 <li class="middle <?= 'lancamento' == $page ? 'active' : '' ?>">
                     <a href="<?= BASED . "/lancamento" ?>">
-                        <i class="icon-wrench iconColor"></i>
+                        <i class='iconColor navIcon' data-feather="dollar-sign"></i>
                         <span>Lançamento</span>
                     </a>
                 </li>

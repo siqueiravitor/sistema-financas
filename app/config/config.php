@@ -5,8 +5,7 @@ session_start();
 if (!isset($_SESSION["user"])) {
     session_destroy();
     $msg = "Sem acesso! =[";
-    header("location:../?msg=" . $msg);
-    return;
+    exit(header("location:../?msg=" . $msg));
 }
 
 define('COMPANY', $_SESSION['COMPANY']);
@@ -18,6 +17,7 @@ define('LOGOALT', $_SESSION['LOGOALT']);
 define('BASE', $_SESSION['BASEF']);
 define('BASED', $_SESSION['BASED']);
 define('BASES', $_SESSION['BASES']);
+define('ICON', $_SESSION['BASEI']);
 
 // UTF-8 Portugues Brasil \\
 setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
