@@ -77,25 +77,11 @@ include_once './include/functions.php';
                 }
             })
             if (items.length > 0) {
-                $("#deleteSelected").show();
-                $("#management-table_filter label").hide();
-                $("#management-table_length label").hide();
-                if (!$("#management-table_length .btn-checkAll").length) {
-                    let btnCheckAll = "<button class='btn-checkAll btn btn-outline-secondary mb-2 mr-2' style='border-radius: 4px!important' onclick='checkAll()'>Selecionar todos</button>"
-                    let btnUncheckAll = "<button class='btn-checkAll btn btn-outline-secondary mb-2 mr-2' style='border-radius: 4px!important' onclick='checkAll(false)'>Deselecionar todos</button>"
-                    let selecionados = "<div class='btn px-0 btn-checkAll float-right'><span id='quantity'>"+ items.length +"</span> Selecionado(s)</div>";
-                    $("#management-table_length").append(btnCheckAll);
-                    $("#management-table_length").append(btnUncheckAll);
-                    $("#management-table_filter").append(selecionados);
-                }
                 $('#quantity').html(items.length);
-                $(".btn-checkAll").show();
+                $(".btn-checkAll").removeAttr('disabled');
             } else {
-                $('#quantity').html('');
-                $("#management-table_length label").show();
-                $("#management-table_filter label").show();
-                $("#deleteSelected").hide();
-                $(".btn-checkAll").hide();
+                $('#quantity').html(0);
+                $(".btn-checkAll").attr('disabled', 'disabled');
             }
         }
         function checkAll(check = true) {
@@ -120,7 +106,8 @@ include_once './include/functions.php';
             justify-content: center;
             padding: .5rem !important;
         }
-        #management-table svg{
+
+        #management-table svg {
             width: .9rem !important;
             height: .9rem !important;
         }
@@ -212,8 +199,25 @@ include_once './include/functions.php';
                                     <h5 class="text-muted text-center space-1">Lançamentos</h5>
                                 </div>
                                 <div class='table-responsive'>
-                                    <div class='float-right' id='deleteSelected' style='display: none'>
-                                        <button onclick='deleteSelected()' class='btn btn-outline-danger ml-3'>Deletar selecionados</button>
+                                    <div class='row' id='deleteSelected'>
+                                        <div style='position: absolute; top: 4rem; right: 1rem'>
+                                            <span id='quantity'> 0 </span> Selecionado(s)
+                                        </div>
+                                        <div class='col-md-12'>
+                                            <button class='btn btn-outline-secondary mb-2'
+                                                style='border-radius: 4px!important' onclick='checkAll()'>
+                                                Selecionar todos
+                                            </button>
+                                            <button class='btn btn-outline-secondary btn-checkAll mb-2' disabled
+                                                style='border-radius: 4px!important' onclick='checkAll(false)'>
+                                                Deselecionar todos
+                                            </button>
+                                            <div class='d-inline-block float-right'>
+                                                <button onclick='deleteSelected()' class='btn btn-outline-danger btn-checkAll mb-2' disabled>
+                                                    Deletar selecionados
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <table id="management-table"
@@ -266,11 +270,9 @@ include_once './include/functions.php';
                     </div>
                 </div>
             </div>
-            <div>
-                <?php
-                include '../include/footer.php';
-                ?>
-            </div>
+            <?php
+            include '../include/footer.php';
+            ?>
         </div>
     </div>
     <!-- FeatherIcons -->
