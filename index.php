@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="./assets/vendor/animate-css/animate.min.css">
     <link rel="stylesheet" href="./assets/vendor/font-awesome/css/font-awesome.min.css">
     <!-- MAIN CSS -->
-    <link rel="stylesheet" href="./assets/css/main.css">
+    <!-- <link rel="stylesheet" href="./assets/css/main.css"> -->
     <link rel="stylesheet" href="./assets/css/login.css">
     <script>
         document.addEventListener("DOMContentLoaded", () => {

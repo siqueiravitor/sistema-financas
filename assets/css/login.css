@@ -1,4 +1,43 @@
+@font-face {
+    font-family: 'montserrat';
+    src: url("../fonts/Montserrat-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal
+}
+@font-face {
+    font-family: 'montserrat';
+    src: url("../fonts/Montserrat-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal
+}
+@font-face {
+    font-family: 'montserrat';
+    src: url("../fonts/Montserrat-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal
+}
+@font-face {
+    font-family: 'montserrat_alt';
+    src: url("../fonts/MontserratAlternates-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal
+}
+@font-face {
+    font-family: 'montserrat_alt';
+    src: url("../fonts/MontserratAlternates-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal
+}
+@font-face {
+    font-family: 'montserrat_alt';
+    src: url("../fonts/MontserratAlternates-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal
+}
 *{
+    margin: 0;
+    padding: 0;
+
     --color-primary: #269471;
     --color-secondary: #22f1b1;
     --color-secondary-o: #22f1b122;
@@ -12,10 +51,29 @@
     --color-border: #aaa;
     --color-text-light: #6c757d;
 }
+
+*:not(i){
+    font-family: 'montserrat';
+}
+
+[data-icon]:before {
+    font-family: 'simple-Line-Icons';
+    content: attr(data-icon);
+    speak: none;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 17px
+}
+
 body{
     background-color: #f1f5f7;
     height: 100vh
 }
+
 .areaSignup,
 .areaLogin{
     height: 100%;
@@ -36,6 +94,11 @@ body{
 .loginCard div:first-child{
     border-color: #ccc!important
 }
+
+.cardLeft *{
+    font-family: 'montserrat_alt';
+}
+
 .cardLeft{
     height: 100%;
     display: flex;
@@ -196,4 +259,137 @@ img {
     .ph-fix .cardRight{
         padding-top: 0;
     }
+}
+input{
+    outline: none!important;
+    box-shadow: none!important;
+}
+a{
+    text-decoration: none!important;
+}
+
+.loginArea{
+    background-color: var(--color-dark);
+    padding: 2rem;
+    border-radius: 4px;
+    border: 1px solid var(--color-secondary);
+    width: 25rem;
+    box-shadow: 0 0px 5px #0dcaf077;
+    text-align: center;
+}
+h5{
+    color: var(--color-secondary);
+    margin-bottom: 1rem;
+    letter-spacing: 1px
+}
+.btn-primary{
+    background: var(--color-primary);
+    letter-spacing: 1px;
+    border-color: var(--color-primary);
+    margin-top: 1.5rem;
+}
+.login-area .input-group-text{
+    color: var(--color-secondary);
+    background-color: transparent;
+    border: 1px solid var(--color-primary);
+    margin-right: .3rem;
+    width: 2.5rem;
+    display: flex;
+    justify-content: center;
+}
+:not(.login-area) .input-group-text{
+    /*background-color: transparent;*/
+    margin-right: .3rem;
+    width: 2.5rem;
+    color: var(--color-primary);
+    display: flex;
+    justify-content: center;
+}
+div.dataTables_wrapper .form-control{
+    border: 1px solid #ccc;
+    color: #777;
+}
+.login-area .form-control{
+    background-color: transparent!important;
+    border: none;
+    border: 1px solid var(--color-primary);
+    color: #ccc;
+}
+.login-area .form-control:focus {
+    border: 1px solid var(--color-secondary);
+    color: #fff
+}
+.alert-danger{
+    color: var(--color-danger);
+    background: none;
+}
+
+.logo{
+    background: #fff;
+    padding: 0.4rem;
+    margin-left: 7px;
+    margin-bottom: 3px;
+    border-radius: 3rem;
+}
+.iconColor{
+    color: #0dcaf0!important;
+}
+#main-menu > li > a, #main-menu li a span {
+    /*transition: .2s!important*/
+    transition: .08s!important
+}
+#main-menu > li > a span{
+    color: #6c757d;
+}
+#main-menu > li > a {
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+#main-menu > li:not(.active) > a:hover{
+    /*background: #2271b1!important;*/
+    /*background: #606270;*/
+    /*border: 1px solid #2271b1;*/
+    border-left: 4px solid #0dcaf0;
+}
+#main-menu > li.active > a{
+    /*background: #2271b1;*/
+    background: #606270;
+    border-left: 5px solid #0dcaf0;
+    border-radius: 8px;
+}
+#main-menu li.active a i, 
+#main-menu li a:hover span,
+#main-menu li.active a span{
+    color:#fff!important;
+}
+.navbar-brand{
+    background: #212529!important;
+    border-bottom: 1px solid #6062706e;
+    box-shadow: 0rem 0rem 1rem rgba(0 0 0 / 25%)!important;
+}
+.navbar-fixed-top{
+    background: #fff!important;
+    box-shadow: 0rem 0rem .7rem rgba(0 0 0 / 15%)!important;
+}
+.slimScrollDiv, .sidebar-scroll{
+    overflow: inherit!important;
+}
+.middle{
+    position: relative!important;
+}
+body:not(.menu-icon) #subNavMenuUsuario{
+    box-shadow: 0.2rem 0.2rem 0.3rem rgba(0 0 0 / 50%)!important;
+    background: #212529!important;
+    position: absolute !important;
+    z-index: 9999999 !important;
+    right: -13rem !important;
+    border-radius: 6px;
+    width: 90%;
+}
+
+.space-1{
+    letter-spacing: 1px;
+}
+.space-2{
+    letter-spacing: 2px;
 }
