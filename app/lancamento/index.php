@@ -264,28 +264,54 @@ include_once './include/functions.php';
                 checkCheckbox();
             }
         }
+        // A j a x
+        function recurrenceOptions(value) {
+            let url = './include/offcanvaRegisterUnique.php';
+            if (value !== 'u') {
+                url = './include/offcanvaRegisterInstallment.php';
+            }
+
+            var request = $.ajax({
+                url,
+                dataType: "html",
+                beforeSend: function () {
+                    $("#divBodyFinance").html(divLoading);
+                }
+            });
+            request.done(function (data) {
+                $("#divBodyFinance").html(data);
+
+                $(".select2").select2('destroy');
+                $(".select2").select2();
+                $(".date").datepicker('refresh');
+            });
+            request.fail(function (jqXHR, textStatus) {
+                $("#ocNewRecord").html(divError(textStatus));
+            });
+        }
         function loadFinanceData(id) {
-            let url = 'include/cAjaxFinance.php';
+            let url = 'include/cAjaxEditFinance.php';
             var request = $.ajax({
                 url,
                 data: { id },
                 method: "GET",
                 dataType: "html",
                 beforeSend: function () {
-                    $("#ocTemplate").html(`<div class="offcanvas-body offcanvas-loading">
-                                                <i class='fa-spin fa fa-spinner'></i> Carregando...
-                                            </div>`);
+                    $("#ocTemplate").html(divLoading);
                 }
             });
             request.done(function (data) {
-                console.log(data)
                 $("#ocTemplate").html(data);
+                
+                $(".select2").select2('destroy');
+                $(".select2").select2();
+                $(".date").datepicker('refresh');
             });
             request.fail(function (jqXHR, textStatus) {
-                $("#ocTemplate").html("Request failed: " + textStatus);
+                $("#ocTemplate").html(divError(textStatus));
             });
-
         }
+        // A j a x End
     </script>
     <!-- FeatherIcons -->
     <script src="<?= ICON ?>/feather.js"></script>

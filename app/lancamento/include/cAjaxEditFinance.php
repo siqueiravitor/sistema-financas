@@ -78,12 +78,13 @@ $finance = dataFinance($userId, $id)[1];
 
         <div class="form-group">
             <small> <b> Descrição </b> </small>
-            <textarea class="form-control" name="description" ><?= $finance['descFinanca'] ?></textarea>
+            <textarea class="form-control" name="description"><?= $finance['descFinanca'] ?></textarea>
         </div>
 
         <div class="row">
             <div class="col-md-6">
-                <button class="btn btn-danger w-100">
+                <button class="btn btn-danger w-100" style='position: unset' type='button' data-bs-dismiss="offcanvas"
+                    aria-label="Close">
                     Cancelar
                 </button>
             </div>

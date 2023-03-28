@@ -1,5 +1,5 @@
 function abrirHistorico(parametro, url) {
-    if(!url){
+    if (!url) {
         url = "../../include/mHistorico.php";
     }
 
@@ -8,7 +8,7 @@ function abrirHistorico(parametro, url) {
         url: url,
         dataType: 'html',
         type: 'GET',
-        data: {parametro},
+        data: { parametro },
         success: function (data) {
             $('#cModalHistorico').html(data);
             $('#tabelaHistorico').DataTable({
@@ -25,7 +25,24 @@ function abrirHistorico(parametro, url) {
 function moneyMask(input) {
     if (input.value) {
         const numericInput = input.value.replace(/\D/g, '');
-        const formattedInput = (parseInt(numericInput) / 100).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+        const formattedInput = (parseInt(numericInput) / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         input.value = formattedInput;
     }
 }
+function divError(statusError){
+    var divError =
+    `<div class='offcanvas-body offcanvas-loading' style='flex-grow: 10!important'>
+        Request failed: <span class='text-danger'> `+ statusError + `</span>
+    </div>
+    <div class='offcanvas-footer' style='flex-grow: 1!important'>
+        <button type='button' class='btn btn-tertiary' style='width: 90%'
+        data-bs-dismiss='offcanvas'>Fechar</button>
+    </div>`;
+
+    return divError;
+}
+
+var divLoading =
+    `<div class="offcanvas-body offcanvas-loading">
+    <i class='fa-spin fa fa-spinner'></i> Carregando...
+</div>`;

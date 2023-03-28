@@ -22,9 +22,21 @@ $dataFinance = [
     'date' => $date
 ];
 
-if($id = registerFinance($dataFinance)){
-    if($recurrence != 'u'){
-        registerRecurrence($id, $recurrence);
+echo "<PRE>";
+print_r($dataFinance);
+
+print_r($_POST);
+
+return;
+
+if ($id = registerFinance($dataFinance)) {
+    if ($recurrence != 'u') {
+        $dataRecurrence =[
+            'idfinance' => $id
+        ];
+        array_unshift($result, $dataRecurrence);
+        registerRecurrence($fields);
+        return;
     }
     mysqli_close($con);
 

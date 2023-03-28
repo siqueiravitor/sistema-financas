@@ -88,16 +88,17 @@ cc - Cartão de Crédito
 
 CREATE TABLE tiporecorrencia (
 	id int(11) AUTO_INCREMENT PRIMARY KEY,
-	descricao varchar(255)
+	descricao varchar(255),
+	periodo varchar(255)
 );
-insert into tiporecorrencia values (1, 'Diário');
-insert into tiporecorrencia values (2, 'Semanal');
-insert into tiporecorrencia values (3, 'Quinzenal');
-insert into tiporecorrencia values (4, 'Mensal');
-insert into tiporecorrencia values (5, 'Bimestral');
-insert into tiporecorrencia values (6, 'Trimestral');
-insert into tiporecorrencia values (7, 'Semestral');
-insert into tiporecorrencia values (8, 'Anual');
+insert into tiporecorrencia values (1, 'Diário', '+1day');
+insert into tiporecorrencia values (2, 'Semanal', '+1week');
+insert into tiporecorrencia values (3, 'Quinzenal', '+15day');
+insert into tiporecorrencia values (4, 'Mensal', '+1month');
+insert into tiporecorrencia values (5, 'Bimestral', '+2month');
+insert into tiporecorrencia values (6, 'Trimestral', '+3month');
+insert into tiporecorrencia values (7, 'Semestral', '+6month');
+insert into tiporecorrencia values (8, 'Anual', '+1year');
 
 CREATE TABLE recorrencia (
 	id int(11) AUTO_INCREMENT PRIMARY KEY,

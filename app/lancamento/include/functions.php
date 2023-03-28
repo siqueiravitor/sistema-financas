@@ -1,5 +1,5 @@
 <?php
-
+// C o n s u l t
 function categories() {
   global $con;
 
@@ -9,6 +9,23 @@ function categories() {
             descricao
         FROM categoria
         ORDER BY tipo";
+
+  $query = mysqli_query($con, $sql);
+  $result = mysqli_fetch_all($query, MYSQLI_NUM);
+
+  return $result;
+}
+function recurrence($id = null) {
+  global $con;
+
+  $sql = "SELECT 
+            id,
+            descricao,
+            periodo
+        FROM tiporecorrencia ";
+  if($id){
+    $sql .= " where id = $id "; 
+  }
 
   $query = mysqli_query($con, $sql);
   $result = mysqli_fetch_all($query, MYSQLI_NUM);
@@ -42,7 +59,7 @@ function dataFinance($userId, $id = null) {
 
   return $result;
 }
-
+// R e g i s t e r
 function registerFinance($fields){
   global $con;
   $recurrent = $fields['recurrent'] == 'u' ? 'n' : 's';
@@ -71,6 +88,26 @@ function registerFinance($fields){
 
   return $id;
 }
+function registerRecurrence($fields){
+  global $con;
+  $insert = "INSERT INTO recorrencia (idfinanca, idtiporecorrencia, valor, recorrencia, parcelas, datafim, dataupdate, status) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+  $prepareInsert = mysqli_prepare($con, $insert);
+  mysqli_stmt_bind_param($prepareInsert, 'iidsssss', $idfinanca, $idtiporecorrencia, $valor, $recorrencia, $parcelas, $datafim, $dataupdate, $status);
+
+  $idfinanca = $fields['idfinanca'];
+  $idtiporecorrencia = $fields['idtiporecorrencia'];
+  $valor = $fields['value'];
+  $recorrencia = $fields['value'];
+  $parcelas = $fields['description'];
+  $datafim = $fields['payment'];
+  $dataupdate = $fields['payment'];
+  $status = $fields['date'];
+
+  return;
+}
+// U p d a t e
 function updateFinance($fields){
   global $con;
   $recurrent = $fields['recurrent'] == 'u' ? 'n' : 's';
@@ -105,11 +142,8 @@ function updateFinance($fields){
 
   return $result;
 }
-function registerRecurrence($id, $recurrence){
 
-  return;
-}
-
+// D e l e t e
 function deleteFinance($id, $mult = false){
   global $con;
 
