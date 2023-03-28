@@ -1,4 +1,4 @@
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+<div class="offcanvas offcanvas-end" tabindex="-1" id="ocNewRecord" aria-labelledby="ocNewRecord">
     <div class="offcanvas-header">
 
         <div class="border-bottom mb-4">
@@ -45,11 +45,11 @@
                 <small> <b> Pagamento </b> </small>
                 <select class="form-control select2" name="payment">
                     <option value=""></option>
-                    <option value="b">Dinheiro</option>
+                    <option value="d">Dinheiro</option>
                     <option value="p">Pix</option>
                     <optgroup label='Cartão'>
-                        <option value="c">Crédito</option>
-                        <option value="d">Débito</option>
+                        <option value="cc">Crédito</option>
+                        <option value="cd">Débito</option>
                     </optgroup>
                 </select>
             </div>
@@ -68,9 +68,12 @@
                 <textarea class="form-control" name="description"></textarea>
             </div>
 
-            <div class="text-right">
-                <button class="btn w-50 btn-success space-1">Gravar</button>
+            <div class="text-center">
+                <button class="btn w-100 btn-success space-1">Registrar</button>
             </div>
         </form>
+    </div>
+    <div class="offcanvas-footer mr-2">
+        <?php include '../include/footer.php' ?>
     </div>
 </div>

@@ -111,6 +111,10 @@
 }
 
 *:not(i) {
+    /* font-family: 'montserrat_alt'; */
+    font-family: 'montserrat';
+}
+th,h1,h2,h3,h4,h5,h6,label{
     font-family: 'montserrat_alt';
 }
 
@@ -178,6 +182,7 @@ h5 {
 #main-menu>li>a {
     border: 1px solid transparent;
     border-radius: 4px;
+    margin: 0 0.7rem;
 }
 
 #main-menu>li:not(.active)>a:focus,
@@ -297,10 +302,6 @@ div.dataTables_wrapper .form-control {
     color: #777;
 }
 
-.dataTables_length * {
-    border-top-right-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
-}
 .offcanvas-header{
     flex-direction: column;
     align-items: normal;
@@ -308,6 +309,12 @@ div.dataTables_wrapper .form-control {
 }
 .offcanvas-body{
     padding-top: 0;
+}
+.offcanvas-loading{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 button[data-bs-dismiss="offcanvas"]{
     position: absolute;
@@ -320,6 +327,9 @@ button[data-bs-dismiss="offcanvas"]{
         justify-content: center;
         text-align: center;
     }
+}
+.col-md-6{
+    max-width: 50%;
 }
 
 table.dataTable thead,
@@ -425,76 +435,76 @@ textarea.form-control {
     margin-bottom: 2rem !important;
 }
 .pl-0 {
-    margin-left: 0rem !important;
+    padding-left: 0rem !important;
 }
 .pl-1 {
-    margin-left: .25rem !important;
+    padding-left: .25rem !important;
 }
 .pl-2 {
-    margin-left: .5rem !important;
+    padding-left: .5rem !important;
 }
 .pl-3 {
-    margin-left: 1rem !important;
+    padding-left: 1rem !important;
 }
 .pl-4 {
-    margin-left: 1.5rem !important;
+    padding-left: 1.5rem !important;
 }
 .pl-5 {
-    margin-left: 2rem !important;
+    padding-left: 2rem !important;
 }
 .pr-0 {
-    margin-right: 0rem !important;
+    padding-right: 0rem !important;
 }
 .pr-1 {
-    margin-right: .25rem !important;
+    padding-right: .25rem !important;
 }
 .pr-2 {
-    margin-right: .5rem !important;
+    padding-right: .5rem !important;
 }
 .pr-3 {
-    margin-right: 1rem !important;
+    padding-right: 1rem !important;
 }
 .pr-4 {
-    margin-right: 1.5rem !important;
+    padding-right: 1.5rem !important;
 }
 .pr-5 {
-    margin-right: 2rem !important;
+    padding-right: 2rem !important;
 }
 .pt-0 {
-    margin-top: 0rem !important;
+    padding-top: 0rem !important;
 }
 .pt-1 {
-    margin-top: .25rem !important;
+    padding-top: .25rem !important;
 }
 .pt-2 {
-    margin-top: .5rem !important;
+    padding-top: .5rem !important;
 }
 .pt-3 {
-    margin-top: 1rem !important;
+    padding-top: 1rem !important;
 }
 .pt-4 {
-    margin-top: 1.5rem !important;
+    padding-top: 1.5rem !important;
 }
 .pt-5 {
-    margin-top: 2rem !important;
+    padding-top: 2rem !important;
 }
 .pb-0 {
-    margin-bottom: 0rem !important;
+    padding-bottom: 0rem !important;
 }
 .pb-1 {
-    margin-bottom: .25rem !important;
+    padding-bottom: .25rem !important;
 }
 .pb-2 {
-    margin-bottom: .5rem !important;
+    padding-bottom: .5rem !important;
 }
 .pb-3 {
-    margin-bottom: 1rem !important;
+    padding-bottom: 1rem !important;
 }
 .pb-4 {
-    margin-bottom: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
 }
 .pb-5 {
-    margin-bottom: 2rem !important;
+    padding-bottom: 2rem !important;
 }
 .text-primary {
     color: var(--color-primary) !important;
@@ -657,6 +667,7 @@ textarea.form-control {
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
+.btn-outline-primary:hover,
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary {
@@ -664,6 +675,7 @@ textarea.form-control {
     border-color: var(--color-primary);
 }
 
+.btn-outline-secondary:hover,
 .btn-secondary:hover,
 .btn-secondary:focus,
 .btn-secondary {
@@ -671,6 +683,7 @@ textarea.form-control {
     border-color: var(--color-secondary);
 }
 
+.btn-outline-tertiary:hover,
 .btn-tertiary:hover,
 .btn-tertiary:focus,
 .btn-tertiary {
@@ -678,6 +691,7 @@ textarea.form-control {
     border-color: var(--color-tertiary);
 }
 
+.btn-outline-success:hover,
 .btn-success:hover,
 .btn-success:focus,
 .btn-success {
@@ -685,6 +699,7 @@ textarea.form-control {
     border-color: var(--color-success);
 }
 
+.btn-outline-warning:hover,
 .btn-warning:hover,
 .btn-warning:focus,
 .btn-warning {
@@ -692,6 +707,7 @@ textarea.form-control {
     border-color: var(--color-warning);
 }
 
+.btn-outline-danger:hover,
 .btn-danger:hover,
 .btn-danger:focus,
 .btn-danger {
@@ -699,6 +715,11 @@ textarea.form-control {
     border-color: var(--color-danger);
 }
 
+.btn-info:hover,
+.btn-outline-info:hover{
+    color: var(--color-light);
+}
+.btn-outline-info:hover,
 .btn-info:hover,
 .btn-info:focus,
 .btn-info {
@@ -726,9 +747,21 @@ textarea.form-control {
     background: var(--color-tertiary);
 }
 
+.btn-outline-success {
+    color: var(--color-success);
+    border-color: var(--color-success);
+}
+.btn-outline-warning {
+    color: var(--color-warning);
+    border-color: var(--color-warning);
+}
 .btn-outline-danger {
     color: var(--color-danger);
     border-color: var(--color-danger);
+}
+.btn-outline-info {
+    color: var(--color-info);
+    border-color: var(--color-info);
 }
 
 /*NAVTOP CSS*/

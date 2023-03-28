@@ -42,7 +42,7 @@ include_once './include/functions.php';
             $("#management-table").dataTable({
                 "aaSorting": [],
                 "columnDefs": [{
-                    "targets": [6, 7],
+                    "targets": [0, 8, 9],
                     "orderable": false
                 }]
             });
@@ -62,6 +62,20 @@ include_once './include/functions.php';
             width: .9rem !important;
             height: .9rem !important;
         }
+
+        td:first-child,
+        th:first-child {
+            text-align: center;
+            border-right: 1px solid var(--color-border-lighter) !important;
+        }
+
+        td:nth-last-child(2),
+        th:nth-last-child(2),
+        td:last-child,
+        th:last-child {
+            text-align: center;
+            border-left: 1px solid var(--color-border-lighter) !important;
+        }
     </style>
 </head>
 
@@ -80,7 +94,9 @@ include_once './include/functions.php';
                 if (!empty($_GET["msg"])) {
                     $alert = isset($_GET["alert"]) ? $_GET["alert"] : 0;
                     echo montaAlert($alert, $_GET["msg"]);
+
                 }
+                echo 'PHP version: ' . phpversion();
                 ?>
                 <div class="row">
                     <div class="col-md-12">
@@ -90,33 +106,38 @@ include_once './include/functions.php';
                                     <h5 class="text-muted text-center space-1">Lançamentos</h5>
                                 </div>
                                 <div class='table-responsive'>
-                                    <div class='row' id='deleteSelected'>
-                                        <div style='position: absolute; top: 4rem; right: 0; width: initial!important;'>
+                                    <div class='row mr-0' id='deleteSelected'>
+                                        <div style='position: absolute; top: 4rem; width: initial!important;'>
                                             <span id='quantity'> 0 </span> Selecionado(s)
                                         </div>
-                                        <div class='col-md-12'>
-                                            <button class='btn btn-outline-tertiary mb-2'
-                                                style='border-radius: 4px!important' onclick='checkAll()'>
+                                        <div class='col-md-12 pr-0'>
+                                            <button class='btn btn-outline-tertiary mb-2' onclick='checkAll()'>
                                                 Selecionar todos
                                             </button>
                                             <button class='btn btn-outline-tertiary btn-checkAll mb-2' disabled
-                                                style='border-radius: 4px!important' onclick='checkAll(false)'>
+                                                onclick='checkAll(false)'>
                                                 Deselecionar todos
                                             </button>
+                                            <button class='btn btn-outline-danger btn-checkAll mb-2' disabled
+                                                onclick='deleteSelected()'>
+                                                Deletar selecionados
+                                            </button>
                                             <div class='d-inline-block float-right'>
-                                                <button onclick='deleteSelected()'
-                                                    class='btn btn-outline-danger btn-checkAll mb-2' disabled>
-                                                    Deletar selecionados
+                                                <button class="btn btn-info mb-2" type="button"
+                                                    aria-controls="ocNewRecord" data-bs-toggle="offcanvas"
+                                                    data-bs-target="#ocNewRecord">
+                                                    Novo registro
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
 
                                     <table id="management-table"
-                                        class="table table-sm table-hover table-striped table-bordered">
+                                        class="table table-sm table-hover table-striped text-center">
                                         <thead>
                                             <tr>
                                                 <th></th>
+                                                <th>Tipo</th>
                                                 <th>Valor</th>
                                                 <th>Categoria</th>
                                                 <th>Descrição</th>
@@ -139,22 +160,28 @@ include_once './include/functions.php';
                                                     $dategen = dateConvert($finance['datager'], '-', '/', true);
                                                     $recurrence = $finance['recorrente'] == 's' ? "Sim" : "Não";
                                                     $value = floatToMoney($finance['valor']);
+                                                    $tipo = $finance['tipo'] == 'e' ? 'Entrada' : 'Saída ';
                                                     $payment = $finance['pagamento'];
                                                     if ($payment == 'p') {
                                                         $payment = 'Pix';
-                                                    }
-                                                    if ($payment == 'd') {
+                                                    } elseif ($payment == 'd') {
                                                         $payment = 'Dinheiro';
-                                                    }
-                                                    if ($payment == 'cd') {
+                                                    } elseif ($payment == 'cd') {
                                                         $payment = 'Crédito';
-                                                    }
-                                                    if ($payment == 'cc') {
+                                                    } elseif ($payment == 'cc') {
                                                         $payment = 'Débito';
                                                     }
-
+                                                    // $payment = match($payment){
+                                                    //     'p' => "Pix",
+                                                    //     'd' => "Dinheiro",
+                                                    //     'cd' => "Crédito",
+                                                    //     'cc' => "Débito",
+                                                    //     default => ""
+                                                    // };
+                                            
                                                     echo "<tr>";
                                                     echo "<td class='checkboxArea'><input type='checkbox' value='" . $finance['id'] . "' class='checkRegister' onchange='checkCheckbox()'></td>";
+                                                    echo "<td>{$tipo}</td>";
                                                     echo "<td>{$value}</td>";
                                                     echo "<td>{$finance['categoria']}</td>";
                                                     echo "<td style='white-space: normal'>{$finance['descFinanca']}</td>";
@@ -162,8 +189,10 @@ include_once './include/functions.php';
                                                     echo "<td>{$recurrence}</td>";
                                                     echo "<td>{$date}</td>";
                                                     echo "<td>{$dategen}</td>";
-                                                    echo "<td></td>";
-                                                    echo "<td class='text-center p-0'><a href='./include/dFinance.php?id={$finance['id']}' class='d-block'>
+                                                    echo "<td><a onclick='loadFinanceData({$finance['id']})' href='#' aria-controls='ocNewRecord' data-bs-toggle='offcanvas' data-bs-target='#ocTemplate' class='d-block'>
+                                                                <i data-feather='edit'></i></a>
+                                                        </td>";
+                                                    echo "<td><a href='./include/dFinance.php?id={$finance['id']}' class='d-block'>
                                                             <i class='text-danger' data-feather='trash-2'></i></a>
                                                         </td>";
                                                     echo "</tr>";
@@ -172,11 +201,6 @@ include_once './include/functions.php';
                                             ?>
                                         </tbody>
                                     </table>
-                                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                        data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right
-                                        offcanvas</button>
-                                    
-
                                 </div>
                             </div>
                         </div>
@@ -187,6 +211,11 @@ include_once './include/functions.php';
             include './include/offcanvaRegisterFinance.php';
             include '../include/footer.php';
             ?>
+        </div>
+    </div>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="ocTemplate" aria-labelledby="ocTemplate">
+        <div class="offcanvas-body offcanvas-loading">
+            <i class='fa-spin fa fa-spinner'></i> Carregando...
         </div>
     </div>
 
@@ -234,6 +263,28 @@ include_once './include/functions.php';
                 })
                 checkCheckbox();
             }
+        }
+        function loadFinanceData(id) {
+            let url = 'include/cAjaxFinance.php';
+            var request = $.ajax({
+                url,
+                data: { id },
+                method: "GET",
+                dataType: "html",
+                beforeSend: function () {
+                    $("#ocTemplate").html(`<div class="offcanvas-body offcanvas-loading">
+                                                <i class='fa-spin fa fa-spinner'></i> Carregando...
+                                            </div>`);
+                }
+            });
+            request.done(function (data) {
+                console.log(data)
+                $("#ocTemplate").html(data);
+            });
+            request.fail(function (jqXHR, textStatus) {
+                $("#ocTemplate").html("Request failed: " + textStatus);
+            });
+
         }
     </script>
     <!-- FeatherIcons -->

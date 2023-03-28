@@ -15,21 +15,25 @@ function categories() {
 
   return $result;
 }
-function dataFinance($userId) {
+function dataFinance($userId, $id = null) {
   global $con;
 
   $sql = "SELECT 
             f.id,
-            c.descricao AS categoria,
             f.valor,
             f.descricao AS descFinanca,
             f.pagamento,
             f.recorrente,
             f.data,
-            f.datager
+            f.datager,
+            c.tipo,
+            c.descricao AS categoria
         FROM financa f
         INNER JOIN categoria c ON (c.id = f.idcategoria)
         WHERE idusuario = $userId";
+  if($id){
+    $sql .= " AND f.id = $id ";
+  }
 
   $query = mysqli_query($con, $sql);
   $rows = mysqli_num_rows($query);
@@ -67,10 +71,45 @@ function registerFinance($fields){
 
   return $id;
 }
+function updateFinance($fields){
+  global $con;
+  $recurrent = $fields['recurrent'] == 'u' ? 'n' : 's';
+
+  $update = "UPDATE financa SET 
+                idcategoria = ?, 
+                valor = ?, 
+                descricao = ?, 
+                pagamento = ?, 
+                recorrente = ?, 
+                data = ?
+            where id = ?";
+
+  $prepareUpdate = mysqli_prepare($con, $update);
+  mysqli_stmt_bind_param($prepareUpdate, 'idssssi', $fieldCategory, $fieldValue, $fieldDesc, $fieldPayment, $fieldRecurrent, $fieldDate, $fieldId);
+
+  $fieldCategory = $fields['idcategory'];
+  $fieldValue = $fields['value'];
+  $fieldDesc = $fields['description'];
+  $fieldPayment = $fields['payment'];
+  $fieldRecurrent = $recurrent;
+  $fieldDate = $fields['date'];
+  $fieldId = $fields['id'];
+
+  $result = mysqli_stmt_execute($prepareUpdate);
+  if(!$result){
+    mysqli_stmt_close($prepareUpdate);
+    return false;
+  }
+  $rows = mysqli_stmt_affected_rows($prepareUpdate);
+  mysqli_stmt_close($prepareUpdate);
+
+  return $result;
+}
 function registerRecurrence($id, $recurrence){
 
   return;
 }
+
 function deleteFinance($id, $mult = false){
   global $con;
 

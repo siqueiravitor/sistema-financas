@@ -9,9 +9,15 @@ function mask($str, $mask){ // mask($cpf,'###.###.###-##');
 }
 
 function moneyToFloat($str){
-    $simbolRemove = str_replace('R$', '', $str);
-    $spaceRemove = substr($simbolRemove, 2); // Remove ghost space
-    $float = str_replace('.', '', $spaceRemove);
+    $simbolRemove = explode('R$ ', $str);
+    if(!isset($simbolRemove[1])){
+        $simbolRemove = str_replace('R$', '', $str);
+        $simbolRemove = substr($simbolRemove, 2); // Remove ghost space
+    } else {
+        $simbolRemove = $simbolRemove[1];
+    }
+    
+    $float = str_replace('.', '', $simbolRemove);
     $floatValue = str_replace(',', '.', $float);
     
     return $floatValue;
