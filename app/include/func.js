@@ -44,5 +44,5 @@ function divError(statusError){
 
 var divLoading =
     `<div class="offcanvas-body offcanvas-loading">
-    <i class='fa-spin fa fa-spinner'></i> Carregando...
+    <i class='fa-spin fa fa-spinner'></i> <strong>Carregando...</strong>
 </div>`;

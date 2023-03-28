@@ -5,42 +5,54 @@ include '../../functions/func.php';
 include '../../config/connMysql.php';
 include './functions.php';
 
-$date = dateConvert($_POST['date'], '/', '-', true);
+// Unique payment
+$date = dateConvert($_POST['date'], '/', '-');
 $value = moneyToFloat($_POST['value']);
 $category = $_POST['category'];
-$recurrence = $_POST['recurrence'];
+$recurrent = $_POST['recurrent'];
 $description = empty($_POST['description']) ? null : $_POST['description'];
 $payment = empty($_POST['payment']) ? null : $_POST['payment'];
 
-$dataFinance = [
+// Payment in installment
+$valueInstallment = isset($_POST['valueInstallment']) ? $_POST['valueInstallment'] : null;
+$installment = isset($_POST['installment']) ? $_POST['installment'] : null;
+$categoryRecurrence = isset($_POST['categoryRecurrence']) ? $_POST['categoryRecurrence'] : null;
+$recurrence = isset($_POST['recurrence']) ? $_POST['recurrence'] : null;
+$period = isset($_POST['period']) ? $_POST['period'] : null;
+$dateEnd = isset($_POST['dateEnd']) ? $_POST['dateEnd'] : null;
+$status = isset($_POST['status']) ? $_POST['status'] : null;
+
+$data['finance'] = [
     'iduser' => $_SESSION['id'],
     'idcategory' => $category,
     'value' => $value,
     'description' => $description,
     'payment' => $payment,
-    'recurrent' => $recurrence,
+    'recurrent' => $recurrent,
     'date' => $date
 ];
 
-echo "<PRE>";
-print_r($dataFinance);
+if ($id = registerFinance($data['finance'])) {
+    $msg = 'Dados registrados';
 
-print_r($_POST);
-
-return;
-
-if ($id = registerFinance($dataFinance)) {
     if ($recurrence != 'u') {
-        $dataRecurrence =[
-            'idfinance' => $id
+        $dateEnd = !empty($dateEnd) ? dateConvert($dateEnd, '/', '-') : null; 
+        $valueInstallment = !empty($valueInstallment) ? moneyToFloat($valueInstallment) : $value; 
+        $data['recurrence'] = [
+            'idfinance' => $id,
+            'valueInstallment' => $valueInstallment,
+            'installment' => $installment,
+            'categoryRecurrence' => $categoryRecurrence,
+            'recurrence' => $recurrence,
+            'period' => $period,
+            'status' => $status,
+            'dateEnd' => dateConvert($dateEnd, '/', '-'),
         ];
-        array_unshift($result, $dataRecurrence);
-        registerRecurrence($fields);
-        return;
+        if(!registerRecurrence($data['recurrence'])) {
+            $msg = 'Erro ao registrar recorrência';
+        }
     }
     mysqli_close($con);
-
-    $msg = 'Dados registrados';
 } else {
     $msg = 'Erro ao registrar dados';
     $msg .= "&alert=1";

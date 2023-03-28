@@ -42,19 +42,11 @@ include_once './include/functions.php';
             $("#management-table").dataTable({
                 "aaSorting": [],
                 "columnDefs": [{
-                    "targets": [0, 8, 9],
+                    "targets": [0, 9, 10, 11],
                     "orderable": false
                 }]
             });
             $(".select2").select2();
-
-            $('#formRegister').on('submit', function (e) {
-                let value = $('#value').val();
-                let date = $('#date').val();
-                if (!value || !date) {
-                    e.preventDefault();
-                }
-            });
         });
     </script>
     <style>
@@ -69,12 +61,17 @@ include_once './include/functions.php';
             border-right: 1px solid var(--color-border-lighter) !important;
         }
 
+        td:nth-last-child(3),
+        th:nth-last-child(3),
         td:nth-last-child(2),
-        th:nth-last-child(2),
-        td:last-child,
-        th:last-child {
+        th:nth-last-child(2) {
             text-align: center;
             border-left: 1px solid var(--color-border-lighter) !important;
+            border-right: 1px solid var(--color-border-lighter) !important;
+        }
+
+        td a {
+            color: var(--color-info)
         }
     </style>
 </head>
@@ -96,7 +93,6 @@ include_once './include/functions.php';
                     echo montaAlert($alert, $_GET["msg"]);
 
                 }
-                echo 'PHP version: ' . phpversion();
                 ?>
                 <div class="row">
                     <div class="col-md-12">
@@ -134,72 +130,7 @@ include_once './include/functions.php';
 
                                     <table id="management-table"
                                         class="table table-sm table-hover table-striped text-center">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th>Tipo</th>
-                                                <th>Valor</th>
-                                                <th>Categoria</th>
-                                                <th>Descrição</th>
-                                                <th>Pagamento</th>
-                                                <th>Recorrente</th>
-                                                <th>Data</th>
-                                                <th>Gerado</th>
-                                                <th></th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $userId = $_SESSION['id'];
-                                            $finances = dataFinance($userId);
-                                            if ($finances[0] > 0) {
-                                                array_shift($finances);
-                                                foreach ($finances as $finance) {
-                                                    $date = dateConvert($finance['data'], '-', '/', true);
-                                                    $dategen = dateConvert($finance['datager'], '-', '/', true);
-                                                    $recurrence = $finance['recorrente'] == 's' ? "Sim" : "Não";
-                                                    $value = floatToMoney($finance['valor']);
-                                                    $tipo = $finance['tipo'] == 'e' ? 'Entrada' : 'Saída ';
-                                                    $payment = $finance['pagamento'];
-                                                    if ($payment == 'p') {
-                                                        $payment = 'Pix';
-                                                    } elseif ($payment == 'd') {
-                                                        $payment = 'Dinheiro';
-                                                    } elseif ($payment == 'cd') {
-                                                        $payment = 'Crédito';
-                                                    } elseif ($payment == 'cc') {
-                                                        $payment = 'Débito';
-                                                    }
-                                                    // $payment = match($payment){
-                                                    //     'p' => "Pix",
-                                                    //     'd' => "Dinheiro",
-                                                    //     'cd' => "Crédito",
-                                                    //     'cc' => "Débito",
-                                                    //     default => ""
-                                                    // };
-                                            
-                                                    echo "<tr>";
-                                                    echo "<td class='checkboxArea'><input type='checkbox' value='" . $finance['id'] . "' class='checkRegister' onchange='checkCheckbox()'></td>";
-                                                    echo "<td>{$tipo}</td>";
-                                                    echo "<td>{$value}</td>";
-                                                    echo "<td>{$finance['categoria']}</td>";
-                                                    echo "<td style='white-space: normal'>{$finance['descFinanca']}</td>";
-                                                    echo "<td>{$payment}</td>";
-                                                    echo "<td>{$recurrence}</td>";
-                                                    echo "<td>{$date}</td>";
-                                                    echo "<td>{$dategen}</td>";
-                                                    echo "<td><a onclick='loadFinanceData({$finance['id']})' href='#' aria-controls='ocNewRecord' data-bs-toggle='offcanvas' data-bs-target='#ocTemplate' class='d-block'>
-                                                                <i data-feather='edit'></i></a>
-                                                        </td>";
-                                                    echo "<td><a href='./include/dFinance.php?id={$finance['id']}' class='d-block'>
-                                                            <i class='text-danger' data-feather='trash-2'></i></a>
-                                                        </td>";
-                                                    echo "</tr>";
-                                                }
-                                            }
-                                            ?>
-                                        </tbody>
+                                        <?php include './include/tableFinance.php' ?>
                                     </table>
                                 </div>
                             </div>
@@ -208,14 +139,10 @@ include_once './include/functions.php';
                 </div>
             </div>
             <?php
-            include './include/offcanvaRegisterFinance.php';
+            include './include/canvaRegisterFinance.php';
             include '../include/footer.php';
+            include '../include/offcanva.php';
             ?>
-        </div>
-    </div>
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="ocTemplate" aria-labelledby="ocTemplate">
-        <div class="offcanvas-body offcanvas-loading">
-            <i class='fa-spin fa fa-spinner'></i> Carregando...
         </div>
     </div>
 
@@ -266,9 +193,11 @@ include_once './include/functions.php';
         }
         // A j a x
         function recurrenceOptions(value) {
-            let url = './include/offcanvaRegisterUnique.php';
-            if (value !== 'u') {
-                url = './include/offcanvaRegisterInstallment.php';
+            let url = './include/cAjaxCanvaRegisterUnique.php';
+            if (value === 'f') {
+                url = './include/cAjaxCanvaRegisterFixed.php';
+            } else if (value === 'i') {
+                url = './include/cAjaxCanvaRegisterInstallment.php';
             }
 
             var request = $.ajax({
@@ -290,8 +219,8 @@ include_once './include/functions.php';
             });
         }
         function loadFinanceData(id) {
-            let url = 'include/cAjaxEditFinance.php';
-            var request = $.ajax({
+            let url = './include/cAjaxEditFinance.php';
+            const request = $.ajax({
                 url,
                 data: { id },
                 method: "GET",
@@ -302,13 +231,31 @@ include_once './include/functions.php';
             });
             request.done(function (data) {
                 $("#ocTemplate").html(data);
-                
+
                 $(".select2").select2('destroy');
                 $(".select2").select2();
                 $(".date").datepicker('refresh');
             });
             request.fail(function (jqXHR, textStatus) {
                 $("#ocTemplate").html(divError(textStatus));
+            });
+        }
+        function infoFinance(id) {
+            let url = './include/cAjaxFinance.php';
+            const request = $.ajax({
+                url,
+                data: { id },
+                method: "GET",
+                dataType: "html",
+                beforeSend: function () {
+                    $("#ocTemplate").html(divLoading);
+                }
+            });
+            request.done(function (data) {
+                $("#divBodyFinance").html(data);
+            });
+            request.fail(function (jqXHR, textStatus) {
+                $("#ocNewRecord").html(divError(textStatus));
             });
         }
         // A j a x End

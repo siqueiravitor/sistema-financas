@@ -57,7 +57,7 @@ $diaSemana = date('w'); // Domingo = 0
                             </ul>
                         </div>
                         <div class='col-md-12'>
-
+                            <?= 'PHP version: ' . phpversion() ?>
                         </div>
                     </div>
                 </div>

@@ -7,13 +7,13 @@
             aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <form method="POST" action="./include/rFinance.php" id="formRegister">
+        <form method="POST" action="./include/rFinance.php" id="formRegister" >
             <div class="form-group">
                 <small> <b> Repetição</b> </small>
-                <select class="form-control select2" name="recurrence" onchange='recurrenceOptions(this.value)'>
+                <select class="form-control select2" name="recurrent" onchange='recurrenceOptions(this.value)'>
                     <option value="u">Única</option>
                     <option value="f">Fixa</option>
-                    <option value="p">Parcelada</option>
+                    <option value="i">Parcelada</option>
                 </select>
             </div>
 
@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <small><b>Valor</b></small>
                     <input class="form-control" id="value" placeholder="R$ 0,00" name="value" onkeyup="moneyMask(this)"
-                        required>
+                        >
                 </div>
                 <div class="form-group">
                     <small> <b> Categoria</b> </small>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="form-group">
                     <small> <b> Data</b> </small>
-                    <input class="form-control date" id="date" name="date" value="<?= date('d/m/Y') ?>" required>
+                    <input class="form-control date" id="date" name="date" value="<?= date('d/m/Y') ?>" >
                 </div>
                 <div class="form-group">
                     <small> <b> Pagamento </b> </small>
@@ -74,11 +74,10 @@
                     <small> <b> Descrição </b> </small>
                     <textarea class="form-control" name="description"></textarea>
                 </div>
+            </div>
 
-
-                <div class="text-center">
-                    <button class="btn w-100 btn-success space-1">Registrar</button>
-                </div>
+            <div class="text-center">
+                <button class="btn w-100 btn-success space-1">Registrar</button>
             </div>
         </form>
     </div>

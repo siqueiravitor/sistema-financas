@@ -21,8 +21,8 @@ function recurrence($id = null) {
   $sql = "SELECT 
             id,
             descricao,
-            periodo
-        FROM tiporecorrencia ";
+            valor
+        FROM periodo ";
   if($id){
     $sql .= " where id = $id "; 
   }
@@ -90,22 +90,27 @@ function registerFinance($fields){
 }
 function registerRecurrence($fields){
   global $con;
-  $insert = "INSERT INTO recorrencia (idfinanca, idtiporecorrencia, valor, recorrencia, parcelas, datafim, dataupdate, status) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  $insert = "INSERT INTO recorrencia (idfinanca, idperiodo, valor, recorrencia, parcelas, datafim, status) 
+    VALUES (?, ?, ?, ?, ?, ?, ?)";
 
   $prepareInsert = mysqli_prepare($con, $insert);
-  mysqli_stmt_bind_param($prepareInsert, 'iidsssss', $idfinanca, $idtiporecorrencia, $valor, $recorrencia, $parcelas, $datafim, $dataupdate, $status);
+  mysqli_stmt_bind_param($prepareInsert, 'iisssss', $idfinance, $idperiodo, $valor, $recorrencia, $parcelas, $datafim, $status);
 
-  $idfinanca = $fields['idfinanca'];
-  $idtiporecorrencia = $fields['idtiporecorrencia'];
-  $valor = $fields['value'];
-  $recorrencia = $fields['value'];
-  $parcelas = $fields['description'];
-  $datafim = $fields['payment'];
-  $dataupdate = $fields['payment'];
-  $status = $fields['date'];
-
-  return;
+  $idfinance = $fields['idfinance'];
+  $idperiodo = $fields['period'];
+  $valor = $fields['valueInstallment'];
+  $recorrencia = $fields['recurrence'];
+  $parcelas = $fields['installment'];
+  $datafim = $fields['dateEnd'];
+  $status = $fields['status'];
+  
+  $result = mysqli_stmt_execute($prepareInsert);
+  if(!$result){
+    mysqli_stmt_close($prepareInsert);
+    return false;
+  }
+  mysqli_stmt_close($prepareInsert);
+  return true;
 }
 // U p d a t e
 function updateFinance($fields){

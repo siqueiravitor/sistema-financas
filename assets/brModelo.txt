@@ -86,34 +86,30 @@ cd - Cartão de Débito
 cc - Cartão de Crédito
 */
 
-CREATE TABLE tiporecorrencia (
+CREATE TABLE periodo (
 	id int(11) AUTO_INCREMENT PRIMARY KEY,
 	descricao varchar(255),
-	periodo varchar(255)
+	valor varchar(255)
 );
-insert into tiporecorrencia values (1, 'Diário', '+1day');
-insert into tiporecorrencia values (2, 'Semanal', '+1week');
-insert into tiporecorrencia values (3, 'Quinzenal', '+15day');
-insert into tiporecorrencia values (4, 'Mensal', '+1month');
-insert into tiporecorrencia values (5, 'Bimestral', '+2month');
-insert into tiporecorrencia values (6, 'Trimestral', '+3month');
-insert into tiporecorrencia values (7, 'Semestral', '+6month');
-insert into tiporecorrencia values (8, 'Anual', '+1year');
+insert into periodo values (1, 'Diário', 'day');
+insert into periodo values (2, 'Semanal', 'week');
+insert into periodo values (3, 'Mensal', 'month');
+insert into periodo values (4, 'Anual', 'year');
 
 CREATE TABLE recorrencia (
 	id int(11) AUTO_INCREMENT PRIMARY KEY,
 	idfinanca int(11),
-	idtiporecorrencia int(11),
+	idperiodo int(11),
 	valor float(11,2),
 	recorrencia int(11),
 	parcelas int(11),
 	datager date DEFAULT NOW(),
 	datafim date,
-	dataupdate date,
+	dataupdate date DEFAULT NOW(),
 	status enum('p','a','f'),
     
     FOREIGN KEY(idfinanca) REFERENCES financa (id),
-    FOREIGN KEY(idtiporecorrencia) REFERENCES tiporecorrencia (id)
+    FOREIGN KEY(idperiodo) REFERENCES periodo (id)
 );
 
 /* status

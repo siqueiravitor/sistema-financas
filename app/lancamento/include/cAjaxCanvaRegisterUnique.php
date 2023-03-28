@@ -7,7 +7,7 @@ include_once '../include/functions.php';
 ?>
 <div class="form-group">
     <small><b>Valor</b></small>
-    <input class="form-control" id="value" placeholder="R$ 0,00" name="value" onkeyup="moneyMask(this)" required>
+    <input class="form-control" id="value" placeholder="R$ 0,00" name="value" onkeyup="moneyMask(this)" >
 </div>
 <div class="form-group">
     <small> <b> Categoria</b> </small>
@@ -31,7 +31,7 @@ include_once '../include/functions.php';
 </div>
 <div class="form-group">
     <small> <b> Data</b> </small>
-    <input class="form-control" id="date" name="date" value="<?= date('d/m/Y') ?>" required>
+    <input class="form-control" id="date" name="date" value="<?= date('d/m/Y') ?>" >
 </div>
 <div class="form-group">
     <small> <b> Pagamento </b> </small>
@@ -58,10 +58,5 @@ include_once '../include/functions.php';
 </div>
 <div class="form-group">
     <small> <b> Descrição </b> </small>
-    <textarea class="form-control" name="description"></textarea>
-</div>
-
-
-<div class="text-center">
-    <button class="btn w-100 btn-success space-1">Registrar</button>
+    <textarea class="form-control" name="description" required></textarea>
 </div>

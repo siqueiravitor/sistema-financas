@@ -28,7 +28,7 @@ function floatToMoney($amount, $currency = 'R$') {
 }
 
 
-function dateConvert($dt, $separator, $separate, $reverse = false) {
+function dateConvert($dt, $separator, $separate, $reverse = true) {
     $data = explode($separator, $dt); //[2019][06][29]
     $reverse ? $data = array_reverse($data) : ''; // [29][06][2019]
     $dt = implode($separate, $data);
