@@ -49,7 +49,7 @@ include_once '../include/functions.php';
     <small> <b> Recorrência</b> </small>
     <select class="form-control select2" name="recurrence" id='recurrenceSelect' disabled>
         <?php
-        $recurrences = recurrence();
+        $recurrences = period();
         foreach ($recurrences as $recurrence) {
             echo "<option value='$recurrence[0]'>$recurrence[1]</option>";
         }

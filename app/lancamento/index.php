@@ -241,7 +241,7 @@ include_once './include/functions.php';
             });
         }
         function infoFinance(id) {
-            let url = './include/cAjaxFinance.php';
+            let url = './include/cAjaxModalFinance.php';
 
             const request = $.ajax({
                 url,

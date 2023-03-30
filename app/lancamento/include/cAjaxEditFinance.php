@@ -78,7 +78,7 @@ $finance = dataFinance($userId, $id)[1];
 
         <div class="form-group">
             <small> <b> Descrição </b> </small>
-            <textarea class="form-control" name="description"><?= $finance['descFinanca'] ?></textarea>
+            <textarea class="form-control" name="description"><?= $finance['descricaoFinanca'] ?></textarea>
         </div>
 
         <div class="row">

@@ -15,13 +15,13 @@ function categories() {
 
   return $result;
 }
-function recurrence($id = null) {
+function period($id = null) {
   global $con;
 
   $sql = "SELECT 
             id,
-            descricao,
-            valor
+            valor,
+            descricao
         FROM periodo ";
   if($id){
     $sql .= " where id = $id "; 
@@ -32,18 +32,30 @@ function recurrence($id = null) {
 
   return $result;
 }
+
 function dataFinance($userId, $id = null) {
   global $con;
 
   $sql = "SELECT 
             f.id,
             f.valor,
-            f.descricao AS descFinanca,
-            f.pagamento,
-            f.recorrente,
+            f.descricao AS descricaoFinanca,
+            CASE 
+              WHEN f.pagamento = 'd'  THEN 'Dinheiro'
+              WHEN f.pagamento = 'cc' THEN 'Crédito'
+              WHEN f.pagamento = 'cd' THEN 'Débito'
+              ELSE 'Pix'
+            END as pagamento,
+            CASE 
+				        WHEN f.recorrente = 's' THEN 'Sim'
+                ELSE 'Não'
+			      END as recorrente,
             f.data,
             f.datager,
-            c.tipo,
+            CASE 
+              WHEN c.tipo = 's' THEN 'Sim'
+              ELSE 'Não'
+            END as tipo,
             c.descricao AS categoria
         FROM financa f
         INNER JOIN categoria c ON (c.id = f.idcategoria)
@@ -56,6 +68,56 @@ function dataFinance($userId, $id = null) {
   $rows = mysqli_num_rows($query);
   $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
   array_unshift($result , $rows);
+
+  return $result;
+}
+function recurrence($userId, $id) {
+  global $con;
+
+  $sql = "SELECT 
+            f.id,
+            f.valor,
+            f.descricao AS descricaoFinanca,
+            CASE 
+              WHEN f.pagamento = 'd'  THEN 'Dinheiro'
+              WHEN f.pagamento = 'cc' THEN 'Crédito'
+              WHEN f.pagamento = 'cd' THEN 'Débito'
+              ELSE 'Pix'
+            END as pagamento,
+            CASE
+              WHEN f.recorrente = 's' THEN 'Sim'
+                  ELSE 'Não'
+            END as recorrente,
+            f.data,
+            f.datager,
+    
+            CASE 
+              WHEN c.tipo = 's' THEN 'Sim'
+                  ELSE 'Não'
+            END as tipo,
+            c.descricao AS categoria,
+    
+            r.valor as valorParcelas,
+            r.recorrencia,
+            r.parcelas,
+            CASE 
+              WHEN r.status = 'p' THEN 'Pendente'
+              WHEN r.status = 'f' THEN 'Finalizado'
+              WHEN r.status = 'c' THEN 'Cancelado'
+              ELSE 'Em andamento'
+            END as statusRecorrecencia,
+
+            p.descricao as periodo,
+            p.valor as valorPeriodo
+          FROM financa f
+          INNER JOIN categoria c ON (c.id = f.idcategoria)
+          INNER JOIN recorrencia r ON (r.idfinanca = f.id)
+          INNER JOIN periodo p ON (p.id = r.idperiodo)
+          WHERE idusuario = $userId
+          AND f.id = $id ";  
+
+  $query = mysqli_query($con, $sql);
+  $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
   return $result;
 }

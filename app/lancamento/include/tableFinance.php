@@ -24,27 +24,14 @@
             $date = dateConvert($finance['data'], '-', '/', true);
             $dategen = dateConvert($finance['datager'], '-', '/', true);
             $value = floatToMoney($finance['valor']);
-            $tipo = $finance['tipo'] == 'e' ? 'Entrada' : 'Saída ';
 
-            $recurrence = "Não";
             $recurrentInfo = "";
-            if($finance['recorrente'] == 's'){
-                $recurrence = "Sim";
+            if($finance['recorrente'] == 'Sim'){
                 $recurrentInfo = "<a onclick='infoFinance({$finance['id']})' href='#' data-bs-toggle='modal' 
                 data-bs-target='#modalTemplate' class='d-block'>
                 <i data-feather='eye'></i></a>";
             }
             
-            $payment = $finance['pagamento'];
-            if ($payment == 'p') {
-                $payment = 'Pix';
-            } elseif ($payment == 'd') {
-                $payment = 'Dinheiro';
-            } elseif ($payment == 'cd') {
-                $payment = 'Crédito';
-            } elseif ($payment == 'cc') {
-                $payment = 'Débito';
-            }
             // $payment = match($payment){
             //     'p' => "Pix",
             //     'd' => "Dinheiro",
@@ -55,12 +42,12 @@
     
             echo "<tr>";
             echo "<td class='checkboxArea'><input type='checkbox' value='" . $finance['id'] . "' class='checkRegister' onchange='checkCheckbox()'></td>";
-            echo "<td>{$tipo}</td>";
+            echo "<td>{$finance['tipo']}</td>";
             echo "<td>{$value}</td>";
             echo "<td>{$finance['categoria']}</td>";
-            echo "<td style='white-space: normal'>{$finance['descFinanca']}</td>";
-            echo "<td>{$payment}</td>";
-            echo "<td>{$recurrence}</td>";
+            echo "<td style='white-space: normal'>{$finance['descricaoFinanca']}</td>";
+            echo "<td>{$finance['pagamento']}</td>";
+            echo "<td>{$finance['recorrente']}</td>";
             echo "<td>{$date}</td>";
             echo "<td>{$dategen}</td>";
             echo "<td>{$recurrentInfo}</td>";

@@ -9,9 +9,9 @@ include_once '../include/functions.php';
     <small> <b> Período</b> </small>
     <select class="form-control select2" name="period">
         <?php
-        $recurrences = recurrence();
-        foreach ($recurrences as $recurrence) {
-            echo "<option value='$recurrence[0]'>$recurrence[1]</option>";
+        $periods = period();
+        foreach ($periods as $period) {
+            echo "<option value='$period[0]'>$period[1]</option>";
         }
         ?>
     </select>
