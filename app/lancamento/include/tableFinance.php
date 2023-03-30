@@ -30,8 +30,8 @@
             $recurrentInfo = "";
             if($finance['recorrente'] == 's'){
                 $recurrence = "Sim";
-                $recurrentInfo = "<a onclick='infoFinance({$finance['id']})' href='#' aria-controls='ocNewRecord' 
-                data-bs-toggle='offcanvas' data-bs-target='#ocTemplate' class='d-block'>
+                $recurrentInfo = "<a onclick='infoFinance({$finance['id']})' href='#' data-bs-toggle='modal' 
+                data-bs-target='#modalTemplate' class='d-block'>
                 <i data-feather='eye'></i></a>";
             }
             

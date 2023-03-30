@@ -242,20 +242,22 @@ include_once './include/functions.php';
         }
         function infoFinance(id) {
             let url = './include/cAjaxFinance.php';
+
             const request = $.ajax({
                 url,
                 data: { id },
                 method: "GET",
                 dataType: "html",
                 beforeSend: function () {
-                    $("#ocTemplate").html(divLoading);
+                    $("#modal-content").html(divLoading);
                 }
             });
             request.done(function (data) {
-                $("#divBodyFinance").html(data);
+                console.log(data)
+                $("#modal-content").html(data);
             });
             request.fail(function (jqXHR, textStatus) {
-                $("#ocNewRecord").html(divError(textStatus));
+                $("#modal-content").html(divError(textStatus));
             });
         }
         // A j a x End
