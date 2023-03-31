@@ -55,16 +55,16 @@ include_once './include/functions.php';
             height: .9rem !important;
         }
 
-        td:first-child,
-        th:first-child {
+        #management-table td:first-child,
+        #management-table th:first-child {
             text-align: center;
             border-right: 1px solid var(--color-border-lighter) !important;
         }
 
-        td:nth-last-child(3),
-        th:nth-last-child(3),
-        td:nth-last-child(2),
-        th:nth-last-child(2) {
+        #management-table td:nth-last-child(3),
+        #management-table th:nth-last-child(3),
+        #management-table td:nth-last-child(2),
+        #management-table th:nth-last-child(2) {
             text-align: center;
             border-left: 1px solid var(--color-border-lighter) !important;
             border-right: 1px solid var(--color-border-lighter) !important;

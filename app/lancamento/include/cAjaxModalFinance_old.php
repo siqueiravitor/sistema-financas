@@ -21,31 +21,25 @@ $finance = recurrence($userId, $id)[0];
     </div>
 
     <div class="modal-body row space-1" id='modal-body'>
-        <div class='form-group col-md-4'>
-            <label>Valor das Parcelas:</label>
-            <span class='form-control'>
-                <?= $finance['valorParcelas'] ?>
+        <div class='form-group col-md-12'>
+            <label>Descrição:</label>
+            <span class='form-control h-auto'>
+                <?= $finance['descricaoFinanca'] ?>
             </span>
         </div>
         <div class='form-group col-md-3'>
-            <label>Parcelas:</label>
-            <span class='form-control'>
-                <?= $finance['parcelas'] ?>
-            </span>
-        </div>
-        <div class='form-group col-md-5'>
             <label>Pagamento:</label>
             <span class='form-control'>
                 <?= $finance['pagamento'] ?>
             </span>
         </div>
-        <div class='form-group col-md-5'>
+        <div class='form-group col-md-3'>
             <label>Categoria:</label>
             <span class='form-control'>
                 <?= $finance['categoria'] ?>
             </span>
         </div>
-        <div class='form-group col-md-4'>
+        <div class='form-group col-md-3'>
             <label>Período:</label>
             <span class='form-control'>
                 <?= $finance['periodo'] ?>
@@ -58,10 +52,19 @@ $finance = recurrence($userId, $id)[0];
             </span>
         </div>
         <div class='form-group col-md-12 row pr-0'>
-            <div class='form-group col-md-6 space-2 text-center'>
-                <label>Descrição:</label>
-                <textarea readonly class='form-control h-auto text-left' style='resize: none'
-                    rows='8'><?= $finance['descricaoFinanca'] ?></textarea>
+            <div class='col-6'>
+                <div class='form-group'>
+                    <label>Valor das Parcelas:</label>
+                    <span class='form-control'>
+                        <?= $finance['valorParcelas'] ?>
+                    </span>
+                </div>
+                <div class='form-group'>
+                    <label>Quantidade de Parcelas:</label>
+                    <span class='form-control'>
+                        <?= $finance['parcelas'] ?>
+                    </span>
+                </div>
             </div>
             <div class='col-md-6 border rounded p-0' id='divTableModalFinance'>
                 <table class='dataTable text-center w-100'>
@@ -112,12 +115,8 @@ $finance = recurrence($userId, $id)[0];
 </div>
 
 <style>
-    #divTableModalFinance::target-text,
-    #divTableModalFinance: {
-        border-color: var(--color-primary) !important;
-    }
     #divTableModalFinance {
-        max-height: 210px;
+        max-height: 215px;
         min-height: 140px;
         overflow: auto;
     }

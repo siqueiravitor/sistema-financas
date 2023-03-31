@@ -1,6 +1,5 @@
 <?php
-function getUserIP()
-{
+function getUserIP(){
     $client = @$_SERVER['HTTP_CLIENT_IP'];
     $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
     $remote = $_SERVER['REMOTE_ADDR'];
@@ -15,19 +14,45 @@ function getUserIP()
 
     return $ip;
 }
-
-function verifyUser($user, $password) {
+function verifyUser($user, $password){
     global $con;
 
-    $sql = "SELECT id, nome, email, status FROM usuario 
-    WHERE login = '$user' and senha = '$password' ";
-
+    $sql = "SELECT 
+                id, 
+                nome, 
+                email,
+                senha,
+                CASE
+                    WHEN status = 'i' THEN 'inativado'
+                    WHEN status in ('b1','b2') THEN 'bloqueado'
+                    ELSE 'a'
+                END as status
+            FROM usuario
+            WHERE login = '$user'";
+    
+    
     $query = mysqli_query($con, $sql);
-    $rows = mysqli_num_rows($query);
     $result = mysqli_fetch_all($query);
-    array_unshift($result , $rows);
-
     return $result;
+
+    if ($result) {
+        if ($result[4] != 'a') {
+            return ['error' => errors(2) . $result[4]];
+        }
+        if (md5($password) != $result[3]) {
+            return ['error' => errors(3)];
+        }
+    } else {
+        return ['error' => errors(1)];
+    }
+
+    $data = [
+        'id' => $result[0],
+        'nome' => $result[1],
+        'email' => $result[2],
+    ];
+
+    return $data;
 }
 
 function checkUserExists($user, $email){
@@ -44,9 +69,9 @@ function checkUserExists($user, $email){
 
 function createUser($fields){
     global $con;
-    
+
     $insert = "INSERT INTO usuario (nome, email, login, senha) VALUES (?, ?, ?, ?)";
-    
+
     $prepareInsert = mysqli_prepare($con, $insert);
     mysqli_stmt_bind_param($prepareInsert, 'ssss', $fieldName, $fieldEmail, $fieldLogin, $fieldPassword);
 
@@ -56,7 +81,7 @@ function createUser($fields){
     $fieldPassword = $fields['password'];
 
     $result = mysqli_stmt_execute($prepareInsert);
-    if(!$result){
+    if (!$result) {
         mysqli_stmt_close($prepareInsert);
         return false;
     }
@@ -65,3 +90,19 @@ function createUser($fields){
 
     return $id;
 }
+
+function errors($idx = 0){
+    $error = [
+        1 => 'Usuário não encontrado',
+        2 => 'Usuário ',
+        3 => 'Senha inválida'
+    ];
+
+    return $error[$idx];
+}
+
+// if(empty(trim($_POST["username"]))){
+//     $username_err = "Por favor coloque um nome de usuário.";
+// } elseif(!preg_match('/^[a-zA-Z0-9_]+$/', trim($_POST["username"]))){
+//     $username_err = "O nome de usuário pode conter apenas letras, números e sublinhados.";
+// } 

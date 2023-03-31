@@ -5,9 +5,9 @@ $user = 'root';
 $pass = '';
 $shma = 'financa';
 
-$con = mysqli_connect($host, $user, $pass, $shma);
-
-if (!$con) {
+try{
+    $con = mysqli_connect($host, $user, $pass, $shma);
+} catch (Exception $e){
     printf("Connect failed: %s\n", mysqli_connect_error());
     $msg = "Database failed: Sistema fora do ar";
     exit(header("Location: ../?msg=$msg"));
