@@ -1,5 +1,6 @@
 <?php
 include_once '../config/config.php';
+include_once '../config/seguranca.php';
 include_once '../config/connMysql.php';
 
 ?>

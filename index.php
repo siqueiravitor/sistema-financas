@@ -77,7 +77,7 @@
                 <div class='text-center'>
                     ©
                     <?= date("Y") . " | E-Finanças | Desenvolvido por " ?><a
-                        href='https://syntaxweb.com.br'>SyntaxWeb</a>
+                        href='#'>WebVoid</a>
                 </div>
             </small>
         </div>

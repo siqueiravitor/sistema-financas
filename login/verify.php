@@ -13,28 +13,28 @@ $password = mysqli_escape_string($con, $_POST['password']);
 // $user = filter_var($_POST['user'], FILTER_SANITIZE_STRING);
 // $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
 // if(password_verify($password, SENHA DO BANCO DE DADOS DO USUÁRIO));
-echo "<pre>";
-print_r(verifyUser($user, $password));
-return;
 
-
+// echo "USER $user - PASSWORD $password" . "<BR>";
+// print_r(verifyUser($user, $password));
+// return;
 if (!$user || !$password) {
     $msg = "Preencha todos os campos";
 } else {
     if ($data = verifyUser($user, $password)) {
         if (!$data['error']) {
-            setcookie("SESSION", 'AUTH', 0, '/');
             setcookie("USER_SESSION", $user, time() + (3600 * 1), '/');
+            setcookie("SESSION", 'AUTH', 0, '/');
+            authenticate($user);
 
             $_SESSION['empresa'] = 'SyntaxWeb';
-            $_SESSION['id'] = $data[0];
+            $_SESSION['id'] = $data['id'];
             $_SESSION['user'] = $user;
-            $_SESSION['name'] = $data[1];
-            $_SESSION['email'] = $data[2];
+            $_SESSION['name'] = $data['nome'];
+            $_SESSION['email'] = $data['email'];
             $_SESSION['timer'] = time();
 
             mysqli_close($con);
-            // exit(header('Location: ../app/permission.php'));
+            exit(header('Location: ../app/permission.php'));
         } else {
             $msg = $data['error'];
         }
@@ -42,5 +42,19 @@ if (!$user || !$password) {
         $msg = "Erro ao tentar se conectar";
     }
 }
+
+function authenticate($user){
+    $realm = 'Authorized users of webvoid.com.br';
+    $uri = '/sistema-financas';
+    $opaque = md5(uniqid());
+    $nonce = md5(uniqid());
+    $A1 = md5("$user:$realm");
+    $A2 = md5($_SERVER['REQUEST_METHOD'] . ":$uri");
+    $response = md5("$A1:$nonce:$A2");
+    $sprintf = sprintf('token: username="%s", realm="%s", nonce="%s", uri="%s", response="%s", opaque="%s"', $user, $realm, $nonce, $uri, $response, $opaque);
+    header($sprintf);
+    $_SESSION['token'] = base64_encode($sprintf);
+}
+
 mysqli_close($con);
 header("location: ../?msg=" . $msg);

@@ -1,8 +1,11 @@
 <?php
 include_once '../config/config.php';
 include_once '../functions/func.php';
+include_once '../config/seguranca.php';
 include_once '../config/connMysql.php';
 include_once './include/functions.php';
+
+$financeValues = financeValues();
 
 ?>
 <!doctype html>
@@ -73,6 +76,15 @@ include_once './include/functions.php';
         td a {
             color: var(--color-info)
         }
+
+        .card-info{
+            color: var(--color-light);
+            border-radius: 4px;
+        }
+        .moneyLabel{
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -95,6 +107,36 @@ include_once './include/functions.php';
                 }
                 ?>
                 <div class="row">
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body card-info bg-success">
+                                Lucros
+                                <div class='moneyLabel'>
+                                    <?= floatToMoney($financeValues['lucro']) ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body card-info bg-danger">
+                                Despesas
+                                <div class='moneyLabel'>
+                                    <?= floatToMoney($financeValues['despesa']) ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body card-info bg-info">
+                                Total
+                                <div class='moneyLabel'>
+                                    <?= floatToMoney($financeValues['total']) ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <div class="card shadow-sm">
                             <div class="card-body">

@@ -1,10 +1,8 @@
 <?php
-
 session_start();
 session_destroy();
+setcookie("SESSION", '', 1,'/'); 
 setcookie("USER_SESSION", '', 1,'/');
-$_SERVER['PHP_AUTH_USER'] = null;
-$_SERVER['PHP_AUTH_PW'] = null;
-
+unset($_SESSION);
 $msg = "Logout efetuado!";
 header("location:../?msg=" . $msg);

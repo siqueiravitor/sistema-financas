@@ -6,6 +6,7 @@ session_start();
 $msg = "Erro de sincronia";
 if ($data = dataSystem()) {
     $system = $data[1];
+
     if($data[0] > 0 && $system['status'] == 'a'){
         $url = 'http://localhost/'. $system['apelido'];
         $_SESSION['COMPANY'] = ucfirst($system['empresa']);

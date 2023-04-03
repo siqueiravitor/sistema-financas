@@ -11,7 +11,7 @@ include_once '../include/functions.php';
         <?php
         $periods = period();
         foreach ($periods as $period) {
-            echo "<option value='$period[0]'>$period[1]</option>";
+            echo "<option value='$period[0]'>$period[2]</option>";
         }
         ?>
     </select>
@@ -51,7 +51,7 @@ include_once '../include/functions.php';
 <div class="form-group">
     <small> <b> Pagamento </b> </small>
     <select class="form-control select2" name="payment">
-        <option value=""></option>
+        <option value="">n/a</option>
         <option value="d">Dinheiro</option>
         <option value="p">Pix</option>
         <optgroup label='Cartão'>

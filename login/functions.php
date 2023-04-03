@@ -30,10 +30,8 @@ function verifyUser($user, $password){
             FROM usuario
             WHERE login = '$user'";
     
-    
     $query = mysqli_query($con, $sql);
-    $result = mysqli_fetch_all($query);
-    return $result;
+    $result = mysqli_fetch_all($query)[0];
 
     if ($result) {
         if ($result[4] != 'a') {
@@ -94,7 +92,7 @@ function createUser($fields){
 function errors($idx = 0){
     $error = [
         1 => 'Usuário não encontrado',
-        2 => 'Usuário ',
+        2 => 'Usuário status: ',
         3 => 'Senha inválida'
     ];
 
