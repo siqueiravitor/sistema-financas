@@ -1,9 +1,15 @@
 <?php
-// verificar se página é um include, caso não, verificar se o acesso foi um request POST
-// if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+$uri = array_reverse(explode('/', $_SERVER['REQUEST_URI']));
+if($uri[0] == 'include' || $uri[1] == 'include') {
+    if (($_SERVER["REQUEST_METHOD"] == "POST" and empty($_SERVER['CONTENT_LENGTH']))
+    or ($_SERVER["REQUEST_METHOD"] == "GET" and !empty($_SERVER['QUERY_STRING']))){
+        exit(header("location: ../"));
+    }
+}
 
 if (!($data = token_parse($_SESSION['token']))) {
-    unauthorized('WebVoid');
+    unauthorized('SpiderCode');
 }
 
 function unauthorized($realm){
@@ -16,9 +22,7 @@ function unauthorized($realm){
     $msg = 'Credenciais inválidas!';
     exit(header("location: ../?msg=" . $msg));
 }
-// função para decompor o http auth header
 function token_parse($txt){
-    // proteção contra dados incompletos
     $needed_parts = array('nonce' => 1, 'username' => 1, 'uri' => 1, 'response' => 1, 'opaque' => 1, 'realm' => 1);
     $data = array();
     $keys = implode('|', array_keys($needed_parts));

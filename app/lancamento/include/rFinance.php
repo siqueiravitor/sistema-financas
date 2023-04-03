@@ -1,41 +1,43 @@
 <?php
 
 include '../../config/config.php';
+include '../../config/security.php';
 include '../../functions/func.php';
 include '../../config/connMysql.php';
 include './functions.php';
+$user = mysqli_escape_string($con, $_REQUEST['user']);
 
 // Unique payment
-$date = dateConvert($_POST['date'], '/', '-');
-$value = moneyToFloat($_POST['value']);
-$category = $_POST['category'];
-$recurrent = $_POST['recurrent'];
-$description = empty($_POST['description']) ? null : $_POST['description'];
-$payment = empty($_POST['payment']) ? null : $_POST['payment'];
-
-// Payment in installment
-$valueInstallment = isset($_POST['valueInstallment']) ? $_POST['valueInstallment'] : null;
-$installment = isset($_POST['installment']) ? $_POST['installment'] : null;
-$categoryRecurrence = isset($_POST['categoryRecurrence']) ? $_POST['categoryRecurrence'] : null;
-$recurrence = isset($_POST['recurrence']) ? $_POST['recurrence'] : null;
-$period = isset($_POST['period']) ? $_POST['period'] : null;
-$dateEnd = isset($_POST['dateEnd']) ? $_POST['dateEnd'] : null;
-$status = isset($_POST['status']) ? $_POST['status'] : null;
+$date = mysqli_escape_string($con, $_REQUEST['date']);
+$value = mysqli_escape_string($con, $_REQUEST['value']);
+$category = mysqli_escape_string($con, $_REQUEST['category']);
+$recurrent = mysqli_escape_string($con, $_REQUEST['recurrent']);
+$description = empty($_REQUEST['description']) ? null : mysqli_escape_string($con, $_REQUEST['description']);
+$payment = empty($_REQUEST['payment']) ? null : mysqli_escape_string($con, $_REQUEST['payment']);
 
 $data['finance'] = [
     'iduser' => $_SESSION['id'],
     'idcategory' => $category,
-    'value' => $value,
+    'value' => moneyToFloat($value),
     'description' => $description,
     'payment' => $payment,
     'recurrent' => $recurrent,
-    'date' => $date
+    'date' => dateConvert($date, '/', '-')
 ];
 
 if ($id = registerFinance($data['finance'])) {
     $msg = 'Dados registrados';
 
     if ($recurrence != 'u') {
+        // Payment in installment
+        $categoryRecurrence = isset($_REQUEST['categoryRecurrence']) ? mysqli_escape_string($con, $_REQUEST['categoryRecurrence']) : null;
+        $valueInstallment = isset($_REQUEST['valueInstallment']) ? mysqli_escape_string($con, $_REQUEST['valueInstallment']) : null;
+        $installment = isset($_REQUEST['installment']) ? mysqli_escape_string($con, $_REQUEST['installment']) : null;
+        $recurrence = isset($_REQUEST['recurrence']) ? mysqli_escape_string($con, $_REQUEST['recurrence']) : null;
+        $dateEnd = isset($_REQUEST['dateEnd']) ? mysqli_escape_string($con, $_REQUEST['dateEnd']) : null;
+        $period = isset($_REQUEST['period']) ? mysqli_escape_string($con, $_REQUEST['period']) : null;
+        $status = isset($_REQUEST['status']) ? mysqli_escape_string($con, $_REQUEST['status']) : null;
+
         $dateEnd = !empty($dateEnd) ? dateConvert($dateEnd, '/', '-') : null; 
         $valueInstallment = !empty($valueInstallment) ? moneyToFloat($valueInstallment) : $value; 
         $data['recurrence'] = [

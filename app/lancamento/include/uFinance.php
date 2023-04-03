@@ -1,26 +1,29 @@
 <?php
 
 include '../../config/config.php';
+include '../../config/security.php';
 include '../../functions/func.php';
 include '../../config/connMysql.php';
 include './functions.php';
 
-$id = $_POST['id'];
-$date = dateConvert($_POST['date'], '/', '-', true);
-$value = moneyToFloat($_POST['value']);
-$category = $_POST['category'];
-$recurrence = $_POST['recurrence'];
-$description = empty($_POST['description']) ? null : $_POST['description'];
-$payment = empty($_POST['payment']) ? null : $_POST['payment'];
+// Unique payment
+
+$id = $_REQUEST['id'];
+$date = mysqli_escape_string($con, $_REQUEST['date']);
+$value = mysqli_escape_string($con, $_REQUEST['value']);
+$category = mysqli_escape_string($con, $_REQUEST['category']);
+$recurrent = mysqli_escape_string($con, $_REQUEST['recurrent']);
+$description = empty($_REQUEST['description']) ? null : mysqli_escape_string($con, $_REQUEST['description']);
+$payment = empty($_REQUEST['payment']) ? null : mysqli_escape_string($con, $_REQUEST['payment']);
 
 $dataFinance = [
     'id' => $id,
     'idcategory' => $category,
-    'value' => $value,
+    'value' => moneyToFloat($value),
     'description' => $description,
     'payment' => $payment,
-    'recurrent' => $recurrence,
-    'date' => $date
+    'recurrent' => $recurrent,
+    'date' => dateConvert($date, '/', '-')
 ];
 $row = updateFinance($dataFinance);
 
