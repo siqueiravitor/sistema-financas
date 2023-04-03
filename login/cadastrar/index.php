@@ -48,7 +48,7 @@
                     </div>
                     <div class='text-center'>
                         <h4><span>E</span>-Finanças</h4>
-                        <h5 class="text-muted">SyntaxWeb</h5>
+                        <h5 class="text-muted">SpiderCode</h5>
                     </div>
                 </div>
             </div>
@@ -112,7 +112,7 @@
                 <div class='text-center'>
                     ©
                     <?= date("Y") . " | E-Finanças | Desenvolvido por " ?><a
-                        href='https://syntaxweb.com.br'>SyntaxWeb</a>
+                        href='https://spidercode.com.br'>SpiderCode</a>
                 </div>
             </small>
         </div>

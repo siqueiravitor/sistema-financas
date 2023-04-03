@@ -1,6 +1,6 @@
 <?php
 include './config/config.php';
-include './config/seguranca.php';
+include './config/security.php';
 include './config/connMysql.php';
 //require '../vendor/autoload.php';
 

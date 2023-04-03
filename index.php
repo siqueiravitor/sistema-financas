@@ -35,7 +35,7 @@
                     </div>
 
                     <h4><span>E</span>-Finanças</h4>
-                    <h5 class="text-muted">SyntaxWeb</h5>
+                    <h5 class="text-muted">SpiderCode</h5>
                 </div>
             </div>
             <div class="ph-fix">
@@ -77,7 +77,7 @@
                 <div class='text-center'>
                     ©
                     <?= date("Y") . " | E-Finanças | Desenvolvido por " ?><a
-                        href='#'>WebVoid</a>
+                        href='#'>SpiderCode</a>
                 </div>
             </small>
         </div>

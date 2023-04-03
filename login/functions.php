@@ -53,11 +53,11 @@ function verifyUser($user, $password){
     return $data;
 }
 
-function checkUserExists($user, $email){
+function checkUserExists($login, $email){
     global $con;
 
     $sql = "SELECT 1 status FROM usuario 
-    WHERE login = '$user' or email = '$email'";
+    WHERE login = '$login' or email = '$email'";
 
     $query = mysqli_query($con, $sql);
     $rows = mysqli_num_rows($query);
@@ -76,7 +76,7 @@ function createUser($fields){
     $fieldName = $fields['name'];
     $fieldEmail = $fields['email'];
     $fieldLogin = $fields['login'];
-    $fieldPassword = $fields['password'];
+    $fieldPassword = md5($fields['password']);
 
     $result = mysqli_stmt_execute($prepareInsert);
     if (!$result) {
@@ -92,8 +92,10 @@ function createUser($fields){
 function errors($idx = 0){
     $error = [
         1 => 'Usuário não encontrado',
-        2 => 'Usuário status: ',
-        3 => 'Senha inválida'
+        2 => 'Usuário ',
+        3 => 'Senha inválida',
+        4 => 'Email já cadastrado',
+        5 => 'Login já cadastrado'
     ];
 
     return $error[$idx];
