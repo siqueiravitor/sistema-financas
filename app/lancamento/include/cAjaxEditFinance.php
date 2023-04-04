@@ -51,30 +51,21 @@ $finance = dataFinance($userId, $id)[1];
         </div>
         <div class="form-group">
             <small> <b> Data</b> </small>
-            <input class="form-control" id="date" name="date" value="<?= date('d/m/Y') ?>"
+            <input class="form-control" id="date" name="date" value="<?= dateConvert($finance['data'], '-', '/') ?>"
                 value='<?= $finance['data'] ?>' required>
         </div>
         <div class="form-group">
             <small> <b> Pagamento </b> </small>
-            <select class="form-control select2" name="payment">
+            <select class="form-control select2" name="payment"> -->
                 <option value="" <?= empty($finance['pagamento']) ? 'selected' : null ?>></option>
-                <option value="b" <?= $finance['pagamento'] == 'd' ? 'selected' : null ?>>Dinheiro</option>
-                <option value="p" <?= $finance['pagamento'] == 'p' ? 'selected' : null ?>>Pix</option>
+                <option value="b" <?= $finance['pagamento'] == 'Dinheiro' ? 'selected' : null ?>>Dinheiro</option>
+                <option value="p" <?= $finance['pagamento'] == 'Pix' ? 'selected' : null ?>>Pix</option>
                 <optgroup label='Cartão'>
-                    <option value="c" <?= $finance['pagamento'] == 'cc' ? 'selected' : null ?>>Crédito</option>
-                    <option value="d" <?= $finance['pagamento'] == 'cd' ? 'selected' : null ?>>Débito</option>
+                    <option value="c" <?= $finance['pagamento'] == 'Crédito' ? 'selected' : null ?>>Crédito</option>
+                    <option value="d" <?= $finance['pagamento'] == 'Débito' ? 'selected' : null ?>>Débito</option>
                 </optgroup>
             </select>
         </div>
-        <div class="form-group">
-            <small> <b> Repetição</b> </small>
-            <select class="form-control select2" name="recurrence">
-                <option value="u" <?= $finance['recorrente'] == 'u' ? 'selected' : null ?>>Única</option>
-                <option value="f" <?= $finance['recorrente'] == 'f' ? 'selected' : null ?>>Fixa</option>
-                <option value="p" <?= $finance['recorrente'] == 'p' ? 'selected' : null ?>>Parcelada</option>
-            </select>
-        </div>
-
 
         <div class="form-group">
             <small> <b> Descrição </b> </small>

@@ -1,7 +1,6 @@
 <?php
 // C o n s u l t
-function categories()
-{
+function categories(){
   global $con;
 
   $sql = "SELECT 
@@ -16,8 +15,7 @@ function categories()
 
   return $result;
 }
-function period($id = null)
-{
+function period($id = null){
   global $con;
 
   $sql = "SELECT 
@@ -26,7 +24,7 @@ function period($id = null)
             descricao
         FROM periodo ";
   if ($id) {
-    $sql .= " where id = $id ";
+    $sql .= " WHERE id = $id ";
   }
 
   $query = mysqli_query($con, $sql);
@@ -50,8 +48,7 @@ function financeValues(){
   return $result;
 }
 
-function dataFinance($userId, $id = null)
-{
+function dataFinance($userId, $id = null){
   global $con;
 
   $sql = "SELECT 
@@ -89,8 +86,7 @@ function dataFinance($userId, $id = null)
 
   return $result;
 }
-function recurrence($userId, $id)
-{
+function recurrence($userId, $id){
   global $con;
 
   $sql = "SELECT 
@@ -105,14 +101,14 @@ function recurrence($userId, $id)
             END as pagamento,
             CASE
               WHEN f.recorrente = 's' THEN 'Sim'
-                  ELSE 'Não'
+              ELSE 'Não'
             END as recorrente,
             f.data,
             f.datager,
     
             CASE 
               WHEN c.tipo = 's' THEN 'Sim'
-                  ELSE 'Não'
+              ELSE 'Não'
             END as tipo,
             c.descricao AS categoria,
     
@@ -141,8 +137,7 @@ function recurrence($userId, $id)
   return $result;
 }
 // R e g i s t e r
-function registerFinance($fields)
-{
+function registerFinance($fields){
   global $con;
   $recurrent = $fields['recurrent'] == 'u' ? 'n' : 's';
 
@@ -170,8 +165,7 @@ function registerFinance($fields)
 
   return $id;
 }
-function registerRecurrence($fields)
-{
+function registerRecurrence($fields){
   global $con;
   $insert = "INSERT INTO recorrencia (idfinanca, idperiodo, valor, recorrencia, parcelas, datafim, status) 
     VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -196,55 +190,47 @@ function registerRecurrence($fields)
   return true;
 }
 // U p d a t e
-function updateFinance($fields)
-{
+function updateFinance($fields){
   global $con;
-  $recurrent = $fields['recurrent'] == 'u' ? 'n' : 's';
 
   $update = "UPDATE financa SET 
                 idcategoria = ?, 
                 valor = ?, 
                 descricao = ?, 
                 pagamento = ?, 
-                recorrente = ?, 
                 data = ?
-            where id = ?";
+            WHERE id = ?";
 
   $prepareUpdate = mysqli_prepare($con, $update);
-  mysqli_stmt_bind_param($prepareUpdate, 'idssssi', $fieldCategory, $fieldValue, $fieldDesc, $fieldPayment, $fieldRecurrent, $fieldDate, $fieldId);
+  mysqli_stmt_bind_param($prepareUpdate, 'idsssi', $fieldCategory, $fieldValue, $fieldDesc, $fieldPayment, $fieldDate, $fieldId);
 
   $fieldCategory = $fields['idcategory'];
   $fieldValue = $fields['value'];
   $fieldDesc = $fields['description'];
   $fieldPayment = $fields['payment'];
-  $fieldRecurrent = $recurrent;
   $fieldDate = $fields['date'];
   $fieldId = $fields['id'];
 
-  $result = mysqli_stmt_execute($prepareUpdate);
-  if (!$result) {
+  if (!mysqli_stmt_execute($prepareUpdate)) {
     mysqli_stmt_close($prepareUpdate);
     return false;
   }
-  $rows = mysqli_stmt_affected_rows($prepareUpdate);
   mysqli_stmt_close($prepareUpdate);
-
-  return $result;
+  return true;
 }
 
 // D e l e t e
-function deleteFinance($id, $mult = false)
-{
+function deleteFinance($id, $mult = false){
   global $con;
 
   $where = "= $id";
   if ($mult) {
-    $where = "in ($id)";
+    $where = "IN ($id)";
   }
   
-  $sqlRecorrencia = "DELETE FROM recorrencia where idfinanca $where";
+  $sqlRecorrencia = "DELETE FROM recorrencia WHERE idfinanca $where";
   if (mysqli_query($con, $sqlRecorrencia)) {
-    $sql = "DELETE FROM financa where id $where";
+    $sql = "DELETE FROM financa WHERE id $where";
   }
 
   $query = mysqli_query($con, $sql);

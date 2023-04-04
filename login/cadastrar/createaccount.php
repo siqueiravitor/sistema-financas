@@ -7,10 +7,10 @@ include '../functions.php';
 session_start();
 $_SESSION['ip'] = $user_ip = getUserIP();
 
-$name = mysqli_escape_string($con, $_REQUEST['name']);
-$email = mysqli_escape_string($con, $_REQUEST['email']);
-$login = mysqli_escape_string($con, $_REQUEST['user']);
-$password = mysqli_escape_string($con, $_REQUEST['password']);
+$name = mysqli_escape_string($con, $_POST['name']);
+$email = mysqli_escape_string($con, $_POST['email']);
+$login = mysqli_escape_string($con, $_POST['user']);
+$password = mysqli_escape_string($con, $_POST['password']);
 $nameFormat = ucwords(mb_strtolower($name));
 
 if (!$name || !$email || !$login || !$password) {

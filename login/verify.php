@@ -7,8 +7,8 @@ include './functions.php';
 session_start();
 $_SESSION['ip'] = $user_ip = getUserIP();
 
-$user = mysqli_escape_string($con, $_REQUEST['user']);
-$password = mysqli_escape_string($con, $_REQUEST['password']);
+$user = mysqli_escape_string($con, $_POST['user']);
+$password = mysqli_escape_string($con, $_POST['password']);
 
 if (!$user || !$password) {
     $msg = "Preencha todos os campos";
