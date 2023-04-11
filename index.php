@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
-    <link rel="icon" href="login/img/favicon.png" />
+    <link rel="icon" href="./assets/images/logo.png" />
     <!-- VENDOR CSS -->
     <link rel="stylesheet" href="./assets/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/vendor/animate-css/animate.min.css">
@@ -53,13 +53,13 @@
                         <div class="text-center">
                             <span>Usuário</span>
                         </div>
-                        <input type="text" class="form-control" id="user" name="user" required placeholder="usuario">
+                        <input type="text" class="form-control" id="user" name="user" required placeholder="usuario" value='vitor.siqueira'>
                     </div>
                     <div class="form-group">
                         <div class="text-center">
                             <span>Senha</span>
                         </div>
-                        <input type="password" class="form-control" name="password" required placeholder="senha">
+                        <input type="password" class="form-control" name="password" required placeholder="senha" value='Senha123*'>
                     </div>
 
                         <button type="submit" class="btn btn-primary btn-lg btn-block">Acessar</button>

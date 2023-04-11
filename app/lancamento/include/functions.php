@@ -32,7 +32,7 @@ function period($id = null){
 
   return $result;
 }
-function financeValues(){
+function financeValues($id){
   global $con;
 
   $sql = "SELECT
@@ -40,7 +40,8 @@ function financeValues(){
             SUM(CASE WHEN c.tipo = 's' THEN f.valor ELSE 0 END) as despesa,
             SUM(CASE WHEN c.tipo = 'e' THEN f.valor ELSE -f.valor END) as total
           FROM financa f
-          INNER JOIN categoria c ON (c.id = f.idcategoria)";
+          INNER JOIN categoria c ON (c.id = f.idcategoria)
+          WHERE idusuario = $id";
 
   $query = mysqli_query($con, $sql);
   $result = mysqli_fetch_all($query, MYSQLI_ASSOC)[0];

@@ -29,9 +29,9 @@ function moneyMask(input) {
         input.value = formattedInput;
     }
 }
-function divError(statusError){
+function divError(statusError) {
     var divError =
-    `<div class='offcanvas-body offcanvas-loading' style='flex-grow: 10!important'>
+        `<div class='offcanvas-body offcanvas-loading' style='flex-grow: 10!important'>
         Request failed: <span class='text-danger'> `+ statusError + `</span>
     </div>
     <div class='offcanvas-footer' style='flex-grow: 1!important'>
@@ -41,7 +41,6 @@ function divError(statusError){
 
     return divError;
 }
-
 var divLoading =
     `<div class="offcanvas-body offcanvas-loading">
     <i class='fa-spin fa fa-spinner'></i> <strong>Carregando...</strong>

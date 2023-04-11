@@ -34,7 +34,6 @@ $diaSemana = date('w'); // Domingo = 0
     <link rel="stylesheet" href="<?= BASE; ?>/assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css">
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="<?= BASED; ?>/assets/css/main.css">
-
 </head>
 
 <body>

@@ -5,7 +5,7 @@ include_once '../config/security.php';
 include_once '../config/connMysql.php';
 include_once './include/functions.php';
 
-$financeValues = financeValues();
+$financeValues = financeValues($_SESSION['id']);
 
 ?>
 <!doctype html>
@@ -112,7 +112,7 @@ $financeValues = financeValues();
                             <div class="card-body card-info bg-success">
                                 Lucros
                                 <div class='moneyLabel'>
-                                    <?= floatToMoney($financeValues['lucro']) ?>
+                                    <?= floatToMoney($financeValues['lucro'])  ?>
                                 </div>
                             </div>
                         </div>
