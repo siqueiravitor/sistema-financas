@@ -4,14 +4,13 @@ function dataSystem() {
   global $con;
 
   $sql = "SELECT 
-            empresa,
-            nome,
-            apelido,
+            name,
+            nickname,
             logo,
-            logoalt,
-            versao,
+            logo_alt,
+            version,
             status
-          FROM sistema";
+          FROM systems";
 
   $query = mysqli_query($con, $sql);
   $rows = mysqli_num_rows($query);

@@ -5,9 +5,9 @@ function categories(){
 
   $sql = "SELECT 
             id,
-            tipo,
-            descricao
-        FROM categoria
+            type,
+            description
+        FROM category
         ORDER BY tipo";
 
   $query = mysqli_query($con, $sql);
@@ -15,38 +15,38 @@ function categories(){
 
   return $result;
 }
-function period($id = null){
-  global $con;
+// function period($id = null){
+//   global $con;
 
-  $sql = "SELECT 
-            id,
-            valor,
-            descricao
-        FROM periodo ";
-  if ($id) {
-    $sql .= " WHERE id = $id ";
-  }
+//   $sql = "SELECT 
+//             id,
+//             valor,
+//             descricao
+//         FROM periodo ";
+//   if ($id) {
+//     $sql .= " WHERE id = $id ";
+//   }
 
-  $query = mysqli_query($con, $sql);
-  $result = mysqli_fetch_all($query, MYSQLI_NUM);
+//   $query = mysqli_query($con, $sql);
+//   $result = mysqli_fetch_all($query, MYSQLI_NUM);
 
-  return $result;
-}
+//   return $result;
+// }
 function financeValues($id){
-  global $con;
+  // global $con;
 
-  $sql = "SELECT
-            SUM(CASE WHEN c.tipo = 'e' THEN f.valor ELSE 0 END) as lucro,
-            SUM(CASE WHEN c.tipo = 's' THEN f.valor ELSE 0 END) as despesa,
-            SUM(CASE WHEN c.tipo = 'e' THEN f.valor ELSE -f.valor END) as total
-          FROM financa f
-          INNER JOIN categoria c ON (c.id = f.idcategoria)
-          WHERE idusuario = $id";
+  // $sql = "SELECT
+  //           SUM(CASE WHEN c.tipo = 'e' THEN f.valor ELSE 0 END) as lucro,
+  //           SUM(CASE WHEN c.tipo = 's' THEN f.valor ELSE 0 END) as despesa,
+  //           SUM(CASE WHEN c.tipo = 'e' THEN f.valor ELSE -f.valor END) as total
+  //         FROM finance f
+  //         INNER JOIN categoria c ON (c.id = f.idcategoria)
+  //         WHERE idusuario = $id";
 
-  $query = mysqli_query($con, $sql);
-  $result = mysqli_fetch_all($query, MYSQLI_ASSOC)[0];
+  // $query = mysqli_query($con, $sql);
+  // $result = mysqli_fetch_all($query, MYSQLI_ASSOC)[0];
   
-  return $result;
+  // return $result;
 }
 
 function dataFinance($userId, $id = null){
@@ -54,28 +54,30 @@ function dataFinance($userId, $id = null){
 
   $sql = "SELECT 
             f.id,
-            f.valor,
-            f.descricao AS descricaoFinanca,
+            f.value as valor,
+            f.description AS descricaoFinanca,
             CASE 
-              WHEN f.pagamento = 'd'  THEN 'Dinheiro'
-              WHEN f.pagamento = 'cc' THEN 'Crédito'
-              WHEN f.pagamento = 'cd' THEN 'Débito'
-              ELSE 'Pix'
+              WHEN p.type = 'p'  THEN 'Pix'
+              WHEN p.type = 'm'  THEN 'Dinheiro'
+              WHEN p.type = 'cc' THEN 'Crédito'
+              WHEN p.type = 'dc' THEN 'Débito'
+              ELSE 'Pendente'
             END as pagamento,
             CASE 
-				        WHEN f.recorrente = 's' THEN 'Sim'
+				        WHEN f.recurrent = 'y' THEN 'Sim'
                 ELSE 'Não'
 			      END as recorrente,
-            f.data,
-            f.datager,
+            f.payday as data,
+            f.created_at as datager,
             CASE 
-              WHEN c.tipo = 'e' THEN 'Entrada'
+              WHEN c.type = 'in' THEN 'Entrada'
               ELSE 'Saída'
             END as tipo,
-            c.descricao AS categoria
-        FROM financa f
-        INNER JOIN categoria c ON (c.id = f.idcategoria)
-        WHERE idusuario = $userId";
+            c.description AS categoria
+        FROM finances f
+        LEFT JOIN payments p ON (p.id_finance = f.id)
+        INNER JOIN categories c ON (c.id = f.id_category)
+        WHERE id_user = $userId";
   if ($id) {
     $sql .= " AND f.id = $id ";
   }
@@ -88,67 +90,67 @@ function dataFinance($userId, $id = null){
   return $result;
 }
 function recurrence($userId, $id){
-  global $con;
+  // global $con;
 
-  $sql = "SELECT 
-            f.id,
-            f.valor,
-            f.descricao AS descricaoFinanca,
-            CASE 
-              WHEN f.pagamento = 'd'  THEN 'Dinheiro'
-              WHEN f.pagamento = 'cc' THEN 'Crédito'
-              WHEN f.pagamento = 'cd' THEN 'Débito'
-              ELSE 'Pix'
-            END as pagamento,
-            CASE
-              WHEN f.recorrente = 's' THEN 'Sim'
-              ELSE 'Não'
-            END as recorrente,
-            f.data,
-            f.datager,
+  // $sql = "SELECT 
+  //           f.id,
+  //           f.value,
+  //           f.description AS descricaoFinanca,
+  //           CASE 
+  //             WHEN p.type = 'p'  THEN 'Pix'
+  //             WHEN p.type = 'm'  THEN 'Dinheiro'
+  //             WHEN p.type = 'cc' THEN 'Crédito'
+  //             WHEN p.type = 'dc' THEN 'Débito'
+  //             ELSE 'Pendente'
+  //           END as pagamento,
+  //           CASE 
+	// 			        WHEN f.recurrent = 'y' THEN 'Sim'
+  //               ELSE 'Não'
+	// 		      END as recorrente,
+  //           f.payday as data,
+  //           f.created_at as datager,
     
-            CASE 
-              WHEN c.tipo = 's' THEN 'Sim'
-              ELSE 'Não'
-            END as tipo,
-            c.descricao AS categoria,
+  //           CASE 
+  //             WHEN c.type = 'in' THEN 'Entrada'
+  //             ELSE 'Saída'
+  //           END as tipo,
+  //           c.description AS categoria
     
-            r.valor as valorParcelas,
-            r.recorrencia,
-            r.parcelas,
-            CASE 
-              WHEN r.status = 'p' THEN 'Pendente'
-              WHEN r.status = 'f' THEN 'Finalizado'
-              WHEN r.status = 'c' THEN 'Cancelado'
-              ELSE 'Em andamento'
-            END as statusRecorrecencia,
+  //           r.valor as valorParcelas,
+  //           r.recorrencia,
+  //           r.parcelas,
+  //           CASE 
+  //             WHEN r.status = 'p' THEN 'Pendente'
+  //             WHEN r.status = 'f' THEN 'Finalizado'
+  //             WHEN r.status = 'c' THEN 'Cancelado'
+  //             ELSE 'Em andamento'
+  //           END as statusRecorrecencia,
 
-            p.descricao as periodo,
-            p.valor as valorPeriodo
-          FROM financa f
-          INNER JOIN categoria c ON (c.id = f.idcategoria)
-          INNER JOIN recorrencia r ON (r.idfinanca = f.id)
-          INNER JOIN periodo p ON (p.id = r.idperiodo)
-          WHERE idusuario = $userId
-          AND f.id = $id ";
+  //           p.descricao as periodo,
+  //           p.valor as valorPeriodo
+  //         FROM financa f
+  //         INNER JOIN categoria c ON (c.id = f.idcategoria)
+  //         INNER JOIN recorrencia r ON (r.idfinanca = f.id)
+  //         INNER JOIN periodo p ON (p.id = r.idperiodo)
+  //         WHERE idusuario = $userId
+  //         AND f.id = $id ";
 
-  $query = mysqli_query($con, $sql);
-  $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+  // $query = mysqli_query($con, $sql);
+  // $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
-  return $result;
+  // return $result;
 }
 // R e g i s t e r
 function registerFinance($fields){
   global $con;
-  $recurrent = $fields['recurrent'] == 'u' ? 'n' : 's';
+  $recurrent = $fields['recurrent'] == 'u' ? 'n' : 'y';
 
-  $insert = "INSERT INTO financa (idusuario, idcategoria, valor, descricao, pagamento, recorrente, data) 
+  $insert = "INSERT INTO finance (id_category, valye, description, payment, recurrente, date) 
     VALUES (?, ?, ?, ?, ?, ?, ?)";
 
   $prepareInsert = mysqli_prepare($con, $insert);
-  mysqli_stmt_bind_param($prepareInsert, 'iidssss', $fieldUser, $fieldCategory, $fieldValue, $fieldDesc, $fieldPayment, $fieldRecurrent, $fieldDate);
+  mysqli_stmt_bind_param($prepareInsert, 'idssss', $fieldCategory, $fieldValue, $fieldDesc, $fieldPayment, $fieldRecurrent, $fieldDate);
 
-  $fieldUser = $fields['iduser'];
   $fieldCategory = $fields['idcategory'];
   $fieldValue = $fields['value'];
   $fieldDesc = $fields['description'];
@@ -168,27 +170,27 @@ function registerFinance($fields){
 }
 function registerRecurrence($fields){
   global $con;
-  $insert = "INSERT INTO recorrencia (idfinanca, idperiodo, valor, recorrencia, parcelas, datafim, status) 
-    VALUES (?, ?, ?, ?, ?, ?, ?)";
+  // $insert = "INSERT INTO recorrencia (idfinanca, idperiodo, valor, recorrencia, parcelas, datafim, status) 
+  //   VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-  $prepareInsert = mysqli_prepare($con, $insert);
-  mysqli_stmt_bind_param($prepareInsert, 'iisssss', $idfinance, $idperiodo, $valor, $recorrencia, $parcelas, $datafim, $status);
+  // $prepareInsert = mysqli_prepare($con, $insert);
+  // mysqli_stmt_bind_param($prepareInsert, 'iisssss', $idfinance, $idperiodo, $valor, $recorrencia, $parcelas, $datafim, $status);
 
-  $idfinance = $fields['idfinance'];
-  $idperiodo = $fields['period'];
-  $valor = $fields['valueInstallment'];
-  $recorrencia = $fields['recurrence'];
-  $parcelas = $fields['installment'];
-  $datafim = $fields['dateEnd'];
-  $status = $fields['status'];
+  // $idfinance = $fields['idfinance'];
+  // $idperiodo = $fields['period'];
+  // $valor = $fields['valueInstallment'];
+  // $recorrencia = $fields['recurrence'];
+  // $parcelas = $fields['installment'];
+  // $datafim = $fields['dateEnd'];
+  // $status = $fields['status'];
 
-  $result = mysqli_stmt_execute($prepareInsert);
-  if (!$result) {
-    mysqli_stmt_close($prepareInsert);
-    return false;
-  }
-  mysqli_stmt_close($prepareInsert);
-  return true;
+  // $result = mysqli_stmt_execute($prepareInsert);
+  // if (!$result) {
+  //   mysqli_stmt_close($prepareInsert);
+  //   return false;
+  // }
+  // mysqli_stmt_close($prepareInsert);
+  // return true;
 }
 // U p d a t e
 function updateFinance($fields){
