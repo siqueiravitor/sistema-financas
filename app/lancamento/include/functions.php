@@ -1,14 +1,15 @@
 <?php
 // C o n s u l t
-function categories(){
+function categories()
+{
   global $con;
 
   $sql = "SELECT 
             id,
             type,
             description
-        FROM category
-        ORDER BY tipo";
+        FROM categories
+        ORDER BY type";
 
   $query = mysqli_query($con, $sql);
   $result = mysqli_fetch_all($query, MYSQLI_NUM);
@@ -32,24 +33,26 @@ function categories(){
 
 //   return $result;
 // }
-function financeValues($id){
-  // global $con;
+function financeValues($id)
+{
+  global $con;
 
-  // $sql = "SELECT
-  //           SUM(CASE WHEN c.tipo = 'e' THEN f.valor ELSE 0 END) as lucro,
-  //           SUM(CASE WHEN c.tipo = 's' THEN f.valor ELSE 0 END) as despesa,
-  //           SUM(CASE WHEN c.tipo = 'e' THEN f.valor ELSE -f.valor END) as total
-  //         FROM finance f
-  //         INNER JOIN categoria c ON (c.id = f.idcategoria)
-  //         WHERE idusuario = $id";
+  $sql = "SELECT
+            SUM(CASE WHEN c.type = 'in' THEN f.value ELSE 0 END) as lucro,
+            SUM(CASE WHEN c.type = 'out' THEN f.value ELSE 0 END) as despesa,
+            SUM(CASE WHEN c.type = 'in' THEN f.value ELSE -f.value END) as total
+          FROM finances f
+          INNER JOIN categories c ON (c.id = f.id_category)
+          WHERE id_user = $id";
 
-  // $query = mysqli_query($con, $sql);
-  // $result = mysqli_fetch_all($query, MYSQLI_ASSOC)[0];
-  
-  // return $result;
+  $query = mysqli_query($con, $sql);
+  $result = mysqli_fetch_all($query, MYSQLI_ASSOC)[0];
+
+  return $result;
 }
 
-function dataFinance($userId, $id = null){
+function dataFinance($userId, $id = null)
+{
   global $con;
 
   $sql = "SELECT 
@@ -89,7 +92,8 @@ function dataFinance($userId, $id = null){
 
   return $result;
 }
-function recurrence($userId, $id){
+function recurrence($userId, $id)
+{
   // global $con;
 
   // $sql = "SELECT 
@@ -104,18 +108,18 @@ function recurrence($userId, $id){
   //             ELSE 'Pendente'
   //           END as pagamento,
   //           CASE 
-	// 			        WHEN f.recurrent = 'y' THEN 'Sim'
+  // 			        WHEN f.recurrent = 'y' THEN 'Sim'
   //               ELSE 'Não'
-	// 		      END as recorrente,
+  // 		      END as recorrente,
   //           f.payday as data,
   //           f.created_at as datager,
-    
+
   //           CASE 
   //             WHEN c.type = 'in' THEN 'Entrada'
   //             ELSE 'Saída'
   //           END as tipo,
   //           c.description AS categoria
-    
+
   //           r.valor as valorParcelas,
   //           r.recorrencia,
   //           r.parcelas,
@@ -141,22 +145,28 @@ function recurrence($userId, $id){
   // return $result;
 }
 // R e g i s t e r
-function registerFinance($fields){
+function registerFinance($fields)
+{
   global $con;
   $recurrent = $fields['recurrent'] == 'u' ? 'n' : 'y';
+  $paid = $fields['payment'] ? 'y' : 'n';
+  $date = date('Y-m-d H:i:s');
 
-  $insert = "INSERT INTO finance (id_category, valye, description, payment, recurrente, date) 
-    VALUES (?, ?, ?, ?, ?, ?, ?)";
+  $insert = "INSERT INTO finances (id_user, id_category, value, description, paid, recurrent, payday, created_at, updated_at) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
   $prepareInsert = mysqli_prepare($con, $insert);
-  mysqli_stmt_bind_param($prepareInsert, 'idssss', $fieldCategory, $fieldValue, $fieldDesc, $fieldPayment, $fieldRecurrent, $fieldDate);
+  mysqli_stmt_bind_param($prepareInsert, 'iidssssii', $fieldUser, $fieldCategory, $fieldValue, $fieldDesc, $fieldPayment, $fieldRecurrent, $fieldDate, $fieldCreatedAt, $fieldUpdatedAt);
 
+  $fieldUser = $fields['iduser'];
   $fieldCategory = $fields['idcategory'];
   $fieldValue = $fields['value'];
   $fieldDesc = $fields['description'];
-  $fieldPayment = $fields['payment'];
+  $fieldPayment = $paid;
   $fieldRecurrent = $recurrent;
   $fieldDate = $fields['date'];
+  $fieldCreatedAt = $date;
+  $fieldUpdatedAt = $date;
 
   $result = mysqli_stmt_execute($prepareInsert);
   if (!$result) {
@@ -166,9 +176,25 @@ function registerFinance($fields){
   $id = mysqli_stmt_insert_id($prepareInsert);
   mysqli_stmt_close($prepareInsert);
 
+  if ($fields['payment']) {
+    $insert = "INSERT INTO payments (id_finance, type, value, paid_at, created_at, updated_at) 
+    VALUES (?, ?, ?, ?, ?, ?)";
+
+    $prepareInsert = mysqli_prepare($con, $insert);
+    mysqli_stmt_bind_param($prepareInsert, 'isdsii', $fieldIdFinance, $fieldType, $fieldValue, $fieldPaidAt, $fieldCreatedAt, $fieldUpdatedAt);
+
+    $fieldIdFinance = $id;
+    $fieldType = $fields['payment'];
+    $fieldValue = $fields['value'];
+    $fieldPaidAt = $fields['date'];
+    $fieldCreatedAt = $date;
+    $fieldUpdatedAt = $date;
+  }
+
   return $id;
 }
-function registerRecurrence($fields){
+function registerRecurrence($fields)
+{
   global $con;
   // $insert = "INSERT INTO recorrencia (idfinanca, idperiodo, valor, recorrencia, parcelas, datafim, status) 
   //   VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -193,15 +219,18 @@ function registerRecurrence($fields){
   // return true;
 }
 // U p d a t e
-function updateFinance($fields){
+function updateFinance($fields)
+{
   global $con;
+  $paid = $fields['payment'] ? 'y' : 'n';
+  $date = date('Y-m-d H:i:s');
 
-  $update = "UPDATE financa SET 
-                idcategoria = ?, 
-                valor = ?, 
-                descricao = ?, 
-                pagamento = ?, 
-                data = ?
+  $update = "UPDATE finances SET 
+                id_category = ?, 
+                value = ?, 
+                description = ?, 
+                paid = ?, 
+                payday = ?
             WHERE id = ?";
 
   $prepareUpdate = mysqli_prepare($con, $update);
@@ -210,7 +239,7 @@ function updateFinance($fields){
   $fieldCategory = $fields['idcategory'];
   $fieldValue = $fields['value'];
   $fieldDesc = $fields['description'];
-  $fieldPayment = $fields['payment'];
+  $fieldPayment = $paid;
   $fieldDate = $fields['date'];
   $fieldId = $fields['id'];
 
@@ -218,27 +247,38 @@ function updateFinance($fields){
     mysqli_stmt_close($prepareUpdate);
     return false;
   }
+
+  if ($fields['payment']) {
+    $insert = "INSERT INTO payments (id_finance, type, value, paid_at, created_at, updated_at) 
+    VALUES (?, ?, ?, ?, ?, ?)";
+
+    $prepareInsert = mysqli_prepare($con, $insert);
+    mysqli_stmt_bind_param($prepareInsert, 'isdsii', $fieldIdFinance, $fieldType, $fieldValue, $fieldPaidAt, $fieldCreatedAt, $fieldUpdatedAt);
+
+    $fieldIdFinance = $id;
+    $fieldType = $fields['payment'];
+    $fieldValue = $fields['value'];
+    $fieldPaidAt = $fields['date'];
+    $fieldCreatedAt = $date;
+    $fieldUpdatedAt = $date;
+  }
   mysqli_stmt_close($prepareUpdate);
   return true;
 }
 
 // D e l e t e
-function deleteFinance($id, $mult = false){
+function deleteFinance($id, $mult = false)
+{
   global $con;
 
-  $where = "= $id";
-  if ($mult) {
-    $where = "IN ($id)";
-  }
-  
-  $sqlRecorrencia = "DELETE FROM recorrencia WHERE idfinanca $where";
+  $sqlRecorrencia = "DELETE FROM recurrencies WHERE id_finance IN ($id)";
   if (mysqli_query($con, $sqlRecorrencia)) {
-    $sql = "DELETE FROM financa WHERE id $where";
+    $sql = "DELETE FROM finances WHERE id IN ($id)";
   }
 
   $query = mysqli_query($con, $sql);
   if (!$query) {
-    return $sql;
+    return "Erro ao deletar finança";
   }
   $rows = mysqli_affected_rows($con);
 

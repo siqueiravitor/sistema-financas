@@ -62,12 +62,11 @@
                 <div class="form-group" id='recurrenceDiv' style="display: none">
                     <small> <b> Recorrência</b> </small>
                     <select class="form-control select2" name="recurrence" id='recurrenceSelect' disabled>
-                        <?php
-                        $periods = period();
-                        foreach ($periods as $period) {
-                            echo "<option value='$period[0]'>$period[1]</option>";
-                        }
-                        ?>
+                        <option value=''>N/A</option>
+                        <option value='day'>Diário</option>
+                        <option value='week'>Semanal</option>
+                        <option value='month'>Mensal</option>
+                        <option value='year'>Anual</option>
                     </select>
                 </div>
                 <div class="form-group">
