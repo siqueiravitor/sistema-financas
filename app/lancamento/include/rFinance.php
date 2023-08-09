@@ -5,7 +5,6 @@ include '../../config/security.php';
 include '../../functions/func.php';
 include '../../config/connMysql.php';
 include './functions.php';
-$user = mysqli_escape_string($con, $_POST['user']);
 
 // Unique payment
 $date = mysqli_escape_string($con, $_POST['date']);
@@ -28,7 +27,7 @@ $data['finance'] = [
 if ($id = registerFinance($data['finance'])) {
     $msg = 'Dados registrados';
 
-    if ($recurrence != 'u') {
+    if ($recurrent != 'u') {
         // Payment in installment
         $categoryRecurrence = isset($_POST['categoryRecurrence']) ? mysqli_escape_string($con, $_POST['categoryRecurrence']) : null;
         $valueInstallment = isset($_POST['valueInstallment']) ? mysqli_escape_string($con, $_POST['valueInstallment']) : null;

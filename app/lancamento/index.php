@@ -77,11 +77,12 @@ $financeValues = financeValues($_SESSION['id']);
             color: var(--color-info)
         }
 
-        .card-info{
+        .card-info {
             color: var(--color-light);
             border-radius: 4px;
         }
-        .moneyLabel{
+
+        .moneyLabel {
             font-size: 1.2rem;
             font-weight: bold;
         }
@@ -112,7 +113,7 @@ $financeValues = financeValues($_SESSION['id']);
                             <div class="card-body card-info bg-success">
                                 Lucros
                                 <div class='moneyLabel'>
-                                    <?= floatToMoney($financeValues['lucro'])  ?>
+                                    <?= floatToMoney($financeValues['lucro']) ?>
                                 </div>
                             </div>
                         </div>
@@ -276,7 +277,9 @@ $financeValues = financeValues($_SESSION['id']);
 
                 $(".select2").select2('destroy');
                 $(".select2").select2();
-                $(".date").datepicker('refresh');
+                $('#date').datepicker({
+                    todayHighlight: true
+                });
             });
             request.fail(function (jqXHR, textStatus) {
                 $("#ocTemplate").html(divError(textStatus));

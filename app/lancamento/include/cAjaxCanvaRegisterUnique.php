@@ -7,7 +7,7 @@ include_once '../include/functions.php';
 ?>
 <div class="form-group">
     <small><b>Valor</b></small>
-    <input class="form-control" id="value" placeholder="R$ 0,00" name="value" onkeyup="moneyMask(this)" >
+    <input class="form-control" id="value" placeholder="R$ 0,00" name="value" onkeyup="moneyMask(this)">
 </div>
 <div class="form-group">
     <small> <b> Categoria</b> </small>
@@ -31,7 +31,7 @@ include_once '../include/functions.php';
 </div>
 <div class="form-group">
     <small> <b> Data</b> </small>
-    <input class="form-control" id="date" name="date" value="<?= date('d/m/Y') ?>" >
+    <input class="form-control" id="date" name="date" value="<?= date('d/m/Y') ?>">
 </div>
 <div class="form-group">
     <small> <b> Pagamento </b> </small>
@@ -48,12 +48,11 @@ include_once '../include/functions.php';
 <div class="form-group" id='recurrenceDiv' style="display: none">
     <small> <b> Recorrência</b> </small>
     <select class="form-control select2" name="recurrence" id='recurrenceSelect' disabled>
-        <?php
-        $recurrences = period();
-        foreach ($recurrences as $recurrence) {
-            echo "<option value='$recurrence[0]'>$recurrence[1]</option>";
-        }
-        ?>
+        <option value=''></option>
+        <option value='day'>Diário</option>
+        <option value='week'>Semanal</option>
+        <option value='month'>Mensal</option>
+        <option value='year'>Anual</option>
     </select>
 </div>
 <div class="form-group">

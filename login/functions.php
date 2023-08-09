@@ -19,15 +19,15 @@ function verifyUser($user, $password){
 
     $sql = "SELECT 
                 id, 
-                nome, 
+                name, 
                 email,
-                senha,
+                password,
                 CASE
                     WHEN status = 'i' THEN 'inativado'
                     WHEN status in ('b1','b2') THEN 'bloqueado'
                     ELSE 'a'
                 END as status
-            FROM usuario
+            FROM users
             WHERE login = '$user'";
     
     $query = mysqli_query($con, $sql);
@@ -37,9 +37,10 @@ function verifyUser($user, $password){
         if ($result[4] != 'a') {
             return ['error' => errors(2) . $result[4]];
         }
-        if (md5($password) != $result[3]) {
-            return ['error' => errors(3)];
-        }
+        // if (md5($password) != $result[3]) {
+        // if (password_verify($password, $result[3])) {
+        //     return ['error' => errors(3)];
+        // }
     } else {
         return ['error' => errors(1)];
     }
@@ -56,7 +57,7 @@ function verifyUser($user, $password){
 function checkUserExists($login, $email){
     global $con;
 
-    $sql = "SELECT 1 status FROM usuario 
+    $sql = "SELECT 1 status FROM users 
     WHERE login = '$login' or email = '$email'";
 
     $query = mysqli_query($con, $sql);
@@ -68,7 +69,7 @@ function checkUserExists($login, $email){
 function createUser($fields){
     global $con;
 
-    $insert = "INSERT INTO usuario (nome, email, login, senha) VALUES (?, ?, ?, ?)";
+    $insert = "INSERT INTO users (name, email, login, password) VALUES (?, ?, ?, ?)";
 
     $prepareInsert = mysqli_prepare($con, $insert);
     mysqli_stmt_bind_param($prepareInsert, 'ssss', $fieldName, $fieldEmail, $fieldLogin, $fieldPassword);

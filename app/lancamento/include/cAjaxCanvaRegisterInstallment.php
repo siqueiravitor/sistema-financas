@@ -8,17 +8,16 @@ include_once '../include/functions.php';
 <div class="form-group">
     <small> <b> Período</b> </small>
     <select class="form-control select2" name="period">
-        <?php
-        $periods = period();
-        foreach ($periods as $period) {
-            echo "<option value='$period[0]'>$period[2]</option>";
-        }
-        ?>
+        <option value=''>N/A</option>
+        <option value='day'>Diário</option>
+        <option value='week'>Semanal</option>
+        <option value='month'>Mensal</option>
+        <option value='year'>Anual</option>
     </select>
 </div>
 <div class="form-group">
     <small> <b> Recorrência</b> </small>
-    <input class="form-control" type="number" min='1' value='1' name="recurrence" >
+    <input class="form-control" type="number" min='1' value='1' name="recurrence">
 </div>
 <div class="form-group">
     <small><b>Valor de entrada</b></small>
@@ -26,12 +25,11 @@ include_once '../include/functions.php';
 </div>
 <div class="form-group">
     <small><b>Valor das Parcelas</b></small>
-    <input class="form-control" placeholder="R$ 0,00" name="valueInstallment" onkeyup="moneyMask(this)"
-        >
+    <input class="form-control" placeholder="R$ 0,00" name="valueInstallment" onkeyup="moneyMask(this)">
 </div>
 <div class="form-group">
     <small><b>Parcelas</b></small>
-    <input class="form-control" name="installment" type="number" min='1' >
+    <input class="form-control" name="installment" type="number" min='1'>
 </div>
 <div class="form-group">
     <small> <b> Categoria</b> </small>
@@ -55,11 +53,11 @@ include_once '../include/functions.php';
 </div>
 <div class="form-group">
     <small> <b> Data Inicial</b> </small>
-    <input class="form-control date" id="date" name="date" value="<?= date('d/m/Y') ?>" >
+    <input class="form-control date" id="date" name="date" value="<?= date('d/m/Y') ?>">
 </div>
 <div class="form-group">
     <small> <b> Data Final</b> </small>
-    <input class="form-control date" id="date" name="dateEnd" value="<?= date('d/m/Y') ?>" >
+    <input class="form-control date" id="date" name="dateEnd" value="<?= date('d/m/Y') ?>">
 </div>
 <div class="form-group">
     <small> <b> Pagamento </b> </small>
