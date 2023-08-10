@@ -4,7 +4,7 @@
         <small>
             <div>
                 ©
-                <?= date("Y") . " | E-Finanças | Desenvolvido por " ?><a href='#'>SpiderCode</a>
+                <?= date("Y") . " | Finance-Manager | Desenvolvido por " ?><a href='#'>Vitor Siqueira</a>
             </div>
         </small>
     </div>

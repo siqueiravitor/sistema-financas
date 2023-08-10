@@ -3,7 +3,6 @@ require('../required.php');
 include './config/config.php';
 include './config/security.php';
 include './config/connMysql.php';
-//require '../vendor/autoload.php';
 
 $hoje = date('Y-m-d');
 $diaSemana = date('w'); // Domingo = 0

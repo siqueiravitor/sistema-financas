@@ -1,17 +1,14 @@
 <?php
-$sql_notificacao = "select n.idnotificacao,
-                           m.nome,
-                           n.datger,
-                           n.titulo,
-                           n.texto,
-                           n.icone,
-                           n.cor,
-                           n.datger
-                    from notificacao n
-                    left join modulo m
-                    on m.idmodulo = n.idmodulo 
-                    where n.idusuario = " . $_SESSION['iduser'] . "
-                    and lido = 'n'";
+$sql_notificacao = "select id,
+                           datger,
+                           title,
+                           text,
+                           icon,
+                           color,
+                           created_at
+                    from notification
+                    where id_user = " . $_SESSION['id'] . "
+                    and read = 'n'";
 $query_notificacao = mysqlI_query($con, $sql_notificacao);
 $qtdnot = mysqlI_num_rows($query_notificacao);
 if ($qtdnot > 0) {
@@ -44,7 +41,7 @@ if ($qtdnot > 0) {
                         </div>
                         <div class="media-body">
                             <p><?= $row_notificacao[4] ?></p>
-                            <small><?= dataBuscaBanco(explode(" ", $row_notificacao[7])[0]) ?> às <?= explode(" ", $row_notificacao[7])[1] ?></small>
+                            <small><?= 'dataBuscaBanco(explode(" ", $row_notificacao[7])[0])' ?> às <?= 'explode(" ", $row_notificacao[7])[1]' ?></small>
                         </div>
                     </div>
                 </a>

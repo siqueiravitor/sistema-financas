@@ -1,17 +1,24 @@
 <?php
-
-include '../../vendor/autoload.php';
+require('../../required.php');
 include '../connMysql.php';
 include '../functions.php';
 
 session_start();
 $_SESSION['ip'] = $user_ip = getUserIP();
 
-$name = mysqli_escape_string($con, $_POST['name']);
-$email = mysqli_escape_string($con, $_POST['email']);
-$login = mysqli_escape_string($con, $_POST['user']);
-$password = mysqli_escape_string($con, $_POST['password']);
+$user_post = filter_input_array(INPUT_POST, [
+    "name" => FILTER_SANITIZE_FULL_SPECIAL_CHARS, 
+    "user" => FILTER_SANITIZE_FULL_SPECIAL_CHARS, 
+    "email" => FILTER_SANITIZE_EMAIL, 
+    "password" => FILTER_SANITIZE_SPECIAL_CHARS, 
+]);
+
+$name = $user_post['name'];
+$login = $user_post['user'];
+$email = $user_post['email'];
+$password = $user_post['password'];
 $nameFormat = ucwords(mb_strtolower($name));
+
 
 if (!$name || !$email || !$login || !$password) {
     $msg = "Preencha todas as informações";

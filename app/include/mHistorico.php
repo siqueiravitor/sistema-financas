@@ -15,25 +15,24 @@ $acao = $_GET['parametro'];
             </thead>
             <tbody>
                 <?php
-                $sqllog = "select idlogmanutencao,
-                                  texto,
-                                  datager,
-                                  horager
-                          from manutencao.logmanutencao
-                          where acao like '%{$acao}%'
-                          order by idlogmanutencao desc";
-                $querylog = mysqli_query($con, $sqllog);
-                while ($row = mysqli_fetch_array($querylog)) {
-                    $data = dataBuscaBanco($row[2]);
-                    $hora = $row[3];
+                // $sqllog = "select id,
+                //                   text,
+                //                   created_at
+                //           from log
+                //           where acao like '%{$acao}%'
+                //           order by idlogmanutencao desc";
+                // $querylog = mysqli_query($con, $sqllog);
+                // while ($row = mysqli_fetch_array($querylog)) {
+                //     $data = dataBuscaBanco($row[2]);
+                //     $hora = $row[3];
                     ?>
-                    <tr>
+                    <!-- <tr>
                         <td><small><?= $row[0] ?></small></td>
                         <td style="white-space: pre-wrap;"><small><?= $row[1] ?></small></td>
                         <td><small><?= $data ." às ". $hora ?></small></td>
-                    </tr>
+                    </tr> -->
                     <?php
-                }
+                // }
                 ?>
             </tbody>
         </table>
