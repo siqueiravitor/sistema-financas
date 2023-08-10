@@ -28,7 +28,7 @@
         array_shift($finances);
         foreach ($finances as $finance) {
             $date = dateConvert($finance['data'], '-', '/', true);
-            $dategen = dateConvert($finance['datager'], '-', '/', true);
+            $dategen = timestampToDate($finance['datager'])['date'];
             $value = floatToMoney($finance['valor']);
 
             $recurrentInfo = "";

@@ -29,15 +29,17 @@ function moneyMask(input) {
         input.value = formattedInput;
     }
 }
-function divError(statusError) {
+function divError(statusError, canva = null) {
     var divError =
         `<div class='offcanvas-body offcanvas-loading' style='flex-grow: 10!important'>
         Request failed: <span class='text-danger'> `+ statusError + `</span>
-    </div>
-    <div class='offcanvas-footer' style='flex-grow: 1!important'>
-        <button type='button' class='btn btn-tertiary' style='width: 90%'
-        data-bs-dismiss='offcanvas'>Fechar</button>
     </div>`;
+    if(canva){
+        divError += `<div class='offcanvas-footer' style='flex-grow: 1!important'>
+            <button type='button' class='btn btn-tertiary' style='width: 90%'
+            data-bs-dismiss='offcanvas'>Fechar</button>
+        </div>`;
+    }
 
     return divError;
 }

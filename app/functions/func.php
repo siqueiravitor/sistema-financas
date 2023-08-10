@@ -27,12 +27,20 @@ function floatToMoney($amount, $currency = 'R$') {
     return $currency . ' ' . $formatted;
 }
 
-
 function dateConvert($dt, $separator, $separate, $reverse = true) {
     $data = explode($separator, $dt); //[2019][06][29]
     $reverse ? $data = array_reverse($data) : ''; // [29][06][2019]
     $dt = implode($separate, $data);
     return $dt; // 29/06/2019
+}
+
+function timestampToDate($timestamp) {
+    $date_time = explode(' ', $timestamp); //[2019][06][29]
+    $date = explode('-', $date_time[0]); //[2019][06][29]
+    $time = $date_time[1]; //09:54:23
+    $data_reverse = array_reverse($date); // [29][06][2019]
+    $dt = implode('/', $data_reverse);
+    return ['date' => $dt, 'time' => $time]; // 29/06/2019
 }
 
 function shortenText($text) {
