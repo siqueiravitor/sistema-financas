@@ -53,7 +53,6 @@ function loadFinances() {
         }
     });
     request.done(function(data) {
-        console.log(data)
         $("#management-table").html(data);
         $("#management-table").dataTable({
             "aaSorting": [],
@@ -152,7 +151,6 @@ function infoFinance(id) {
         }
     });
     request.done(function (data) {
-        console.log(data)
         $("#modal-content").html(data);
     });
     request.fail(function (jqXHR, textStatus) {
@@ -160,3 +158,7 @@ function infoFinance(id) {
     });
 }
 // A j a x End
+
+function filtrar(tabela, texto, column) {
+    $('#'+tabela).DataTable().columns(column).search(texto ? '^' + texto + '$' : '', true, false).draw();
+}

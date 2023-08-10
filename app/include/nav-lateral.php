@@ -50,6 +50,12 @@
                         <span class='ml-2'>Lançamento</span>
                     </a>
                 </li>
+                <li class="middle <?= 'listas' == $page ? 'active' : '' ?>">
+                    <a href="<?= BASED . "/listas" ?>">
+                        <i class='iconColor navIcon' data-feather="list"></i>
+                        <span class='ml-2'>Listas</span>
+                    </a>
+                </li>
                 <li class="middle" id="navDocumentacao">
                     <a href="<?= BASED ?>/sobre">
                         <i class="icon-info"></i>

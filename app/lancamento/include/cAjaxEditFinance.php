@@ -59,7 +59,7 @@ $finance = dataFinance($userId, $id)[1];
         <div class="form-group">
             <small> <b> Pagamento </b> </small>
             <select class="form-control select2" name="payment"> -->
-                <option value="" <?= empty($finance['pagamento']) ? 'selected' : null ?>></option>
+                <option value="" <?= empty($finance['pagamento']) ? 'selected' : null ?>>Pendente</option>
                 <option value="b" <?= $finance['pagamento'] == 'Dinheiro' ? 'selected' : null ?>>Dinheiro</option>
                 <option value="p" <?= $finance['pagamento'] == 'Pix' ? 'selected' : null ?>>Pix</option>
                 <optgroup label='Cartão'>

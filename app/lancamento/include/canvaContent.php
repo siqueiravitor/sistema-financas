@@ -35,7 +35,7 @@ include_once './functions.php';
 <div class="form-group">
     <small> <b> Pagamento </b> </small>
     <select class="form-control select2" name="payment">
-        <option value=""></option>
+        <option value="">Pendente</option>
         <option value="d">Dinheiro</option>
         <option value="p">Pix</option>
         <optgroup label='Cartão'>

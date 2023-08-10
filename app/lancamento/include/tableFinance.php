@@ -45,7 +45,7 @@
             //     'cc' => "Débito",
             //     default => ""
             // };
-    
+
             echo "<tr>";
             echo "<td class='checkboxArea'><input type='checkbox' value='" . $finance['id'] . "' class='checkRegister' onchange='checkCheckbox()'></td>";
             echo "<td>{$finance['tipo']}</td>";
@@ -69,3 +69,6 @@
     }
     ?>
 </tbody>
+
+<!-- FeatherIcons -->
+<script src="<?= ICON ?>/feather.js"></script>
