@@ -34,8 +34,8 @@
                         <img src="./assets/images/logo.png" alt="Finanças">
                     </div>
 
-                    <h4><span>E</span>-Finanças</h4>
-                    <h5 class="text-muted">SpiderCode</h5>
+                    <h4><span>Money</span>$Motion</h4>
+                    <h5 class="text-muted">Finance-Manager</h5>
                 </div>
             </div>
             <div class="ph-fix">
@@ -76,8 +76,8 @@
             <small>
                 <div class='text-center'>
                     ©
-                    <?= date("Y") . " | E-Finanças | Desenvolvido por " ?><a
-                        href='#'>SpiderCode</a>
+                    <?= date("Y") . " | Money Motion | Desenvolvido por " ?><a
+                        href='https://www.linkedin.com/in/siqueira-vitor/' target="_blank">Vitor Siqueira</a>
                 </div>
             </small>
         </div>

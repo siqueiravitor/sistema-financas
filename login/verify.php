@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 0);
+
 require('../required.php');
 include './connMysql.php';
 include './functions.php';

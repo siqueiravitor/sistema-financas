@@ -40,16 +40,16 @@ $financeValues = financeValues($_SESSION['id']);
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            $('#date').datepicker({
-                todayHighlight: true
-            });
-            $("#management-table").dataTable({
-                "aaSorting": [],
-                "columnDefs": [{
-                    "targets": [0, 9, 10, 11],
-                    "orderable": false
-                }]
-            });
+            // $("#management-table").dataTable({
+            //     "aaSorting": [],
+            //     "columnDefs": [{
+            //         "targets": [0, 9, 10, 11],
+            //         "orderable": false
+            //     }]
+            // });
+            loadFinances()
+            canvaContent()
+            $('#date').datepicker({ todayHighlight: true });
             $(".select2").select2();
         });
     </script>
@@ -174,7 +174,6 @@ $financeValues = financeValues($_SESSION['id']);
 
                                     <table id="management-table"
                                         class="table table-sm table-hover table-striped text-center">
-                                        <?php include './include/tableFinance.php' ?>
                                     </table>
                                 </div>
                             </div>
@@ -236,6 +235,53 @@ $financeValues = financeValues($_SESSION['id']);
             }
         }
         // A j a x
+        function loadFinances() {
+            let url = './include/tableFinance.php';
+            const request = $.ajax({
+                url,
+                method: "GET",
+                dataType: "html",
+                beforeSend: function() {
+                    $("#management-table").html(divLoading);
+                }
+            });
+            request.done(function(data) {
+                console.log(data)
+                $("#management-table").html(data);
+                $("#management-table").dataTable({
+                    "aaSorting": [],
+                    "columnDefs": [{
+                        "targets": [0, 9, 10, 11],
+                        "orderable": false
+                    }]
+                });
+            });
+            request.fail(function(jqXHR, textStatus) {
+                console.log(textStatus)
+                $("#management-table").html(divError(textStatus));
+            });
+        }
+        
+        function canvaContent() {
+            let url = './include/canvaContent.php';
+            const request = $.ajax({
+                url,
+                method: "GET",
+                dataType: "html",
+                beforeSend: function() {
+                    $("#divBodyFinance").html(divLoading);
+                }
+            });
+            request.done(function(data) {
+                $("#divBodyFinance").html(data);
+                $(".select2").select2('destroy');
+                $(".select2").select2();
+
+            });
+            request.fail(function(jqXHR, textStatus) {
+                $("#divBodyFinance").html(divError(textStatus));
+            });
+        }
         function recurrenceOptions(value) {
             let url = './include/cAjaxCanvaRegisterUnique.php';
             if (value === 'f') {

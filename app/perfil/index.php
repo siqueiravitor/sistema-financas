@@ -1,6 +1,8 @@
 <?php
+require('../../required.php');
 include_once '../config/config.php';
-include_once '../config/seguranca.php';
+include_once '../functions/func.php';
+include_once '../config/security.php';
 include_once '../config/connMysql.php';
 
 ?>
@@ -14,7 +16,7 @@ include_once '../config/connMysql.php';
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="icon" href="<?= LOGO; ?>" type="image/x-icon">
+    <link rel="icon" href="<?= LOGO ?>" type="image/x-icon">
 
     <!-- VENDOR CSS -->
     <link rel="stylesheet" href="<?= BASE; ?>/assets/vendor/bootstrap/css/bootstrap.min.css">
@@ -69,7 +71,6 @@ include_once '../config/connMysql.php';
                 ?>
                 <div class="row">
                     <div clas='col-md-12'>
-
                     </div>
                 </div>
             </div>

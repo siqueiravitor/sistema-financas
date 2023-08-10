@@ -1,5 +1,6 @@
 <?php
 require('../required.php');
+ini_set('display_errors', 0);
 include_once './functions/system.php';
 include_once './config/connMysql.php';
 session_start();
@@ -9,6 +10,7 @@ if ($data = dataSystem()) {
     $system = $data[1];
 
     if($data[0] > 0 && $system['status'] == 'a'){
+        $url = $_ENV['URL'];
         $_SESSION['COMPANY'] = "Empresa";
         $_SESSION['SYSTEM'] = ucfirst($system['name']);
         $_SESSION['TITLE'] = ucfirst($system['nickname']);

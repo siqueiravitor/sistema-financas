@@ -1,8 +1,9 @@
 <?php
+require('../../../required.php');
 include_once '../../config/config.php';
-include_once '../../functions/func.php';
 include_once '../../config/connMysql.php';
-include_once '../include/functions.php';
+include_once '../../functions/func.php';
+include_once './functions.php';
 
 ?>
 <div class="form-group">

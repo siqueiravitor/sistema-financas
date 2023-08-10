@@ -1,7 +1,8 @@
 <?php
-
+require('../../../required.php');
 include '../../config/config.php';
 include '../../config/security.php';
+include '../../functions/func.php';
 include '../../config/connMysql.php';
 include './functions.php';
 
@@ -9,10 +10,13 @@ if(!isset($_GET['id'])){
     $msg = "Registro não encontrado&alert=1";
     exit(header("Location: ../?msg=$msg"));
 }
-$id = $_GET['id'];
-$mult = isset($_GET['mult']) ? true : false;
 
-if($rows = deleteFinance($id, $mult)){
+$finance = filter_input_array(INPUT_GET, [
+    "id" => FILTER_SANITIZE_NUMBER_INT
+]);
+$id = $finance['id'];
+
+if($rows = deleteFinance($id)){
     $msg = "Dados apagados ($rows)";
 } else {
     $msg = 'Erro ao apagar dados';

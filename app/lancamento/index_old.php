@@ -1,6 +1,8 @@
 <?php
+require('../../required.php');
 include_once '../config/config.php';
 include_once '../functions/func.php';
+include_once '../config/security.php';
 include_once '../config/connMysql.php';
 include_once './include/functions.php';
 

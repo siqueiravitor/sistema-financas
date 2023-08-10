@@ -4,7 +4,7 @@
         <small>
             <div>
                 ©
-                <?= date("Y") . " | Finance-Manager | Desenvolvido por " ?><a href='#'>Vitor Siqueira</a>
+                <?= date("Y") . " | Money Motion | Desenvolvido por " ?><a href='https://www.linkedin.com/in/siqueira-vitor/' target="_blank">Vitor Siqueira</a>
             </div>
         </small>
     </div>

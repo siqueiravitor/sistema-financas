@@ -1,10 +1,8 @@
 <?php
 require('../../../required.php');
-include_once '../../config/config.php';
 include_once '../../config/connMysql.php';
 include_once '../../functions/func.php';
 include_once './functions.php';
-
 ?>
 <div class="form-group">
     <small><b>Valor</b></small>
@@ -32,7 +30,7 @@ include_once './functions.php';
 </div>
 <div class="form-group">
     <small> <b> Data</b> </small>
-    <input class="form-control" id="date" name="date" value="<?= date('d/m/Y') ?>">
+    <input class="form-control date" id="date" name="date" value="<?= date('d/m/Y') ?>">
 </div>
 <div class="form-group">
     <small> <b> Pagamento </b> </small>
@@ -49,7 +47,7 @@ include_once './functions.php';
 <div class="form-group" id='recurrenceDiv' style="display: none">
     <small> <b> Recorrência</b> </small>
     <select class="form-control select2" name="recurrence" id='recurrenceSelect' disabled>
-        <option value=''></option>
+        <option value=''>N/A</option>
         <option value='day'>Diário</option>
         <option value='week'>Semanal</option>
         <option value='month'>Mensal</option>
@@ -58,5 +56,5 @@ include_once './functions.php';
 </div>
 <div class="form-group">
     <small> <b> Descrição </b> </small>
-    <textarea class="form-control" name="description" required></textarea>
+    <textarea class="form-control" name="description"></textarea>
 </div>

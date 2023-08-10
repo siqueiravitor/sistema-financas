@@ -1,9 +1,11 @@
 <?php
 
-include '../../config/config.php';
-include '../../config/connMysql.php';
-include '../../functions/func.php';
-include './functions.php';
+require('../../../required.php');
+include_once '../../config/config.php';
+include_once '../../config/connMysql.php';
+include_once '../../functions/func.php';
+include_once './functions.php';
+
 
 $userId = $_SESSION['id'];
 $id = $_GET['id'];

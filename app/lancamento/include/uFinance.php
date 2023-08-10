@@ -1,17 +1,26 @@
 <?php
-
+require('../../../required.php');
 include '../../config/config.php';
 include '../../config/security.php';
 include '../../functions/func.php';
 include '../../config/connMysql.php';
 include './functions.php';
 
-$id = $_POST['id'];
-$date = mysqli_escape_string($con, $_POST['date']);
-$value = mysqli_escape_string($con, $_POST['value']);
-$category = mysqli_escape_string($con, $_POST['category']);
-$description = empty($_POST['description']) ? null : mysqli_escape_string($con, $_POST['description']);
-$payment = empty($_POST['payment']) ? null : mysqli_escape_string($con, $_POST['payment']);
+$finance = filter_input_array(INPUT_POST, [
+    "id" => FILTER_SANITIZE_NUMBER_INT,
+    "date" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    "value" => FILTER_SANITIZE_NUMBER_FLOAT,
+    "category" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    "recurrent" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    "description" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    "payment" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+]);
+
+$date = $finance['date'];
+$value = $finance['value'];
+$category = $finance['category'];
+$description = $finance['description'];
+$payment = $finance['payment'];
 
 $dataFinance = [
     'id' => $id,

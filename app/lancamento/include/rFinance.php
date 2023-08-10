@@ -1,5 +1,5 @@
 <?php
-
+require('../../../required.php');
 include '../../config/config.php';
 include '../../config/security.php';
 include '../../functions/func.php';
@@ -7,12 +7,20 @@ include '../../config/connMysql.php';
 include './functions.php';
 
 // Unique payment
-$date = mysqli_escape_string($con, $_POST['date']);
-$value = mysqli_escape_string($con, $_POST['value']);
-$category = mysqli_escape_string($con, $_POST['category']);
-$recurrent = mysqli_escape_string($con, $_POST['recurrent']);
-$description = empty($_POST['description']) ? null : mysqli_escape_string($con, $_POST['description']);
-$payment = empty($_POST['payment']) ? null : mysqli_escape_string($con, $_POST['payment']);
+$finance = filter_input_array(INPUT_POST, [
+    "date" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    "value" => FILTER_SANITIZE_NUMBER_FLOAT,
+    "category" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    "recurrent" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    "description" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    "payment" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+]);
+$date = $finance['date'];
+$value = $finance['value'];
+$category = $finance['category'];
+$recurrent = $finance['recurrent'];
+$description = empty($finance['description']) ? null : $finance['description'];
+$payment = empty($finance['payment']) ? null : $finance['payment'];
 
 $data['finance'] = [
     'iduser' => $_SESSION['id'],
@@ -27,15 +35,16 @@ $data['finance'] = [
 if ($id = registerFinance($data['finance'])) {
     $msg = 'Dados registrados';
 
-    if ($recurrent != 'u') {
-        // Payment in installment
-        $categoryRecurrence = isset($_POST['categoryRecurrence']) ? mysqli_escape_string($con, $_POST['categoryRecurrence']) : null;
-        $valueInstallment = isset($_POST['valueInstallment']) ? mysqli_escape_string($con, $_POST['valueInstallment']) : null;
-        $installment = isset($_POST['installment']) ? mysqli_escape_string($con, $_POST['installment']) : null;
-        $recurrence = isset($_POST['recurrence']) ? mysqli_escape_string($con, $_POST['recurrence']) : null;
-        $dateEnd = isset($_POST['dateEnd']) ? mysqli_escape_string($con, $_POST['dateEnd']) : null;
-        $period = isset($_POST['period']) ? mysqli_escape_string($con, $_POST['period']) : null;
-        $status = isset($_POST['status']) ? mysqli_escape_string($con, $_POST['status']) : null;
+    if ($recurrent != 'u') { // Payment in installment
+        $recurrences = filter_input_array(INPUT_POST, [
+                    "categoryRecurrence" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+                    "valueInstallment" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+                    "installment" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+                    "recurrence" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+                    "dateEnd" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+                    "period" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+                    "status" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+                ]);
 
         $dateEnd = !empty($dateEnd) ? dateConvert($dateEnd, '/', '-') : null; 
         $valueInstallment = !empty($valueInstallment) ? moneyToFloat($valueInstallment) : $value; 

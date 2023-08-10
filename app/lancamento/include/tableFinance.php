@@ -16,6 +16,12 @@
 </thead>
 <tbody>
     <?php
+    require('../../../required.php');
+    include_once '../../config/connMysql.php';
+    include_once '../../config/config.php';
+    include_once '../../functions/func.php';
+    include_once './functions.php';
+
     $userId = $_SESSION['id'];
     $finances = dataFinance($userId);
     if ($finances[0] > 0) {
@@ -26,12 +32,12 @@
             $value = floatToMoney($finance['valor']);
 
             $recurrentInfo = "";
-            if($finance['recorrente'] == 'Sim'){
+            if ($finance['recorrente'] == 'Sim') {
                 $recurrentInfo = "<a onclick='infoFinance({$finance['id']})' href='#' data-bs-toggle='modal' 
                 data-bs-target='#modalTemplate' class='d-block'>
                 <i data-feather='eye'></i></a>";
             }
-            
+
             // $payment = match($payment){
             //     'p' => "Pix",
             //     'd' => "Dinheiro",

@@ -16,23 +16,6 @@ function categories()
 
   return $result;
 }
-// function period($id = null){
-//   global $con;
-
-//   $sql = "SELECT 
-//             id,
-//             valor,
-//             descricao
-//         FROM periodo ";
-//   if ($id) {
-//     $sql .= " WHERE id = $id ";
-//   }
-
-//   $query = mysqli_query($con, $sql);
-//   $result = mysqli_fetch_all($query, MYSQLI_NUM);
-
-//   return $result;
-// }
 function financeValues($id)
 {
   global $con;
@@ -255,7 +238,7 @@ function updateFinance($fields)
     $prepareInsert = mysqli_prepare($con, $insert);
     mysqli_stmt_bind_param($prepareInsert, 'isdsii', $fieldIdFinance, $fieldType, $fieldValue, $fieldPaidAt, $fieldCreatedAt, $fieldUpdatedAt);
 
-    $fieldIdFinance = $id;
+    $fieldIdFinance = $fieldId;
     $fieldType = $fields['payment'];
     $fieldValue = $fields['value'];
     $fieldPaidAt = $fields['date'];
@@ -267,7 +250,7 @@ function updateFinance($fields)
 }
 
 // D e l e t e
-function deleteFinance($id, $mult = false)
+function deleteFinance($id)
 {
   global $con;
 

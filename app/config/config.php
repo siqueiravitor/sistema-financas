@@ -1,5 +1,6 @@
 <?php
 session_start();
+ini_set('display_errors', 0);
 define('COMPANY', $_SESSION['COMPANY']);
 define('SYSTEM', $_SESSION['SYSTEM']);
 define('TITLE', $_SESSION['TITLE']);
