@@ -1,8 +1,8 @@
 <?php
+require('../required.php');
 include_once './functions/system.php';
 include_once './config/connMysql.php';
 session_start();
-
 $msg = "Erro de sincronia";
 if ($data = dataSystem()) {
     $system = $data[1];

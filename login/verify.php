@@ -1,6 +1,7 @@
 <?php
 
 // include '../vendor/autoload.php';
+require('../required.php');
 include './connMysql.php';
 include './functions.php';
 

@@ -1,4 +1,5 @@
 <?php
+require('../../required.php');
 include_once '../config/config.php';
 include_once '../functions/func.php';
 include_once '../config/security.php';

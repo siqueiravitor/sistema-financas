@@ -1,11 +1,13 @@
 {
     "name": "vendor/finances",
-    "description": "Description of project finances.",
+    "description": "Finance Manager",
     "authors": [
         {
             "name": "vitor.siqueira",
-            "email": "your@email.here"
+            "email": "alvarenga.dev@gmail"
         }
     ],
-    "require": {}
+    "require": {
+        "vlucas/phpdotenv": "^5.5"
+    }
 }

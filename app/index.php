@@ -1,4 +1,5 @@
 <?php
+require('../required.php');
 include './config/config.php';
 include './config/security.php';
 include './config/connMysql.php';

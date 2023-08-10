@@ -1,10 +1,10 @@
 <?php
-$host = 'localhost';
-$user = 'root';
-$pass = '';
-$shma = 'financa';
+error_reporting(E_ERROR | E_PARSE);
 
-// error_reporting(E_ERROR | E_PARSE);
+$host = $_ENV['HOST'];
+$user = $_ENV['USER'];
+$pass = $_ENV['PASS'];
+$shma = $_ENV['SHMA'];
 $con = mysqli_connect($host, $user, $pass, $shma);
 
 if (!$con) {

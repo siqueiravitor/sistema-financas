@@ -1,15 +1,15 @@
 <?php
 error_reporting(E_ERROR | E_PARSE);
-$host = 'localhost';
-$user = 'root';
-$pass = '';
-$shma = 'financa';
+$host = $_ENV['HOST'];
+$user = $_ENV['USER'];
+$pass = $_ENV['PASS'];
+$shma = $_ENV['SHMA'];
 
 try{
     $con = mysqli_connect($host, $user, $pass, $shma);
 } catch (Exception $e){
     printf("Connect failed: %s\n", mysqli_connect_error());
-    $msg = "Database failed: Sistema fora do ar";
+    $msg = "Sistema fora do ar";
     exit(header("Location: ../?msg=$msg"));
 }
 
