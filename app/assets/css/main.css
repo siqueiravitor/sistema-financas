@@ -4323,7 +4323,7 @@ html.fullscreen-bg #wrapper {
     -ms-transition: all 0.3s ease-in-out;
     -o-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
-    width: 40px
+    width: 35px
 }
 
 .navbar-fixed-top .navbar-brand .name {
@@ -4332,7 +4332,8 @@ html.fullscreen-bg #wrapper {
     line-height: 40px;
     /*text-transform: uppercase;*/
     text-indent: 5px;
-    letter-spacing: 2px
+    letter-spacing: 2px;
+    font-size: 1rem;
 }
 
 @media screen and (max-width: 768px) {
@@ -4416,9 +4417,9 @@ html.fullscreen-bg #wrapper {
 .navbar-nav .icon-menu {
     display: inline-block;
     vertical-align: middle;
-    *vertical-align: auto;
-    *zoom: 1;
-    *display: inline;
+    vertical-align: auto;
+    zoom: 1;
+    display: inline;
     padding: 15px;
     position: relative;
     color: #666
@@ -5163,8 +5164,8 @@ label {
     display: inline-block;
     vertical-align: middle;
     *vertical-align: auto;
-    *zoom: 1;
-    *display: inline;
+    zoom: 1;
+    display: inline;
     cursor: pointer;
     position: relative
 }
