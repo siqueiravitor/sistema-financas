@@ -11,7 +11,7 @@ include_once './include/functions.php';
 <html lang="pt-br">
 
 <head>
-    <title>Lançamento -
+    <title>Categorias -
         <?= TITLE; ?>
     </title>
     <meta charset="utf-8">
