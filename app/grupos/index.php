@@ -10,7 +10,7 @@ include_once '../config/connMysql.php';
 <html lang="pt-br">
 
 <head>
-    <title>Listas -
+    <title>Grupos -
         <?= TITLE; ?>
     </title>
     <meta charset="utf-8">
@@ -67,7 +67,7 @@ include_once '../config/connMysql.php';
                         <div class="card shadow-sm">
                             <div class="card-body">
                                 <div class="border-bottom mb-4">
-                                    <h5 class="text-muted text-center space-1">Criar Lista</h5>
+                                    <h5 class="text-muted text-center space-1">Criar Grupo</h5>
                                 </div>
                             </div>
                         </div>
@@ -76,7 +76,7 @@ include_once '../config/connMysql.php';
                         <div class="card shadow-sm">
                             <div class="card-body">
                                 <div class="border-bottom mb-4">
-                                    <h5 class="text-muted text-center space-1">Listas</h5>
+                                    <h5 class="text-muted text-center space-1">Grupos</h5>
                                 </div>
 
                             </div>
