@@ -101,32 +101,52 @@ $financeValues = financeValues($_SESSION['id']);
                 }
                 ?>
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="card shadow-sm">
-                            <div class="card-body card-info bg-success">
-                                Lucros
+                    <div class="col-lg-2 col-md-4">
+                        <div class="card card-info">
+                            <div class="card-body card-body-info card-border-success shadow-sm">
+                                Entrada (R$)
                                 <div class='moneyLabel'>
-                                    <?= floatToMoney($financeValues['lucro']) ?>
+                                    <?= floatToMoney($financeValues['recebido'], null) ?>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card shadow-sm">
-                            <div class="card-body card-info bg-danger">
-                                Despesas
+                    <div class="col-lg-2 col-md-4">
+                        <div class="card card-info">
+                            <div class="card-body card-body-info card-border-success shadow-sm">
+                                A receber (R$)
                                 <div class='moneyLabel'>
-                                    <?= floatToMoney($financeValues['despesa']) ?>
+                                    <?= floatToMoney($financeValues['receber'], null) ?>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card shadow-sm">
-                            <div class="card-body card-info bg-info">
-                                Total
+                    <div class="col-lg-2 col-md-4">
+                        <div class="card card-info">
+                            <div class="card-body card-body-info card-border-danger shadow-sm">
+                                Saída (R$)
                                 <div class='moneyLabel'>
-                                    <?= floatToMoney($financeValues['total']) ?>
+                                    <?= floatToMoney($financeValues['pago'], null) ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4">
+                        <div class="card card-info">
+                            <div class="card-body card-body-info card-border-danger shadow-sm">
+                                A pagar (R$)
+                                <div class='moneyLabel'>
+                                    <?= floatToMoney($financeValues['pagar'], null) ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-lg-4">
+                        <div class="card card-info">
+                            <div class="card-body card-body-info card-border-info shadow-sm">
+                                Saldo Geral (R$)
+                                <div class='moneyLabel'>
+                                    <?= floatToMoney($financeValues['total'], null) ?>
                                 </div>
                             </div>
                         </div>

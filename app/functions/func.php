@@ -22,9 +22,9 @@ function moneyToFloat($str){
     
     return $floatValue;
 }
-function floatToMoney($amount, $currency = 'R$') {
+function floatToMoney($amount, $currency = 'R$ ') {
     $formatted = number_format($amount, 2, ',', '.');
-    return $currency . ' ' . $formatted;
+    return $currency . $formatted;
 }
 
 function dateConvert($dt, $separator, $separate, $reverse = true) {

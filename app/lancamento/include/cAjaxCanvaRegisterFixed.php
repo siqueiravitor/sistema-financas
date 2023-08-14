@@ -9,7 +9,6 @@ include_once './functions.php';
 <div class="form-group">
     <small> <b> Período</b> </small>
     <select class="form-control select2" name="period">
-        <option value=''>N/A</option>
         <option value='day'>Diário</option>
         <option value='week'>Semanal</option>
         <option value='month'>Mensal</option>

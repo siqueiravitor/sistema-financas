@@ -93,6 +93,7 @@
         00EFC8 -- Turquoise
         2C94EA -- Blue
     */
+    --card-radius: .6rem;
 
     --color-primary: #269471;
     --color-secondary: #22f1b1;
@@ -698,10 +699,32 @@ textarea.form-control {
 .float-left {
     float: left;
 }
-
 .card-body {
     padding: 1.25rem;
 }
+.card-info{
+    background: none!important;
+    border-radius: 0.6rem;
+    border: none!important;
+    color: var(--color-tertiary);
+    text-align: center;
+}
+.card-body-info {
+    border-left: 10px solid var(--color-primary);
+    border-radius: var(--card-radius);
+    background: var(--color-light);
+    color: var(--color-tertiary)
+}
+.card-border-info {
+    border-color: var(--color-info)
+}
+.card-border-success {
+    border-color: var(--color-success)
+}
+.card-border-danger {
+    border-color: var(--color-danger)
+}
+
 
 .form-group {
     margin-bottom: 1rem;
