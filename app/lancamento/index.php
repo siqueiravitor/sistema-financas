@@ -7,7 +7,6 @@ include_once '../config/connMysql.php';
 include_once './include/functions.php';
 
 $financeValues = financeValues($_SESSION['id']);
-
 ?>
 <!doctype html>
 <html lang="pt-br">

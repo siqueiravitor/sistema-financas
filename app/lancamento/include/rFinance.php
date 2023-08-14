@@ -66,5 +66,4 @@ if ($id = registerFinance($data['finance'])) {
     $msg = 'Erro ao registrar dados';
     $msg .= "&alert=1";
 }
-mysqli_close($con);
 header("Location: ../?msg=$msg");

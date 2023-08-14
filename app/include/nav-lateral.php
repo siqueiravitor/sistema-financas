@@ -15,7 +15,7 @@
                 ?>
                 <li class="<?= $active ?>">
                     <a href="<?= BASED; ?>">
-                        <i class='iconColor navIcon' data-feather="codesandbox"></i>
+                        <i class='iconColor navIcon' data-feather="bar-chart-2"></i>
                         <span class='ml-2'>Dashboard</span>
                     </a>
                 </li>
@@ -48,6 +48,18 @@
                     <a href="<?= BASED . "/lancamento" ?>">
                         <i class='iconColor navIcon' data-feather="dollar-sign"></i>
                         <span class='ml-2'>Lançamento</span>
+                    </a>
+                </li>
+                <li class="middle <?= 'categorias' == $page ? 'active' : '' ?>">
+                    <a href="<?= BASED . "/categorias" ?>">
+                        <i class='iconColor navIcon' data-feather="command"></i>
+                        <span class='ml-2'>Categorias</span>
+                    </a>
+                </li>
+                <li class="middle <?= 'grupos' == $page ? 'active' : '' ?>">
+                    <a href="<?= BASED . "/grupos" ?>">
+                        <i class='iconColor navIcon' data-feather="grid"></i>
+                        <span class='ml-2'>Grupos</span>
                     </a>
                 </li>
                 <li class="middle <?= 'listas' == $page ? 'active' : '' ?>">

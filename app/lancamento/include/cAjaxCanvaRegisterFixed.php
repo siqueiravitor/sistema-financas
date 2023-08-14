@@ -29,7 +29,7 @@ include_once './functions.php';
     <select class="form-control select2" name="category">
         <?php
         $tipo = '';
-        $categorias = categories();
+        $categorias = categories($_SESSION['id']);
         foreach ($categorias as $categoria) {
             if ($tipo != $categoria[1]) {
                 $tipo = $categoria[1] == 'e' ? 'Receita' : 'Despesa';

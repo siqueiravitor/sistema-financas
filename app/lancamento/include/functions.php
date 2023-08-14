@@ -1,133 +1,5 @@
 <?php
-// C o n s u l t
-function categories()
-{
-  global $con;
-
-  $sql = "SELECT 
-            id,
-            type,
-            description
-        FROM categories
-        ORDER BY type";
-
-  $query = mysqli_query($con, $sql);
-  $result = mysqli_fetch_all($query, MYSQLI_NUM);
-
-  return $result;
-}
-function financeValues($id)
-{
-  global $con;
-
-  $sql = "SELECT
-            SUM(CASE WHEN c.type = 'in' THEN f.value ELSE 0 END) as lucro,
-            SUM(CASE WHEN c.type = 'out' THEN f.value ELSE 0 END) as despesa,
-            SUM(CASE WHEN c.type = 'in' THEN f.value ELSE -f.value END) as total
-          FROM finances f
-          INNER JOIN categories c ON (c.id = f.id_category)
-          WHERE id_user = $id";
-
-  $query = mysqli_query($con, $sql);
-  $result = mysqli_fetch_all($query, MYSQLI_ASSOC)[0];
-
-  return $result;
-}
-
-function dataFinance($userId, $id = null)
-{
-  global $con;
-
-  $sql = "SELECT 
-            f.id,
-            f.value as valor,
-            f.description AS descricaoFinanca,
-            CASE 
-              WHEN p.type = 'p'  THEN 'Pix'
-              WHEN p.type = 'm'  THEN 'Dinheiro'
-              WHEN p.type = 'cc' THEN 'Crédito'
-              WHEN p.type = 'dc' THEN 'Débito'
-              ELSE 'Pendente'
-            END as pagamento,
-            CASE 
-				        WHEN f.recurrent = 'y' THEN 'Sim'
-                ELSE 'Não'
-			      END as recorrente,
-            f.payday as data,
-            f.created_at as datager,
-            CASE 
-              WHEN c.type = 'in' THEN 'Entrada'
-              ELSE 'Saída'
-            END as tipo,
-            c.description AS categoria
-        FROM finances f
-        LEFT JOIN payments p ON (p.id_finance = f.id)
-        INNER JOIN categories c ON (c.id = f.id_category)
-        WHERE id_user = $userId";
-  if ($id) {
-    $sql .= " AND f.id = $id ";
-  }
-
-  $query = mysqli_query($con, $sql);
-  $rows = mysqli_num_rows($query);
-  $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
-  array_unshift($result, $rows);
-
-  return $result;
-}
-function recurrence($userId, $id)
-{
-  // global $con;
-
-  // $sql = "SELECT 
-  //           f.id,
-  //           f.value,
-  //           f.description AS descricaoFinanca,
-  //           CASE 
-  //             WHEN p.type = 'p'  THEN 'Pix'
-  //             WHEN p.type = 'm'  THEN 'Dinheiro'
-  //             WHEN p.type = 'cc' THEN 'Crédito'
-  //             WHEN p.type = 'dc' THEN 'Débito'
-  //             ELSE 'Pendente'
-  //           END as pagamento,
-  //           CASE 
-  // 			        WHEN f.recurrent = 'y' THEN 'Sim'
-  //               ELSE 'Não'
-  // 		      END as recorrente,
-  //           f.payday as data,
-  //           f.created_at as datager,
-
-  //           CASE 
-  //             WHEN c.type = 'in' THEN 'Entrada'
-  //             ELSE 'Saída'
-  //           END as tipo,
-  //           c.description AS categoria
-
-  //           r.valor as valorParcelas,
-  //           r.recorrencia,
-  //           r.parcelas,
-  //           CASE 
-  //             WHEN r.status = 'p' THEN 'Pendente'
-  //             WHEN r.status = 'f' THEN 'Finalizado'
-  //             WHEN r.status = 'c' THEN 'Cancelado'
-  //             ELSE 'Em andamento'
-  //           END as statusRecorrecencia,
-
-  //           p.descricao as periodo,
-  //           p.valor as valorPeriodo
-  //         FROM financa f
-  //         INNER JOIN categoria c ON (c.id = f.idcategoria)
-  //         INNER JOIN recorrencia r ON (r.idfinanca = f.id)
-  //         INNER JOIN periodo p ON (p.id = r.idperiodo)
-  //         WHERE idusuario = $userId
-  //         AND f.id = $id ";
-
-  // $query = mysqli_query($con, $sql);
-  // $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
-
-  // return $result;
-}
-// R e g i s t e r
+// C r e a t e 
 function registerFinance($fields)
 {
   global $con;
@@ -200,6 +72,133 @@ function registerRecurrence($fields)
   // }
   // mysqli_stmt_close($prepareInsert);
   // return true;
+}
+// R e a d
+function categories($id = null){
+  global $con;
+  $sql = "SELECT 
+            id,
+            type,
+            description
+        FROM categories
+        WHERE id_user = $id
+        ORDER BY type";
+
+  $query = mysqli_query($con, $sql);
+  $result = mysqli_fetch_all($query, MYSQLI_NUM);
+
+  return $result;
+}
+function financeValues(){
+  global $con;
+  $id_user = $_SESSION['id'];
+
+  $sql = "SELECT
+            SUM(CASE WHEN c.type = 'in' THEN f.value ELSE 0 END) as lucro,
+            SUM(CASE WHEN c.type = 'out' THEN f.value ELSE 0 END) as despesa,
+            SUM(CASE WHEN c.type = 'in' THEN f.value ELSE -f.value END) as total
+          FROM finances f
+          INNER JOIN categories c ON (c.id = f.id_category)
+          WHERE f.id_user = $id_user";
+
+  $query = mysqli_query($con, $sql);
+  $result = mysqli_fetch_all($query, MYSQLI_ASSOC)[0];
+
+  return $result;
+}
+
+function dataFinance($userId, $id = null)
+{
+  global $con;
+
+  $sql = "SELECT 
+            f.id,
+            f.value as valor,
+            f.description AS descricaoFinanca,
+            CASE 
+              WHEN p.type = 'p'  THEN 'Pix'
+              WHEN p.type = 'm'  THEN 'Dinheiro'
+              WHEN p.type = 'cc' THEN 'Crédito'
+              WHEN p.type = 'dc' THEN 'Débito'
+              ELSE 'Pendente'
+            END as pagamento,
+            CASE 
+				        WHEN f.recurrent = 'y' THEN 'Sim'
+                ELSE 'Não'
+			      END as recorrente,
+            f.payday as data,
+            f.created_at as datager,
+            CASE 
+              WHEN c.type = 'in' THEN 'Entrada'
+              ELSE 'Saída'
+            END as tipo,
+            c.description AS categoria
+        FROM finances f
+        LEFT JOIN payments p ON (p.id_finance = f.id)
+        INNER JOIN categories c ON (c.id = f.id_category)
+        WHERE f.id_user = $userId";
+  if ($id) {
+    $sql .= " AND f.id = $id ";
+  }
+
+  $query = mysqli_query($con, $sql);
+  $rows = mysqli_num_rows($query);
+  $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+  array_unshift($result, $rows);
+
+  return $result;
+}
+function recurrence($userId, $id)
+{
+  // global $con;
+
+  // $sql = "SELECT 
+  //           f.id,
+  //           f.value,
+  //           f.description AS descricaoFinanca,
+  //           CASE 
+  //             WHEN p.type = 'p'  THEN 'Pix'
+  //             WHEN p.type = 'm'  THEN 'Dinheiro'
+  //             WHEN p.type = 'cc' THEN 'Crédito'
+  //             WHEN p.type = 'dc' THEN 'Débito'
+  //             ELSE 'Pendente'
+  //           END as pagamento,
+  //           CASE 
+  // 			        WHEN f.recurrent = 'y' THEN 'Sim'
+  //               ELSE 'Não'
+  // 		      END as recorrente,
+  //           f.payday as data,
+  //           f.created_at as datager,
+
+  //           CASE 
+  //             WHEN c.type = 'in' THEN 'Entrada'
+  //             ELSE 'Saída'
+  //           END as tipo,
+  //           c.description AS categoria
+
+  //           r.valor as valorParcelas,
+  //           r.recorrencia,
+  //           r.parcelas,
+  //           CASE 
+  //             WHEN r.status = 'p' THEN 'Pendente'
+  //             WHEN r.status = 'f' THEN 'Finalizado'
+  //             WHEN r.status = 'c' THEN 'Cancelado'
+  //             ELSE 'Em andamento'
+  //           END as statusRecorrecencia,
+
+  //           p.descricao as periodo,
+  //           p.valor as valorPeriodo
+  //         FROM financa f
+  //         INNER JOIN categoria c ON (c.id = f.idcategoria)
+  //         INNER JOIN recorrencia r ON (r.idfinanca = f.id)
+  //         INNER JOIN periodo p ON (p.id = r.idperiodo)
+  //         WHERE idusuario = $userId
+  //         AND f.id = $id ";
+
+  // $query = mysqli_query($con, $sql);
+  // $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+
+  // return $result;
 }
 // U p d a t e
 function updateFinance($fields)
