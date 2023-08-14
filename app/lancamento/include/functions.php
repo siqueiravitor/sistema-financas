@@ -94,8 +94,12 @@ function financeValues(){
   $id_user = $_SESSION['id'];
 
   $sql = "SELECT
-            SUM(CASE WHEN c.type = 'in' THEN f.value ELSE 0 END) as lucro,
+            SUM(CASE WHEN c.type = 'in' THEN f.value ELSE 0 END) as receita,
+            SUM(CASE WHEN c.type = 'in' AND paid = 'n' THEN f.value ELSE 0 END) as receber,
+            SUM(CASE WHEN c.type = 'in' AND paid = 'y' THEN f.value ELSE 0 END) as recebido,
             SUM(CASE WHEN c.type = 'out' THEN f.value ELSE 0 END) as despesa,
+            SUM(CASE WHEN c.type = 'out' AND paid = 'n' THEN f.value ELSE 0 END) as pagar,
+            SUM(CASE WHEN c.type = 'out' AND paid = 'y' THEN f.value ELSE 0 END) as pago,
             SUM(CASE WHEN c.type = 'in' THEN f.value ELSE -f.value END) as total
           FROM finances f
           INNER JOIN categories c ON (c.id = f.id_category)
