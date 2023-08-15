@@ -712,7 +712,8 @@ textarea.form-control {
     border-width: 0px;
     border-radius: var(--card-radius);
     background: var(--color-light);
-    color: var(--color-tertiary)
+    color: var(--color-tertiary);
+    white-space: nowrap;
 }
 .card-border-left {
     border-left-width: 10px;

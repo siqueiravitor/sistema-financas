@@ -44,10 +44,10 @@
                 <?php
                 $page = explode('/', $_SERVER['REQUEST_URI'])[3] ?? '';
                 ?>
-                <li class="middle <?= 'lancamento' == $page ? 'active' : '' ?>">
-                    <a href="<?= BASED . "/lancamento" ?>">
+                <li class="middle <?= 'lancamentos' == $page ? 'active' : '' ?>">
+                    <a href="<?= BASED . "/lancamentos" ?>">
                         <i class='iconColor navIcon' data-feather="dollar-sign"></i>
-                        <span class='ml-2'>Lançamento</span>
+                        <span class='ml-2'>Lançamentos</span>
                     </a>
                 </li>
                 <li class="middle <?= 'categorias' == $page ? 'active' : '' ?>">
