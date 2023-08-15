@@ -1,15 +1,3 @@
-function deleteSelected() {
-    let data = $(".checkRegister");
-    let items = [];
-    data.each((idx) => {
-        if (data[idx].checked === true) {
-            items.push(data[idx].value);
-        }
-    })
-    if (items.length > 0) {
-        location.href = './include/dFinance.php?mult=true&id=' + items;
-    }
-}
 function checkCheckbox() {
     let data = $(".checkRegister");
     let items = [];
@@ -39,6 +27,33 @@ function checkAll(check = true) {
             data[idx].checked = false;
         })
         checkCheckbox();
+    }
+}
+function deleteSelected() {
+    let data = $(".checkRegister");
+    let items = [];
+    data.each((idx) => {
+        if (data[idx].checked === true) {
+            items.push(data[idx].value);
+        }
+    })
+    if (items.length > 0) {
+        let url = './include/cAjaxDeleteFinance.php';
+        const request = $.ajax({
+            url,
+            data: { id: items, mult: true },
+            method: "GET",
+            dataType: "html",
+            beforeSend: function () {
+                $("#modal-content").html(divLoading);
+            }
+        });
+        request.done(function (data) {
+            $("#modal-content").html(data);
+        });
+        request.fail(function (jqXHR, textStatus) {
+            $("#modal-content").html(divError(textStatus));
+        });
     }
 }
 // A j a x
@@ -136,6 +151,24 @@ function loadFinanceData(id) {
     });
     request.fail(function (jqXHR, textStatus) {
         $("#ocTemplate").html(divError(textStatus));
+    });
+}
+function deleteFinance(id) {
+    let url = './include/cAjaxDeleteFinance.php';
+    const request = $.ajax({
+        url,
+        data: { id },
+        method: "GET",
+        dataType: "html",
+        beforeSend: function () {
+            $("#modal-content").html(divLoading);
+        }
+    });
+    request.done(function (data) {
+        $("#modal-content").html(data);
+    });
+    request.fail(function (jqXHR, textStatus) {
+        $("#modal-content").html(divError(textStatus));
     });
 }
 function infoFinance(id) {

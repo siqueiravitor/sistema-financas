@@ -170,8 +170,8 @@ $financeValues = financeValues($_SESSION['id']);
                                                 onclick='checkAll(false)'>
                                                 Deselecionar todos
                                             </button>
-                                            <button class='btn btn-outline-danger btn-checkAll mb-2' disabled
-                                                onclick='deleteSelected()'>
+                                            <button class='btn btn-outline-danger btn-checkAll mb-2' disabled onclick='deleteSelected()' 
+                                                data-bs-toggle='modal' data-bs-target='#modalTemplate' class='d-block'>
                                                 Deletar selecionados
                                             </button>
                                             <div class='d-inline-block float-right'>

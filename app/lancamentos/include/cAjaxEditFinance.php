@@ -89,3 +89,7 @@ $finance = dataFinance($userId, $id)[1];
         </div>
     </form>
 </div>
+
+<div class="offcanvas-footer mr-2">
+    <?php include '../../include/footer.php' ?>
+</div>
