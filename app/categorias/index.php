@@ -54,8 +54,7 @@ include_once './include/functions.php';
         table td:first-child,
         table th:first-child {
             text-align: center;
-            border-right: 1px solid var(--color-border-lighter) !important;
-            width: 5%;
+            width: 20%;
         }
 
         table td:nth-last-child(1),

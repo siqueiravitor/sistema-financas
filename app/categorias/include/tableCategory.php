@@ -1,6 +1,5 @@
 <thead>
 <tr>
-    <th>#</th>
     <th>Tipo</th>
     <th>Descrição</th>
     <th></th>
@@ -17,7 +16,6 @@
     foreach ($categories as $category) {
     ?>
         <tr>
-            <td><?= $category[0] ?></td>
             <td><?= $category[1] == 'in' ? 'Receita' : 'Despesa' ?></td>
             <td><?= $category[2] ?></td>
             <td>

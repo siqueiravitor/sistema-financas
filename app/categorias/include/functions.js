@@ -14,7 +14,7 @@ function loadCategories() {
         $("#category_table").dataTable({
             "aaSorting": [],
             "columnDefs": [{
-                "targets": [2, 3],
+                "targets": [2,3],
                 "orderable": false
             }]
         });
