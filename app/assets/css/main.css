@@ -704,16 +704,23 @@ textarea.form-control {
 }
 .card-info{
     background: none!important;
-    border-radius: 0.6rem;
     border: none!important;
     color: var(--color-tertiary);
     text-align: center;
 }
 .card-body-info {
-    border-left: 10px solid var(--color-primary);
+    border-width: 0px;
     border-radius: var(--card-radius);
     background: var(--color-light);
     color: var(--color-tertiary)
+}
+.card-border-left {
+    border-left-width: 10px;
+    border-style: solid;
+}
+.card-border-right {
+    border-right-width: 10px;
+    border-style: solid;
 }
 .card-border-info {
     border-color: var(--color-info)

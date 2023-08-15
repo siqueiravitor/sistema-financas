@@ -101,9 +101,9 @@ $financeValues = financeValues($_SESSION['id']);
                 }
                 ?>
                 <div class="row">
-                    <div class="col-lg-2 col-md-4">
+                    <div class="col-lg-2 col-md-6">
                         <div class="card card-info">
-                            <div class="card-body card-body-info card-border-success shadow-sm">
+                            <div class="card-body card-body-info card-border-left card-border-success shadow-sm">
                                 Entrada (R$)
                                 <div class='moneyLabel'>
                                     <?= floatToMoney($financeValues['recebido'], null) ?>
@@ -111,9 +111,9 @@ $financeValues = financeValues($_SESSION['id']);
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-4">
+                    <div class="col-lg-2 col-md-6">
                         <div class="card card-info">
-                            <div class="card-body card-body-info card-border-success shadow-sm">
+                            <div class="card-body card-body-info card-border-right card-border-success shadow-sm">
                                 A receber (R$)
                                 <div class='moneyLabel'>
                                     <?= floatToMoney($financeValues['receber'], null) ?>
@@ -121,9 +121,19 @@ $financeValues = financeValues($_SESSION['id']);
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-4">
+                    <div class="col-md-12 col-lg-4">
                         <div class="card card-info">
-                            <div class="card-body card-body-info card-border-danger shadow-sm">
+                            <div class="card-body card-body-info card-border-left card-border-right card-border-info shadow-sm">
+                                Saldo Geral (R$)
+                                <div class='moneyLabel'>
+                                    <?= floatToMoney($financeValues['total'], null) ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <div class="card card-info">
+                            <div class="card-body card-body-info card-border-left card-border-danger shadow-sm">
                                 Saída (R$)
                                 <div class='moneyLabel'>
                                     <?= floatToMoney($financeValues['pago'], null) ?>
@@ -131,22 +141,12 @@ $financeValues = financeValues($_SESSION['id']);
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-4">
+                    <div class="col-lg-2 col-md-6">
                         <div class="card card-info">
-                            <div class="card-body card-body-info card-border-danger shadow-sm">
+                            <div class="card-body card-body-info card-border-right card-border-danger shadow-sm">
                                 A pagar (R$)
                                 <div class='moneyLabel'>
                                     <?= floatToMoney($financeValues['pagar'], null) ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-8 col-lg-4">
-                        <div class="card card-info">
-                            <div class="card-body card-body-info card-border-info shadow-sm">
-                                Saldo Geral (R$)
-                                <div class='moneyLabel'>
-                                    <?= floatToMoney($financeValues['total'], null) ?>
                                 </div>
                             </div>
                         </div>
