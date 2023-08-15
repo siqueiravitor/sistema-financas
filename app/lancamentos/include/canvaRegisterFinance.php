@@ -6,7 +6,7 @@
         <button type="button" class="btn-close text-reset float-right" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <form method="POST" action="./include/rFinance.php" id="formRegister" >
+        <form method="POST" action="./include/cFinance.php" id="formRegister" >
             <div class="form-group">
                 <small> <b> Repetição</b> </small>
                 <select class="form-control select2" name="recurrent" onchange='recurrenceOptions(this.value)'>

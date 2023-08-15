@@ -7,11 +7,10 @@
         <th>Pagamento</th>
         <th>Recorrente</th>
         <th>Descrição</th>
-        <th>Data</th>
         <th>Gerado</th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th class='text-muted'><i data-feather='eye'></i></a></th>
+        <th class='text-muted'><i data-feather='edit'></i></a></th>
+        <th class='text-muted'><i data-feather='trash-2'></i></a></th>
     </tr>
 </thead>
 <tbody>
@@ -27,7 +26,6 @@
     if ($finances[0] > 0) {
         array_shift($finances);
         foreach ($finances as $finance) {
-            $date = dateConvert($finance['data'], '-', '/', true);
             $dategen = timestampToDate($finance['datager'])['date'];
             $value = floatToMoney($finance['valor']);
 
@@ -54,7 +52,6 @@
             echo "<td>{$finance['pagamento']}</td>";
             echo "<td>{$finance['recorrente']}</td>";
             echo "<td class='text-left' style='white-space: normal'>{$finance['descricaoFinanca']}</td>";
-            echo "<td>{$date}</td>";
             echo "<td>{$dategen}</td>";
             echo "<td>{$recurrentInfo}</td>";
             echo "<td><a onclick='loadFinanceData({$finance['id']})' href='#' aria-controls='ocNewRecord' 

@@ -72,7 +72,7 @@ function loadFinances() {
         $("#management-table").dataTable({
             "aaSorting": [],
             "columnDefs": [{
-                "targets": [0, 9, 10, 11],
+                "targets": [0,8,9,10],
                 "orderable": false
             }]
         });

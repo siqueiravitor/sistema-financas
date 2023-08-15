@@ -119,18 +119,12 @@ function dataFinance($userId, $id = null)
             f.id,
             f.value as valor,
             f.description AS descricaoFinanca,
-            CASE 
-              WHEN p.type = 'p'  THEN 'Pix'
-              WHEN p.type = 'm'  THEN 'Dinheiro'
-              WHEN p.type = 'cc' THEN 'Crédito'
-              WHEN p.type = 'dc' THEN 'Débito'
-              ELSE 'Pendente'
-            END as pagamento,
+            IF(pt.description, pt.description, '-') as pagamento,
+            p.value as valorPagamento,
             CASE 
 				        WHEN f.recurrent = 'y' THEN 'Sim'
-                ELSE 'Não'
+                ELSE '-'
 			      END as recorrente,
-            f.payday as data,
             f.created_at as datager,
             CASE 
               WHEN c.type = 'in' THEN 'Entrada'
@@ -139,6 +133,7 @@ function dataFinance($userId, $id = null)
             c.description AS categoria
         FROM finances f
         LEFT JOIN payments p ON (p.id_finance = f.id)
+        LEFT JOIN payment_type pt ON (pt.id = p.id_type)
         INNER JOIN categories c ON (c.id = f.id_category)
         WHERE f.id_user = $userId";
   if ($id) {
