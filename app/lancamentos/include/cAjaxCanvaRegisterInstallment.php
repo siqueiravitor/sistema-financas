@@ -6,19 +6,20 @@ include_once '../../functions/func.php';
 include_once './functions.php';
 
 ?>
-<div class="form-group">
-    <small> <b> Período</b> </small>
-    <select class="form-control select2" name="period">
-        <option value=''>Pendente</option>
-        <option value='day'>Diário</option>
-        <option value='week'>Semanal</option>
-        <option value='month'>Mensal</option>
-        <option value='year'>Anual</option>
-    </select>
-</div>
-<div class="form-group">
-    <small> <b> Recorrência</b> </small>
-    <input class="form-control" type="number" min='1' value='1' name="recurrence">
+<div class='row'>
+    <div class="form-group col-md-6">
+        <small> <b> Período</b> </small>
+        <select class="form-control select2" name="period">
+            <option value='day'>Diário</option>
+            <option value='week'>Semanal</option>
+            <option value='month'>Mensal</option>
+            <option value='year'>Anual</option>
+        </select>
+    </div>
+    <div class="form-group col-md-6">
+        <small> <b> Recorrência</b> </small>
+        <input class="form-control" type="number" min='1' value='1' name="recurrence">
+    </div>
 </div>
 <div class="form-group">
     <small><b>Valor de entrada</b></small>
@@ -40,7 +41,7 @@ include_once './functions.php';
         $categorias = categories($_SESSION['id']);
         foreach ($categorias as $categoria) {
             if ($tipo != $categoria[1]) {
-                $tipo = $categoria[1] == 'e' ? 'Receita' : 'Despesa';
+                $tipo = $categoria[1] == 'in' ? 'Receita' : 'Despesa';
                 echo "<optgroup label='$tipo'>";
                 $tipo = $categoria[1];
             }
@@ -63,20 +64,20 @@ include_once './functions.php';
 <div class="form-group">
     <small> <b> Pagamento </b> </small>
     <select class="form-control select2" name="payment">
-        <option value="">n/a</option>
-        <option value="d">Dinheiro</option>
-        <option value="p">Pix</option>
-        <optgroup label='Cartão'>
-            <option value="cc">Crédito</option>
-            <option value="cd">Débito</option>
-        </optgroup>
+        <option value=''>Pendente</option>
+        <?php
+        $paymentType = paymentType($_SESSION['id']);
+        foreach ($paymentType as $type) {
+            echo "<option value='$type[0]'>$type[1]</option>";
+        }
+        ?>
     </select>
 </div>
 <div class="form-group">
     <small> <b> Status </b> </small>
     <select class="form-control select2" name="status">
-        <option value="p">Pendente</option>
-        <option value="a">Andamento</option>
+        <option value="p">A começar</option>
+        <option value="a">Em andamento</option>
         <option value="f">Finalizado</option>
     </select>
 </div>

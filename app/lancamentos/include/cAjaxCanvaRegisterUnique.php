@@ -18,7 +18,7 @@ include_once './functions.php';
         $categorias = categories($_SESSION['id']);
         foreach ($categorias as $categoria) {
             if ($tipo != $categoria[1]) {
-                $tipo = $categoria[1] == 'e' ? 'Receita' : 'Despesa';
+                $tipo = $categoria[1] == 'in' ? 'Receita' : 'Despesa';
                 echo "<optgroup label='$tipo'>";
                 $tipo = $categoria[1];
             }
@@ -37,13 +37,13 @@ include_once './functions.php';
 <div class="form-group">
     <small> <b> Pagamento </b> </small>
     <select class="form-control select2" name="payment">
-        <option value="">Pendente</option>
-        <option value="d">Dinheiro</option>
-        <option value="p">Pix</option>
-        <optgroup label='Cartão'>
-            <option value="cc">Crédito</option>
-            <option value="cd">Débito</option>
-        </optgroup>
+        <option value=''>Pendente</option>
+        <?php
+        $paymentType = paymentType($_SESSION['id']);
+        foreach ($paymentType as $type) {
+            echo "<option value='$type[0]'>$type[1]</option>";
+        }
+        ?>
     </select>
 </div>
 <div class="form-group" id='recurrenceDiv' style="display: none">

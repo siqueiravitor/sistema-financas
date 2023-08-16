@@ -12,10 +12,10 @@ if(!isset($_POST['finance'])){
 }
 
 $finance = filter_input_array(INPUT_POST, [
-    "finance" => FILTER_SANITIZE_NUMBER_INT
+    "finance" => FILTER_SANITIZE_FULL_SPECIAL_CHARS
 ]);
-$id = $finance['finance'];
 
+$id = $finance['finance'];
 if($rows = deleteFinance($id)){
     $msg = "Dados apagados ($rows)";
 } else {

@@ -52,7 +52,7 @@ if (!$mult) {
                 <button type="button" class="btn btn-tertiary" data-bs-dismiss="modal">Fechar</button>
                 <form method='POST' action="./include/dFinance.php">
                     <input value="<?= $finance['id'] ?>" name='finance' hidden>
-                    <button class="btn btn-danger" data-bs-dismiss="modal">Confirmar</button>    
+                    <button class="btn btn-danger" data-bs-dismiss="modal">Confirmar</button>
                 </form>
             </div>
         </div>
@@ -80,7 +80,7 @@ if (!$mult) {
     }
 } else {
     $quantity = count($id);
-    $finances = implode(',',$id);
+    $finances = implode(',', $id);
     ?>
     <div class="modal-content" id='modal-content'>
 
@@ -97,7 +97,11 @@ if (!$mult) {
 
         <div class="modal-footer" id='modal-footer'>
             <button type="button" class="btn btn-tertiary" data-bs-dismiss="modal">Fechar</button>
-            <a href="./include/dFinance.php?id=<?= $finances ?>" class="btn btn-danger">Confirmar</a>
+
+            <form method='POST' action="./include/dFinance.php">
+                <input value="<?= $finances ?>" name='finance' hidden>
+                <button class="btn btn-danger" data-bs-dismiss="modal">Confirmar</button>
+            </form>
         </div>
     </div>
 <?php
