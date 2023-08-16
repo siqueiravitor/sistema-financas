@@ -6,15 +6,15 @@ include '../../functions/func.php';
 include '../../config/connMysql.php';
 include './functions.php';
 
-if(!isset($_GET['id'])){
+if(!isset($_POST['finance'])){
     $msg = "Registro não encontrado&alert=1";
     exit(header("Location: ../?msg=$msg"));
 }
 
-$finance = filter_input_array(INPUT_GET, [
-    "id" => FILTER_SANITIZE_NUMBER_INT
+$finance = filter_input_array(INPUT_POST, [
+    "finance" => FILTER_SANITIZE_NUMBER_INT
 ]);
-$id = $finance['id'];
+$id = $finance['finance'];
 
 if($rows = deleteFinance($id)){
     $msg = "Dados apagados ($rows)";

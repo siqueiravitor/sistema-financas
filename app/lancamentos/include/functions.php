@@ -7,11 +7,11 @@ function registerFinance($fields)
   $paid = $fields['payment'] ? 'y' : 'n';
   $date = date('Y-m-d H:i:s');
 
-  $insert = "INSERT INTO finances (id_user, id_category, value, description, paid, recurrent, payday, created_at, updated_at) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  $insert = "INSERT INTO finances (id_user, id_category, value, description, paid, recurrent, created_at, updated_at) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
   $prepareInsert = mysqli_prepare($con, $insert);
-  mysqli_stmt_bind_param($prepareInsert, 'iidssssii', $fieldUser, $fieldCategory, $fieldValue, $fieldDesc, $fieldPayment, $fieldRecurrent, $fieldDate, $fieldCreatedAt, $fieldUpdatedAt);
+  mysqli_stmt_bind_param($prepareInsert, 'iidsssii', $fieldUser, $fieldCategory, $fieldValue, $fieldDesc, $fieldPayment, $fieldRecurrent, $fieldCreatedAt, $fieldUpdatedAt);
 
   $fieldUser = $fields['iduser'];
   $fieldCategory = $fields['idcategory'];
@@ -19,7 +19,6 @@ function registerFinance($fields)
   $fieldDesc = $fields['description'];
   $fieldPayment = $paid;
   $fieldRecurrent = $recurrent;
-  $fieldDate = $fields['date'];
   $fieldCreatedAt = $date;
   $fieldUpdatedAt = $date;
 
@@ -31,20 +30,20 @@ function registerFinance($fields)
   $id = mysqli_stmt_insert_id($prepareInsert);
   mysqli_stmt_close($prepareInsert);
 
-  if ($fields['payment']) {
-    $insert = "INSERT INTO payments (id_finance, type, value, paid_at, created_at, updated_at) 
-    VALUES (?, ?, ?, ?, ?, ?)";
+  // if ($fields['payment']) {
+  //   $insert = "INSERT INTO payments (id_finance, type, value, paid_at, created_at, updated_at) 
+  //   VALUES (?, ?, ?, ?, ?, ?)";
 
-    $prepareInsert = mysqli_prepare($con, $insert);
-    mysqli_stmt_bind_param($prepareInsert, 'isdsii', $fieldIdFinance, $fieldType, $fieldValue, $fieldPaidAt, $fieldCreatedAt, $fieldUpdatedAt);
+  //   $prepareInsert = mysqli_prepare($con, $insert);
+  //   mysqli_stmt_bind_param($prepareInsert, 'isdsii', $fieldIdFinance, $fieldType, $fieldValue, $fieldPaidAt, $fieldCreatedAt, $fieldUpdatedAt);
 
-    $fieldIdFinance = $id;
-    $fieldType = $fields['payment'];
-    $fieldValue = $fields['value'];
-    $fieldPaidAt = $fields['date'];
-    $fieldCreatedAt = $date;
-    $fieldUpdatedAt = $date;
-  }
+  //   $fieldIdFinance = $id;
+  //   $fieldType = $fields['payment'];
+  //   $fieldValue = $fields['value'];
+  //   $fieldPaidAt = $fields['date'];
+  //   $fieldCreatedAt = $date;
+  //   $fieldUpdatedAt = $date;
+  // }
 
   return $id;
 }
