@@ -202,25 +202,19 @@ function recurrence($userId, $id)
 function updateFinance($fields)
 {
   global $con;
-  $paid = $fields['payment'] ? 'y' : 'n';
-  $date = date('Y-m-d H:i:s');
 
   $update = "UPDATE finances SET 
                 id_category = ?, 
                 value = ?, 
-                description = ?, 
-                paid = ?, 
-                payday = ?
+                description = ?
             WHERE id = ?";
 
   $prepareUpdate = mysqli_prepare($con, $update);
-  mysqli_stmt_bind_param($prepareUpdate, 'idsssi', $fieldCategory, $fieldValue, $fieldDesc, $fieldPayment, $fieldDate, $fieldId);
+  mysqli_stmt_bind_param($prepareUpdate, 'idsi', $fieldCategory, $fieldValue, $fieldDesc, $fieldId);
 
   $fieldCategory = $fields['idcategory'];
   $fieldValue = $fields['value'];
   $fieldDesc = $fields['description'];
-  $fieldPayment = $paid;
-  $fieldDate = $fields['date'];
   $fieldId = $fields['id'];
 
   if (!mysqli_stmt_execute($prepareUpdate)) {
@@ -228,20 +222,20 @@ function updateFinance($fields)
     return false;
   }
 
-  if ($fields['payment']) {
-    $insert = "INSERT INTO payments (id_finance, type, value, paid_at, created_at, updated_at) 
-    VALUES (?, ?, ?, ?, ?, ?)";
+  // if ($fields['payment']) {
+  //   $insert = "INSERT INTO payments (id_finance, type, value, paid_at, created_at, updated_at) 
+  //   VALUES (?, ?, ?, ?, ?, ?)";
 
-    $prepareInsert = mysqli_prepare($con, $insert);
-    mysqli_stmt_bind_param($prepareInsert, 'isdsii', $fieldIdFinance, $fieldType, $fieldValue, $fieldPaidAt, $fieldCreatedAt, $fieldUpdatedAt);
+  //   $prepareInsert = mysqli_prepare($con, $insert);
+  //   mysqli_stmt_bind_param($prepareInsert, 'isdsii', $fieldIdFinance, $fieldType, $fieldValue, $fieldPaidAt, $fieldCreatedAt, $fieldUpdatedAt);
 
-    $fieldIdFinance = $fieldId;
-    $fieldType = $fields['payment'];
-    $fieldValue = $fields['value'];
-    $fieldPaidAt = $fields['date'];
-    $fieldCreatedAt = $date;
-    $fieldUpdatedAt = $date;
-  }
+  //   $fieldIdFinance = $fieldId;
+  //   $fieldType = $fields['payment'];
+  //   $fieldValue = $fields['value'];
+  //   $fieldPaidAt = $fields['date'];
+  //   $fieldCreatedAt = $date;
+  //   $fieldUpdatedAt = $date;
+  // }
   mysqli_stmt_close($prepareUpdate);
   return true;
 }

@@ -25,7 +25,7 @@ $finance = dataFinance($userId, $id)[1];
         <input name="id" value='<?= $id ?>' hidden>
         <div class="form-group">
             <small><b>Valor</b></small>
-            <input class="form-control" placeholder="R$ 0,00" name="value" onkeyup="moneyMask(this)"
+            <input class="form-control" placeholder="R$ 0,00" name="value" onkeyup="moneyBRL(this)"
                 value='<?= floatToMoney($finance['valor']) ?>' required>
         </div>
         <div class="form-group">
@@ -49,23 +49,6 @@ $finance = dataFinance($userId, $id)[1];
                     }
                 }
                 ?>
-            </select>
-        </div>
-        <div class="form-group">
-            <small> <b> Data</b> </small>
-            <input class="form-control" id="date" name="date" value="<?= dateConvert($finance['data'], '-', '/') ?>"
-                value='<?= $finance['data'] ?>' required>
-        </div>
-        <div class="form-group">
-            <small> <b> Pagamento </b> </small>
-            <select class="form-control select2" name="payment"> -->
-                <option value="" <?= empty($finance['pagamento']) ? 'selected' : null ?>>Pendente</option>
-                <option value="b" <?= $finance['pagamento'] == 'Dinheiro' ? 'selected' : null ?>>Dinheiro</option>
-                <option value="p" <?= $finance['pagamento'] == 'Pix' ? 'selected' : null ?>>Pix</option>
-                <optgroup label='Cartão'>
-                    <option value="c" <?= $finance['pagamento'] == 'Crédito' ? 'selected' : null ?>>Crédito</option>
-                    <option value="d" <?= $finance['pagamento'] == 'Débito' ? 'selected' : null ?>>Débito</option>
-                </optgroup>
             </select>
         </div>
 

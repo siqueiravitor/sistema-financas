@@ -8,27 +8,21 @@ include './functions.php';
 
 $finance = filter_input_array(INPUT_POST, [
     "id" => FILTER_SANITIZE_NUMBER_INT,
-    "date" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     "value" => FILTER_SANITIZE_NUMBER_FLOAT,
     "category" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    "recurrent" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     "description" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    "payment" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
 ]);
 
-$date = $finance['date'];
+$id = $finance['id'];
 $value = $finance['value'];
 $category = $finance['category'];
 $description = $finance['description'];
-$payment = $finance['payment'];
 
 $dataFinance = [
     'id' => $id,
     'idcategory' => $category,
     'value' => moneyToFloat($value),
     'description' => $description,
-    'payment' => $payment,
-    'date' => dateConvert($date, '/', '-')
 ];
 
 if($row = updateFinance($dataFinance)){

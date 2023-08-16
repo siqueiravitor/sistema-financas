@@ -29,6 +29,12 @@ function moneyMask(input) {
         input.value = formattedInput;
     }
 }
+function moneyBRL(input) {     
+    const numericInput = input.value.replace(/\D/g, '');
+    const formattedInput = (parseInt(numericInput) / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+    input.value = formattedInput;
+}
 function divError(statusError, canva = null) {
     var divError =
         `<div class='offcanvas-body offcanvas-loading' style='flex-grow: 10!important'>

@@ -9,22 +9,18 @@ function mask($str, $mask){ // mask($cpf,'###.###.###-##');
 }
 
 function moneyToFloat($str){
-    $simbolRemove = explode('R$ ', $str);
-    if(!isset($simbolRemove[1])){
-        $simbolRemove = str_replace('R$', '', $str);
-        $simbolRemove = substr($simbolRemove, 2); // Remove ghost space
-    } else {
-        $simbolRemove = $simbolRemove[1];
-    }
-    
-    $float = str_replace('.', '', $simbolRemove);
-    $floatValue = str_replace(',', '.', $float);
+    $value = floatval($str);
+    $floatValue = substr_replace($value, '.', -2, 0);
     
     return $floatValue;
 }
 function floatToMoney($amount, $currency = 'R$ ') {
     $formatted = number_format($amount, 2, ',', '.');
     return $currency . $formatted;
+}
+function toFloat($amount) {
+    $formatted = number_format($amount, 2, '.', '');
+    return $formatted;
 }
 
 function dateConvert($dt, $separator, $separate, $reverse = true) {
