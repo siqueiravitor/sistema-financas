@@ -34,10 +34,12 @@ $data['finance'] = [
     'date' => dateConvert($date, '/', '-')
 ];
 
-$data['payment'] = [
-    'type' => $payment,
-    'value' => $value
-];
+if ($paid) {
+    $data['payment'] = [
+        'type' => $payment,
+        'value' => $value
+    ];
+}
 $finance = registerFinance($data);
 
 if ($finance['success']) {

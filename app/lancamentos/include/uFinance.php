@@ -25,11 +25,10 @@ $dataFinance = [
     'description' => $description,
 ];
 
-if($row = updateFinance($dataFinance)){
-    $msg = "Dados atualizados";
-} else {
-    $msg = 'Erro ao atualizar dados';
-    $msg .= "&alert=1";
+$updateFinance = updateFinance($dataFinance);
+
+if(!$updateFinance['success']){
+    $alert = "&alert=1";
 }
-mysqli_close($con);
-header("Location: ../?msg=$msg");
+
+header("Location: ../?msg=".$updateFinance['message']. $alert);

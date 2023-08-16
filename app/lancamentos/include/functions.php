@@ -239,8 +239,7 @@ function recurrence($userId, $id)
   // return $result;
 }
 // U p d a t e
-function updateFinance($fields)
-{
+function updateFinance($fields){
   global $con;
 
   $update = "UPDATE finances SET 
@@ -259,45 +258,34 @@ function updateFinance($fields)
 
   if (!mysqli_stmt_execute($prepareUpdate)) {
     mysqli_stmt_close($prepareUpdate);
-    return false;
+    return ['success' => false , 'message' => "Erro ao atualizar dados"];
   }
 
-  // if ($fields['payment']) {
-  //   $insert = "INSERT INTO payments (id_finance, type, value, paid_at, created_at, updated_at) 
-  //   VALUES (?, ?, ?, ?, ?, ?)";
-
-  //   $prepareInsert = mysqli_prepare($con, $insert);
-  //   mysqli_stmt_bind_param($prepareInsert, 'isdsii', $fieldIdFinance, $fieldType, $fieldValue, $fieldPaidAt, $fieldCreatedAt, $fieldUpdatedAt);
-
-  //   $fieldIdFinance = $fieldId;
-  //   $fieldType = $fields['payment'];
-  //   $fieldValue = $fields['value'];
-  //   $fieldPaidAt = $fields['date'];
-  //   $fieldCreatedAt = $date;
-  //   $fieldUpdatedAt = $date;
-  // }
   mysqli_stmt_close($prepareUpdate);
-  return true;
+  return ['success' => true , 'message' => "Dados atualizados"];
 }
 
 // D e l e t e
 function deleteFinance($id)
 {
   global $con;
-
-  $sqlRecurrence = "DELETE FROM recurrencies WHERE id_finance IN ($id)";
-  if (mysqli_query($con, $sqlRecurrence)) {
-    $sqlPayment = "DELETE FROM payments WHERE id_finance IN ($id)";
-    if (mysqli_query($con, $sqlPayment)) {
-      $sql = "DELETE FROM finances WHERE id IN ($id)";
+  $sqlVerifyFinance = "select 1 from finances where WHERE id IN ($id) and id_user=" . $_SESSION['id'];
+  $verifyFinance = mysqli_query($con, $sqlVerifyFinance);
+  if(mysqli_num_rows($verifyFinance)){
+    $sqlRecurrence = "DELETE FROM recurrencies WHERE id_finance IN ($id)";
+    if (mysqli_query($con, $sqlRecurrence)) {
+      $sqlPayment = "DELETE FROM payments WHERE id_finance IN ($id)";
+      if (mysqli_query($con, $sqlPayment)) {
+        $sql = "DELETE FROM finances WHERE id IN ($id) and id_user=" . $_SESSION['id'];
+      }
     }
   }
 
   $query = mysqli_query($con, $sql);
   if (!$query) {
-    return "Erro ao deletar finança";
+    return ['success' => false , 'message' => "Erro ao deletar dados"];
   }
   $rows = mysqli_affected_rows($con);
 
-  return $rows;
+  return ['success' => true , 'message' => "Dados apagados ($rows)"];
 }
