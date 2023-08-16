@@ -83,17 +83,7 @@ if ($newFinance['success']) {
             ];
             $fixed = registerRecurrenceFixed($data);
 
-            // if ($fixed && $paid && $status == 'ongoing') {
-            //     $newDate = dateChange($date, $recurrences['period'], $recurrences['recurrence']);
-
-            //     $data['fixed'] = [
-            //         'payday' => $newDate,
-            //         'value' => $value,
-            //         'paid' => 'n'
-            //     ];
-
-            //     registerRecurrenceFixed($id_recurrence, $data);
-            // }
+            // igit 
         }
     }
 
