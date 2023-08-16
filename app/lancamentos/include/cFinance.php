@@ -10,6 +10,7 @@ include './functions.php';
 $finance = filter_input_array(INPUT_POST, [
     "value" => FILTER_SANITIZE_NUMBER_FLOAT,
     "payment" => FILTER_SANITIZE_NUMBER_INT,
+    "date" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     "category" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     "recurrent" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     "description" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
@@ -19,6 +20,7 @@ $category = $finance['category'];
 $recurrent = $finance['recurrent'] == 'u' ? 'n' : 'y';
 $description = empty($finance['description']) ? null : $finance['description'];
 $paid = !empty($finance['payment']) ? 'y' : 'n';
+$payday = dateConvert($finance['date'], '/', '-');
 
 $data['finance'] = [
     'iduser' => $_SESSION['id'],
@@ -26,6 +28,7 @@ $data['finance'] = [
     'value' => $value,
     'description' => $description,
     'paid' => $paid,
+    'payday' => $payday,
     'recurrent' => $recurrent
 ];
 
@@ -37,17 +40,16 @@ if ($newFinance['success']) {
 
     if ($paid) {
         $data['payment'] = [
+            'id_finance' => $id,
             'type' => $finance['payment'],
             'value' => $value
         ];
 
-        $payment = registerPayment($id, $data['payment']);
+        $payment = registerPayment($data['payment']);
         if (!$payment['success']) {
             $msg .= '<br>' . $payment['message'];
         }
     }
-    
-
 
     if ($recurrent == 'y') {
         $recurrences = filter_input_array(INPUT_POST, [
@@ -64,34 +66,34 @@ if ($newFinance['success']) {
         $recurrence_desc = $recurrence == 'f' ? 'fixed' : 'installment';
 
         $data['recurrence'] = [
-            'id_finance' => $id,
             'value' => $value,
             'type' => $recurrence_desc,
             'status' => $status,
             'period' => $period,
             'recurrence' => $recurrence
         ];
-        $id_recurrence = registerRecurrence($id, $data);
+
+        $id_recurrence = registerRecurrence($data);
         
         if ($finance['recurrent'] == 'f') {
             $data['fixed'] = [
+                'id_recurrence' => $id_recurrence,
                 'value' => $value,
-                'payday' => $date,
-                'paid' => $paid
+                'payday' => $date
             ];
-            $fixed = registerRecurrenceFixed($id_recurrence, $data);
+            $fixed = registerRecurrenceFixed($data);
 
-            if ($fixed && $paid && $status == 'ongoing') {
-                $newDate = dateChange($date, $recurrences['period'], $recurrences['recurrence']);
+            // if ($fixed && $paid && $status == 'ongoing') {
+            //     $newDate = dateChange($date, $recurrences['period'], $recurrences['recurrence']);
 
-                $data['fixed'] = [
-                    'payday' => $newDate,
-                    'value' => $value,
-                    'paid' => 'n'
-                ];
+            //     $data['fixed'] = [
+            //         'payday' => $newDate,
+            //         'value' => $value,
+            //         'paid' => 'n'
+            //     ];
 
-                registerRecurrenceFixed($id_recurrence, $data);
-            }
+            //     registerRecurrenceFixed($id_recurrence, $data);
+            // }
         }
     }
 

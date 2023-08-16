@@ -6,18 +6,19 @@ function registerFinance($fields)
   $finance = $fields['finance'];
   $date = date('Y-m-d H:i:s');
 
-  $insert = "INSERT INTO finances (id_user, id_category, value, description, paid, recurrent, created_at, updated_at) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  $insert = "INSERT INTO finances (id_user, id_category, value, description, recurrent, paid, payday, created_at, updated_at) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
   $prepareInsert = mysqli_prepare($con, $insert);
-  mysqli_stmt_bind_param($prepareInsert, 'iidsssss', $fieldUser, $fieldCategory, $fieldValue, $fieldDesc, $fieldPaid, $fieldRecurrent, $fieldCreatedAt, $fieldUpdatedAt);
+  mysqli_stmt_bind_param($prepareInsert, 'iidssssss', $fieldUser, $fieldCategory, $fieldValue, $fieldDesc, $fieldRecurrent, $fieldPaid, $fieldPayday, $fieldCreatedAt, $fieldUpdatedAt);
 
   $fieldUser = $finance['iduser'];
   $fieldCategory = $finance['idcategory'];
   $fieldValue = $finance['value'];
   $fieldDesc = $finance['description'];
-  $fieldPaid = $finance['paid'];
   $fieldRecurrent = $finance['recurrent'];
+  $fieldPaid = $finance['paid'];
+  $fieldPayday = $finance['payday'];
   $fieldCreatedAt = $date;
   $fieldUpdatedAt = $date;
 
@@ -33,7 +34,7 @@ function registerFinance($fields)
   return ['success' => true, 'id' => $id];
 }
 
-function registerPayment($id_finance, $fields){
+function registerPayment($fields){
   global $con;
   $date = date('Y-m-d H:i:s');
 
@@ -43,7 +44,7 @@ function registerPayment($id_finance, $fields){
   $prepareInsert = mysqli_prepare($con, $insert);
   mysqli_stmt_bind_param($prepareInsert, 'iidss', $fieldIdFinance, $fieldType, $fieldValue, $fieldCreatedAt, $fieldUpdatedAt);
 
-  $fieldIdFinance = $id_finance;
+  $fieldIdFinance = $fields['id_finance'];
   $fieldType = $fields['type'];
   $fieldValue = $fields['value'];
   $fieldCreatedAt = $date;
@@ -59,18 +60,17 @@ function registerPayment($id_finance, $fields){
   return ['success' => true];
 }
 
-function registerRecurrence($id_finance, $fields){
+function registerRecurrence($fields){
   global $con;
   $date = date('Y-m-d H:i:s');
   $recurrencies = $fields['recurrence'];
 
-  $insert = "INSERT INTO recurrencies (id_finance, value, type, status, recurrence, period, created_at, updated_at) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  $insert = "INSERT INTO recurrencies (value, type, status, recurrence, period, created_at, updated_at) 
+              VALUES (?, ?, ?, ?, ?, ?, ?)";
 
   $prepareInsert = mysqli_prepare($con, $insert);
-  mysqli_stmt_bind_param($prepareInsert, 'idsssiss', $fieldIdFinance, $fieldValue, $fieldType, $fieldStatus, $fieldRecurrence, $fieldPeriod, $fieldCreatedAt, $fieldUpdatedAt);
+  mysqli_stmt_bind_param($prepareInsert, 'dsssiss', $fieldValue, $fieldType, $fieldStatus, $fieldRecurrence, $fieldPeriod, $fieldCreatedAt, $fieldUpdatedAt);
 
-  $fieldIdFinance = $id_finance;
   $fieldValue = $recurrencies['value'];
   $fieldType = $recurrencies['type'];
   $fieldStatus = $recurrencies['status'];
@@ -90,22 +90,21 @@ function registerRecurrence($id_finance, $fields){
   mysqli_stmt_close($prepareInsert);
   return $id_recurrence;
 }
-function registerRecurrenceFixed($id_recurrence, $fields){
+function registerRecurrenceFixed($fields){
   try {
     global $con;
     
     $fixed = $fields['fixed'];
     $date = date('Y-m-d H:i:s');
 
-    $insert = "INSERT INTO recurrencies_fixed (id_recurrence, value, paid, payday, created_at, updated_at)
+    $insert = "INSERT INTO recurrencies_fixed (id_recurrence, value, payday, created_at, updated_at)
               VALUES (?, ?, ?, ?, ?, ?)";
 
     $prepareInsert = mysqli_prepare($con, $insert);
-    mysqli_stmt_bind_param($prepareInsert, 'idssss', $fieldIdRecurrence, $fieldValue, $fieldPaid, $fieldPayday, $fieldCreatedAt, $fieldUpdatedAt);
+    mysqli_stmt_bind_param($prepareInsert, 'idssss', $fieldIdRecurrence, $fieldValue, $fieldPayday, $fieldCreatedAt, $fieldUpdatedAt);
 
-    $fieldIdRecurrence = $id_recurrence;
+    $fieldIdRecurrence = $fixed['id_recurrence'];
     $fieldValue = $fixed['value'];
-    $fieldPaid = $fixed['paid'];
     $fieldPayday = $fixed['payday'];
     $fieldCreatedAt = $date;
     $fieldUpdatedAt = $date;
@@ -123,8 +122,7 @@ function registerRecurrenceFixed($id_recurrence, $fields){
   }
 }
 // R e a d
-function categories($id = null)
-{
+function categories($id = null){
   global $con;
   $sql = "SELECT 
             id,
@@ -139,8 +137,7 @@ function categories($id = null)
 
   return $result;
 }
-function paymentType($id = null)
-{
+function paymentType($id = null){
   global $con;
   $sql = "SELECT 
             id,
@@ -153,8 +150,7 @@ function paymentType($id = null)
 
   return $result;
 }
-function financeValues()
-{
+function financeValues(){
   global $con;
   $id_user = $_SESSION['id'];
 
@@ -176,15 +172,14 @@ function financeValues()
   return $result;
 }
 
-function dataFinance($userId, $id = null)
-{
+function dataFinance($userId, $id = null){
   global $con;
 
   $sql = "SELECT 
             f.id,
             f.value as valor,
             f.description AS descricaoFinanca,
-            IF(pt.description, pt.description, '-') as pagamento,
+            IF(f.paid = 'y', pt.description, '-') as pagamento,
             p.value as valorPagamento,
             CASE 
 				        WHEN f.recurrent = 'y' THEN 'Sim'
@@ -199,6 +194,8 @@ function dataFinance($userId, $id = null)
         FROM finances f
         LEFT JOIN payments p ON (p.id_finance = f.id)
         LEFT JOIN payment_type pt ON (pt.id = p.id_type)
+        LEFT JOIN recurrencies r ON (r.id_finance = f.id)
+        LEFT JOIN recurrencies_fixed rf ON (rf.id_recurrence = r.id)
         INNER JOIN categories c ON (c.id = f.id_category)
         WHERE f.id_user = $userId";
   if ($id) {

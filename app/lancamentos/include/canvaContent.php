@@ -30,7 +30,7 @@ include_once './functions.php';
     </select>
 </div>
 <div class="form-group">
-    <small> <b> Data</b> </small>
+    <small> <b> Data </b> </small>
     <input class="form-control date" id="date" name="date" value="<?= date('d/m/Y') ?>">
 </div>
 <div class="form-group">

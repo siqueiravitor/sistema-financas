@@ -97,6 +97,7 @@ function canvaContent() {
         $("#divBodyFinance").html(data);
         $(".select2").select2('destroy');
         $(".select2").select2();
+        $(".date").datepicker('refresh');
 
     });
     request.fail(function(jqXHR, textStatus) {
