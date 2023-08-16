@@ -3,21 +3,21 @@
 function registerFinance($fields)
 {
   global $con;
-  $recurrent = $fields['recurrent'] == 'u' ? 'n' : 'y';
-  $paid = $fields['payment'] ? 'y' : 'n';
+  $finance = $fields['finance'];
+  $recurrent = $finance['recurrent'] == 'u' ? 'n' : 'y';
   $date = date('Y-m-d H:i:s');
 
   $insert = "INSERT INTO finances (id_user, id_category, value, description, paid, recurrent, created_at, updated_at) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
   $prepareInsert = mysqli_prepare($con, $insert);
-  mysqli_stmt_bind_param($prepareInsert, 'iidsssii', $fieldUser, $fieldCategory, $fieldValue, $fieldDesc, $fieldPayment, $fieldRecurrent, $fieldCreatedAt, $fieldUpdatedAt);
+  mysqli_stmt_bind_param($prepareInsert, 'iidsssss', $fieldUser, $fieldCategory, $fieldValue, $fieldDesc, $fieldPaid, $fieldRecurrent, $fieldCreatedAt, $fieldUpdatedAt);
 
-  $fieldUser = $fields['iduser'];
-  $fieldCategory = $fields['idcategory'];
-  $fieldValue = $fields['value'];
-  $fieldDesc = $fields['description'];
-  $fieldPayment = $paid;
+  $fieldUser = $finance['iduser'];
+  $fieldCategory = $finance['idcategory'];
+  $fieldValue = $finance['value'];
+  $fieldDesc = $finance['description'];
+  $fieldPaid = $finance['paid'];
   $fieldRecurrent = $recurrent;
   $fieldCreatedAt = $date;
   $fieldUpdatedAt = $date;
@@ -25,28 +25,52 @@ function registerFinance($fields)
   $result = mysqli_stmt_execute($prepareInsert);
   if (!$result) {
     mysqli_stmt_close($prepareInsert);
-    return false;
+    return ['success' => false];
+  }
+
+  $id = mysqli_stmt_insert_id($prepareInsert);
+  mysqli_stmt_close($prepareInsert);
+  $msg = 'Dados registrados';
+
+  if ($fields['payment']) {
+    $payment = registerPayment($id, $fields['payment']);
+    if (!$payment['success']) {
+      $msg .= ' ' . $payment['message'];
+    }
+  }
+
+  return ['success' => true, 'message' => $msg];
+}
+
+function registerPayment($id_finance, $fields)
+{
+  global $con;
+  $date = date('Y-m-d H:i:s');
+
+  $insert = "INSERT INTO payments (id_finance, id_type, value, created_at, updated_at) 
+  VALUES (?, ?, ?, ?, ?)";
+
+  $prepareInsert = mysqli_prepare($con, $insert);
+  mysqli_stmt_bind_param($prepareInsert, 'iidss', $fieldIdFinance, $fieldType, $fieldValue, $fieldCreatedAt, $fieldUpdatedAt);
+
+  $fieldIdFinance = $id_finance;
+  $fieldType = $fields['type'];
+  $fieldValue = $fields['value'];
+  $fieldCreatedAt = $date;
+  $fieldUpdatedAt = $date;
+
+  $result = mysqli_stmt_execute($prepareInsert);
+  if (!$result) {
+    mysqli_stmt_close($prepareInsert);
+    return ['success' => false, 'message' => 'Erro ao registrar pagamento'];
   }
   $id = mysqli_stmt_insert_id($prepareInsert);
   mysqli_stmt_close($prepareInsert);
 
-  // if ($fields['payment']) {
-  //   $insert = "INSERT INTO payments (id_finance, type, value, paid_at, created_at, updated_at) 
-  //   VALUES (?, ?, ?, ?, ?, ?)";
-
-  //   $prepareInsert = mysqli_prepare($con, $insert);
-  //   mysqli_stmt_bind_param($prepareInsert, 'isdsii', $fieldIdFinance, $fieldType, $fieldValue, $fieldPaidAt, $fieldCreatedAt, $fieldUpdatedAt);
-
-  //   $fieldIdFinance = $id;
-  //   $fieldType = $fields['payment'];
-  //   $fieldValue = $fields['value'];
-  //   $fieldPaidAt = $fields['date'];
-  //   $fieldCreatedAt = $date;
-  //   $fieldUpdatedAt = $date;
-  // }
-
-  return $id;
+  return ['success' => true];
 }
+
+
 function registerRecurrence($fields)
 {
   global $con;
@@ -73,7 +97,8 @@ function registerRecurrence($fields)
   // return true;
 }
 // R e a d
-function categories($id = null){
+function categories($id = null)
+{
   global $con;
   $sql = "SELECT 
             id,
@@ -88,7 +113,22 @@ function categories($id = null){
 
   return $result;
 }
-function financeValues(){
+function paymentType($id = null)
+{
+  global $con;
+  $sql = "SELECT 
+            id,
+            description
+        FROM payment_type
+        WHERE id_user = $id";
+
+  $query = mysqli_query($con, $sql);
+  $result = mysqli_fetch_all($query, MYSQLI_NUM);
+
+  return $result;
+}
+function financeValues()
+{
   global $con;
   $id_user = $_SESSION['id'];
 
@@ -245,9 +285,12 @@ function deleteFinance($id)
 {
   global $con;
 
-  $sqlRecorrencia = "DELETE FROM recurrencies WHERE id_finance IN ($id)";
-  if (mysqli_query($con, $sqlRecorrencia)) {
-    $sql = "DELETE FROM finances WHERE id IN ($id)";
+  $sqlRecurrence = "DELETE FROM recurrencies WHERE id_finance IN ($id)";
+  if (mysqli_query($con, $sqlRecurrence)) {
+    $sqlPayment = "DELETE FROM payments WHERE id_finance IN ($id)";
+    if (mysqli_query($con, $sqlPayment)) {
+      $sql = "DELETE FROM finances WHERE id IN ($id)";
+    }
   }
 
   $query = mysqli_query($con, $sql);

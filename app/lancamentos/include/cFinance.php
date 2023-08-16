@@ -14,54 +14,62 @@ $finance = filter_input_array(INPUT_POST, [
     "recurrent" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     "description" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     "payment" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    "payment_type" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
 ]);
 $date = $finance['date'];
-$value = $finance['value'];
+$value = moneyToFloat($finance['value']);
 $category = $finance['category'];
 $recurrent = $finance['recurrent'];
 $description = empty($finance['description']) ? null : $finance['description'];
-$payment = empty($finance['payment']) ? null : $finance['payment'];
+$paid = $finance['payment'] ? 'y' : 'n';
+$payment = $finance['payment'];
 
 $data['finance'] = [
     'iduser' => $_SESSION['id'],
     'idcategory' => $category,
-    'value' => moneyToFloat($value),
+    'value' => $value,
     'description' => $description,
-    'payment' => $payment,
+    'paid' => $paid,
     'recurrent' => $recurrent,
     'date' => dateConvert($date, '/', '-')
 ];
 
-if ($id = registerFinance($data['finance'])) {
-    $msg = 'Dados registrados';
+$data['payment'] = [
+    'type' => $payment,
+    'value' => $value
+];
+$finance = registerFinance($data);
 
-    if ($recurrent != 'u') { // Payment in installment
-        $recurrences = filter_input_array(INPUT_POST, [
-                    "categoryRecurrence" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-                    "valueInstallment" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-                    "installment" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-                    "recurrence" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-                    "dateEnd" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-                    "period" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-                    "status" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-                ]);
+if ($finance['success']) {
+    $msg = $finance['message'];
 
-        $dateEnd = !empty($dateEnd) ? dateConvert($dateEnd, '/', '-') : null; 
-        $valueInstallment = !empty($valueInstallment) ? moneyToFloat($valueInstallment) : $value; 
-        $data['recurrence'] = [
-            'idfinance' => $id,
-            'valueInstallment' => $valueInstallment,
-            'installment' => $installment,
-            'categoryRecurrence' => $categoryRecurrence,
-            'recurrence' => $recurrence,
-            'period' => $period,
-            'status' => $status,
-            'dateEnd' => dateConvert($dateEnd, '/', '-'),
-        ];
-        if(!registerRecurrence($data['recurrence'])) {
-            $msg = 'Erro ao registrar recorrência';
-        }
-    }
+    // if ($recurrent != 'u') { // Payment in installment
+    //     $recurrences = filter_input_array(INPUT_POST, [
+    //                 "categoryRecurrence" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    //                 "valueInstallment" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    //                 "installment" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    //                 "recurrence" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    //                 "dateEnd" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    //                 "period" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    //                 "status" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    //             ]);
+
+    //     $dateEnd = !empty($dateEnd) ? dateConvert($dateEnd, '/', '-') : null; 
+    //     $valueInstallment = !empty($valueInstallment) ? moneyToFloat($valueInstallment) : $value; 
+    //     $data['recurrence'] = [
+    //         'idfinance' => $id,
+    //         'valueInstallment' => $valueInstallment,
+    //         'installment' => $installment,
+    //         'categoryRecurrence' => $categoryRecurrence,
+    //         'recurrence' => $recurrence,
+    //         'period' => $period,
+    //         'status' => $status,
+    //         'dateEnd' => dateConvert($dateEnd, '/', '-'),
+    //     ];
+    //     if(!registerRecurrence($data['recurrence'])) {
+    //         $msg = 'Erro ao registrar recorrência';
+    //     }
+    // }
 } else {
     $msg = 'Erro ao registrar dados';
     $msg .= "&alert=1";
