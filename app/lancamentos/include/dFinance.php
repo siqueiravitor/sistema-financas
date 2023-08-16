@@ -12,7 +12,6 @@ $finance = filter_input_array(INPUT_POST, [
 
 $id = $finance['finance'];
 $deleteFinance = deleteFinance($id);
-
 if(!$deleteFinance['success']){
     $alert = "&alert=1";
 }

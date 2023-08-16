@@ -8,8 +8,8 @@ include_once './functions.php';
 ?>
 <div class='row'>
     <div class="form-group col-md-6">
-        <small> <b> Período</b> </small>
-        <select class="form-control select2" name="period">
+        <small> <b>Recorrência</b> </small>
+        <select class="form-control select2" name="recurrence">
             <option value='day'>Diário</option>
             <option value='week'>Semanal</option>
             <option value='month'>Mensal</option>
@@ -17,8 +17,8 @@ include_once './functions.php';
         </select>
     </div>
     <div class="form-group col-md-6">
-        <small> <b> Recorrência</b> </small>
-        <input class="form-control" type="number" min='1' value='1' name="recurrence">
+        <small> <b>Período</b> </small>
+        <input class="form-control" type="number" min='1' value='1' name="period">
     </div>
 </div>
 <div class="form-group">

@@ -39,6 +39,14 @@ function timestampToDate($timestamp) {
     return ['date' => $dt, 'time' => $time]; // 29/06/2019
 }
 
+function dateChange($date, $period, $recurrence){
+    $strtotime = strtotime($date);
+    $changeTo = "+" . $period . ' ' . $recurrence;
+
+    $newDate = date('Y-m-d', strtotime("$changeTo", $strtotime));
+    return $newDate;
+}
+
 function shortenText($text) {
     $ptext = substr($text, 0, 25); //Keep the first 25 chars
     $words = explode(" ", $ptext); // Separate words (10 caracteres)
