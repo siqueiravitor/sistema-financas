@@ -98,10 +98,10 @@ function registerRecurrenceFixed($fields){
     $date = date('Y-m-d H:i:s');
 
     $insert = "INSERT INTO recurrencies_fixed (id_recurrence, value, payday, created_at, updated_at)
-              VALUES (?, ?, ?, ?, ?, ?)";
+              VALUES (?, ?, ?, ?, ?)";
 
     $prepareInsert = mysqli_prepare($con, $insert);
-    mysqli_stmt_bind_param($prepareInsert, 'idssss', $fieldIdRecurrence, $fieldValue, $fieldPayday, $fieldCreatedAt, $fieldUpdatedAt);
+    mysqli_stmt_bind_param($prepareInsert, 'idsss', $fieldIdRecurrence, $fieldValue, $fieldPayday, $fieldCreatedAt, $fieldUpdatedAt);
 
     $fieldIdRecurrence = $fixed['id_recurrence'];
     $fieldValue = $fixed['value'];
@@ -120,6 +120,28 @@ function registerRecurrenceFixed($fields){
   } catch (Exception $e) {
     return ['success' => false, 'message' => $e];
   }
+}
+function finance_recurrence($fields){
+  global $con;
+  $success = true;
+  $date = date('Y-m-d H:i:s');
+  $insert = "INSERT INTO finance_recurrence (id_finance, id_recurrence, created_at, updated_at)
+                VALUES (?, ?, ?, ?)";
+
+  $prepareInsert = mysqli_prepare($con, $insert);
+  mysqli_stmt_bind_param($prepareInsert, 'iiss', $fieldIdFinance, $fieldIdRecurrence, $fieldCreatedAt, $fieldUpdatedAt);
+
+  $fieldIdFinance = $fields['id_finance'];
+  $fieldIdRecurrence = $fields['id_recurrence'];
+  $fieldCreatedAt = $date;
+  $fieldUpdatedAt = $date;
+
+  if(!mysqli_stmt_execute($prepareInsert)){
+    $success = false;
+  }
+  mysqli_stmt_close($prepareInsert);
+
+  return ['success' => $success];
 }
 // R e a d
 function categories($id = null){
@@ -161,7 +183,11 @@ function financeValues(){
             SUM(CASE WHEN c.type = 'out' THEN f.value ELSE 0 END) as despesa,
             SUM(CASE WHEN c.type = 'out' AND paid = 'n' THEN f.value ELSE 0 END) as pagar,
             SUM(CASE WHEN c.type = 'out' AND paid = 'y' THEN f.value ELSE 0 END) as pago,
-            SUM(CASE WHEN c.type = 'in' THEN f.value ELSE -f.value END) as total
+            SUM(CASE WHEN c.type = 'in' THEN f.value ELSE -f.value END) as total,
+            SUM(CASE 
+                  WHEN c.type = 'in' and paid = 'n' THEN f.value 
+                  ELSE if(c.type = 'out' and paid = 'n', -f.value, 0) 
+            END) as totalRecebido
           FROM finances f
           INNER JOIN categories c ON (c.id = f.id_category)
           WHERE f.id_user = $id_user";
@@ -182,25 +208,27 @@ function dataFinance($userId, $id = null){
             IF(f.paid = 'y', pt.description, '-') as pagamento,
             p.value as valorPagamento,
             CASE 
-				        WHEN f.recurrent = 'y' THEN 'Sim'
+				        WHEN f.recurrent = 'y' THEN '&#10003'
                 ELSE '-'
 			      END as recorrente,
-            f.created_at as datager,
+            f.payday as dataPagamento,
             CASE 
               WHEN c.type = 'in' THEN 'Entrada'
               ELSE 'Saída'
             END as tipo,
             c.description AS categoria
         FROM finances f
+        INNER JOIN categories c ON (c.id = f.id_category)
         LEFT JOIN payments p ON (p.id_finance = f.id)
         LEFT JOIN payment_type pt ON (pt.id = p.id_type)
-        LEFT JOIN recurrencies r ON (r.id_finance = f.id)
+        LEFT JOIN finance_recurrence fr ON (fr.id_finance = f.id)
+        LEFT JOIN recurrencies r ON (r.id = fr.id_recurrence)
         LEFT JOIN recurrencies_fixed rf ON (rf.id_recurrence = r.id)
-        INNER JOIN categories c ON (c.id = f.id_category)
         WHERE f.id_user = $userId";
   if ($id) {
     $sql .= " AND f.id = $id ";
   }
+  $sql .= " ORDER BY CASE WHEN pagamento = '-' THEN 1 ELSE 2 END, dataPagamento";
 
   $query = mysqli_query($con, $sql);
   $rows = mysqli_num_rows($query);
@@ -252,35 +280,39 @@ function updateFinance($fields)
 }
 
 // D e l e t e
-function deleteFinance($id)
-{
+function deleteFinance($id){
   global $con;
-  $sqlVerifyFinance = "SELECT 1 FROM finances WHERE id IN ($id) AND id_user=" . $_SESSION['id'];
-  $verifyFinance = mysqli_query($con, $sqlVerifyFinance);
-  if (mysqli_num_rows($verifyFinance)) {
-    //Deletar recorrencias
-    $sqlRecurrenceFixed = "DELETE FROM recurrencies_fixed 
-                            WHERE id > 0 and id_recurrence in (SELECT id FROM recurrencies WHERE id_finance IN ($id))";
-    mysqli_query($con, $sqlRecurrenceFixed);
 
-    $sqlRecurrence = "DELETE FROM recurrencies WHERE id_finance IN ($id)";
+  $sqlVerifyLink  = "SELECT fr.id_recurrence 
+                      FROM finance_recurrence fr 
+                      INNER JOIN finances f on (f.id = fr.id_finance)
+                      WHERE fr.id_finance IN ($id) and f.id_user=" . $_SESSION['id'];
+  $verifyLink  = mysqli_query($con, $sqlVerifyLink );
+  while($recurrence = mysqli_fetch_array($verifyLink)){
+    //Delete Link
+    $sqlRecurrence = "DELETE FROM finance_recurrence WHERE id_recurrence = $recurrence[0]";
     mysqli_query($con, $sqlRecurrence);
-    
-    //Deletar pagamentos
-    $sqlPayment = "DELETE FROM payments WHERE id_finance IN ($id)";
-    mysqli_query($con, $sqlPayment);
-    
-    //Deletar finanças
-    $sql = "DELETE FROM finances WHERE id IN ($id) and id_user=" . $_SESSION['id'];
 
-    $query = mysqli_query($con, $sql);
-    if (!$query) {
-      return ['success' => false, 'message' => "Erro ao deletar dados"];
-    }
-    $rows = mysqli_affected_rows($con);
-  
-    return ['success' => true, 'message' => "Dados apagados ($rows)"];
-  } else {
-    return ['success' => false];
+    //Delete recurrencies
+    $sqlRecurrenceFixed = "DELETE FROM recurrencies_fixed 
+                            WHERE id_recurrence = $recurrence[0]";
+    mysqli_query($con, $sqlRecurrenceFixed);
+    
+    $sqlRecurrence = "DELETE FROM recurrencies WHERE id =$recurrence[0]";
+    mysqli_query($con, $sqlRecurrence);
   }
+  //Delete payments
+  $sqlPayment = "DELETE FROM payments WHERE id_finance IN ($id)";
+  mysqli_query($con, $sqlPayment);
+  
+  //Delete finances
+  $sql = "DELETE FROM finances WHERE id IN ($id) and id_user=" . $_SESSION['id'];
+
+  $query = mysqli_query($con, $sql);
+  if (!$query) {
+    return ['success' => false, 'message' => "Erro ao deletar dados"];
+  }
+  $rows = mysqli_affected_rows($con);
+
+  return ['success' => true, 'message' => "Dados apagados ($rows)"];
 }

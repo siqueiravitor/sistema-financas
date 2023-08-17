@@ -17,8 +17,9 @@ $finance = filter_input_array(INPUT_POST, [
 ]);
 $value = moneyToFloat($finance['value']);
 $category = $finance['category'];
-$recurrent = $finance['recurrent'] == 'u' ? 'n' : 'y';
-$description = empty($finance['description']) ? null : $finance['description'];
+$recurrent = $finance['recurrent'];
+$financeRecurrent = $recurrent == 'u' ? 'n' : 'y';
+$description = $recurrent == 'n' ? $finance['description'] : null;
 $paid = !empty($finance['payment']) ? 'y' : 'n';
 $payday = dateConvert($finance['date'], '/', '-');
 
@@ -29,93 +30,120 @@ $data['finance'] = [
     'description' => $description,
     'paid' => $paid,
     'payday' => $payday,
-    'recurrent' => $recurrent
+    'recurrent' => $financeRecurrent
 ];
 
-$newFinance = registerFinance($data);
+// if ($newFinance['success']) {
+$msg = "Dados registrados!";
+if ($financeRecurrent == 'y') {
+    // U n i q u e
+    $recurrences = filter_input_array(INPUT_POST, [
+        "recurrence" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+        "status" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+        "period" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+        "date" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    ]);
+    $date = dateConvert($recurrences['date'], '/', '-');
+    $status = $recurrences['status'];
+    $period = $recurrences['period'];
+    $recurrent = $finance['recurrent'];
+    $recurrence = $recurrences['recurrence'];
+    $recurrence_desc = $recurrence == 'f' ? 'fixed' : 'installment';
 
-if ($newFinance['success']) {
-    $msg = "Dados registrados!";
-    $id = $newFinance['id'];
+    $data['recurrence'] = [
+        'value' => $value,
+        'type' => $recurrence_desc,
+        'status' => $status,
+        'period' => $period,
+        'description' => $description,
+        'recurrence' => $recurrence
+    ];
 
-    if ($paid) {
-        $data['payment'] = [
-            'id_finance' => $id,
-            'type' => $finance['payment'],
-            'value' => $value
-        ];
+    $id_recurrence = registerRecurrence($data);
 
-        $payment = registerPayment($data['payment']);
-        if (!$payment['success']) {
-            $msg .= '<br>' . $payment['message'];
-        }
-    }
-
-    if ($recurrent == 'y') {
-        $recurrences = filter_input_array(INPUT_POST, [
-            "recurrence" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            "status" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            "period" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            "date" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-        ]);
-        $date = dateConvert($recurrences['date'], '/', '-');
-        $status = $recurrences['status'];
-        $period = $recurrences['period'];
-        $recurrent = $recurrences['recurrent'];
-        $recurrence = $recurrences['recurrence'];
-        $recurrence_desc = $recurrence == 'f' ? 'fixed' : 'installment';
-
-        $data['recurrence'] = [
+    if ($finance['recurrent'] == 'f') {
+        $data['fixed'] = [
+            'id_recurrence' => $id_recurrence,
             'value' => $value,
-            'type' => $recurrence_desc,
-            'status' => $status,
-            'period' => $period,
-            'recurrence' => $recurrence
+            'payday' => $date
         ];
-
-        $id_recurrence = registerRecurrence($data);
-        
-        if ($finance['recurrent'] == 'f') {
-            $data['fixed'] = [
-                'id_recurrence' => $id_recurrence,
-                'value' => $value,
-                'payday' => $date
-            ];
-            $fixed = registerRecurrenceFixed($data);
-
-            // igit 
-        }
+        $fixed = registerRecurrenceFixed($data);
+    }
+    if ($finance['recurrent'] == 'i') {
+        $data['installment'] = [
+            'id_recurrence' => $id_recurrence,
+            'value' => $value,
+        ];
     }
 
-    // if ($recurrent != 'u') { // Payment in installment
-    //     $recurrences = filter_input_array(INPUT_POST, [
-    //                 "categoryRecurrence" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    //                 "valueInstallment" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    //                 "installment" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    //                 "recurrence" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    //                 "dateEnd" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    //                 "period" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    //                 "status" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-    //             ]);
+    $newFinance = registerFinance($data);
+    $id_finance = $newFinance['id'];
 
-    //     $dateEnd = !empty($dateEnd) ? dateConvert($dateEnd, '/', '-') : null; 
-    //     $valueInstallment = !empty($valueInstallment) ? moneyToFloat($valueInstallment) : $value; 
-    //     $data['recurrence'] = [
-    //         'idfinance' => $id,
-    //         'valueInstallment' => $valueInstallment,
-    //         'installment' => $installment,
-    //         'categoryRecurrence' => $categoryRecurrence,
-    //         'recurrence' => $recurrence,
-    //         'period' => $period,
-    //         'status' => $status,
-    //         'dateEnd' => dateConvert($dateEnd, '/', '-'),
-    //     ];
-    //     if(!registerRecurrence($data['recurrence'])) {
-    //         $msg = 'Erro ao registrar recorrência';
-    //     }
-    // }
+    $link = [
+        'id_finance' => $id_finance,
+        'id_recurrence' => $id_recurrence
+    ];
+    finance_recurrence($link);
 } else {
-    $msg = 'Erro ao registrar dados';
-    $msg .= "&alert=1";
+    // U n i q u e
+    $newFinance = registerFinance($data);
+    $id_finance = $newFinance['id'];
 }
+
+if ($paid == 'y') {
+    $data['payment'] = [
+        'id_finance' => $id_finance,
+        'type' => $finance['payment'],
+        'value' => $value
+    ];
+
+    $payment = registerPayment($data['payment']);
+    if (!$payment['success']) {
+        $msg .= '<br>' . $payment['message'];
+    }
+
+    if ($finance['recurrent'] == 'f') {
+        $payday = $data['finance']['payday'];
+        $recurrence = $recurrences['recurrence'];
+        $period = $recurrences['period'];
+        $newDate = dateChange($payday, $period, $recurrence);
+
+        $data['finance']['paid'] = 'n';
+        $data['finance']['payday'] = $newDate;
+        $newFinance = registerFinance($data);
+    }
+}
+
+
+// if ($recurrent != 'u') { // Payment in installment
+//     $recurrences = filter_input_array(INPUT_POST, [
+//                 "categoryRecurrence" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+//                 "valueInstallment" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+//                 "installment" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+//                 "recurrence" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+//                 "dateEnd" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+//                 "period" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+//                 "status" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+//             ]);
+
+//     $dateEnd = !empty($dateEnd) ? dateConvert($dateEnd, '/', '-') : null; 
+//     $valueInstallment = !empty($valueInstallment) ? moneyToFloat($valueInstallment) : $value; 
+//     $data['recurrence'] = [
+//         'idfinance' => $id,
+//         'valueInstallment' => $valueInstallment,
+//         'installment' => $installment,
+//         'categoryRecurrence' => $categoryRecurrence,
+//         'recurrence' => $recurrence,
+//         'period' => $period,
+//         'status' => $status,
+//         'dateEnd' => dateConvert($dateEnd, '/', '-'),
+//     ];
+//     if(!registerRecurrence($data['recurrence'])) {
+//         $msg = 'Erro ao registrar recorrência';
+//     }
+// }
+// } else {
+//     $msg = 'Erro ao registrar dados';
+//     $msg .= "&alert=1";
+// }
 header("Location: ../?msg=$msg");
