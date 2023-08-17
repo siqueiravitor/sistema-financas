@@ -8,9 +8,9 @@
         <th>Recorrente</th>
         <th>Descrição</th>
         <th>Pagamento</th>
-        <th class='text-muted'><i data-feather='eye'></i></a></th>
-        <th class='text-muted'><i data-feather='edit'></i></a></th>
-        <th class='text-muted'><i data-feather='trash-2'></i></a></th>
+        <th class='text-muted'><i data-feather='dollar-sign'></i></th>
+        <th class='text-muted'><i data-feather='edit'></i></th>
+        <th class='text-muted'><i data-feather='trash-2'></i></th>
     </tr>
 </thead>
 <tbody>
@@ -35,6 +35,13 @@
                 data-bs-target='#modalTemplate' class='d-block'>
                 <i data-feather='eye'></i></a>";
             }
+            $pagamento = '-';
+            if($finance['pagamento'] == '-'){
+                $pag = $finance['tipo'] == 'Entrada' ? 'Receber' : 'Pagar';
+                $pagamento = "<span class='badge-btn btn-outline-primary space-1' href='#' 
+                                onclick='loadFinancePayment({$finance['id']})' data-bs-toggle='modal' 
+                                data-bs-target='#modalTemplate' class='d-block'>$pag</span>";
+            }
 
             // $payment = match($payment){
             //     'p' => "Pix",
@@ -53,7 +60,7 @@
             echo "<td>{$finance['recorrente']}</td>";
             echo "<td class='text-left' style='white-space: normal'>{$finance['descricaoFinanca']}</td>";
             echo "<td>{$dataPagamento}</td>";
-            echo "<td>{$recurrentInfo}</td>";
+            echo "<td width='7%'>{$pagamento}</td>";
             echo "<td><a onclick='loadFinanceData({$finance['id']})' href='#' aria-controls='ocNewRecord' 
                         data-bs-toggle='offcanvas' data-bs-target='#ocTemplate' class='d-block'>
                         <i data-feather='edit'></i></a>

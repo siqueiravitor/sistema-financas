@@ -683,6 +683,15 @@ textarea.form-control {
     border-color: var(--color-info);
     background: var(--color-info);
 }
+.badge-btn{
+    cursor: pointer;
+    border-radius: .3rem;
+    font-weight: 500;
+    padding: 0rem 0.8rem;
+    text-transform: capitalize;
+    border-width: 1px!important;
+    border-style: solid!important;
+}
 
 .text-right {
     text-align: right;

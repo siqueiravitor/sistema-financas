@@ -56,6 +56,12 @@
                         <span class='ml-2'>Categorias</span>
                     </a>
                 </li>
+                <li class="middle <?= 'tipopagamento' == $page ? 'active' : '' ?>">
+                    <a href="<?= BASED . "/tipopagamento" ?>">
+                        <i class='iconColor navIcon' data-feather="command"></i>
+                        <span class='ml-2'>Tipo Pagamento</span>
+                    </a>
+                </li>
                 <li class="middle <?= 'grupos' == $page ? 'active' : '' ?>">
                     <a href="<?= BASED . "/grupos" ?>">
                         <i class='iconColor navIcon' data-feather="grid"></i>

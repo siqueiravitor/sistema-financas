@@ -38,7 +38,7 @@ if (!$mult) {
                     <div class='form-group col-md-6'>
                         <label>Valor:</label>
                         <span class='form-control' readonly>
-                            <?= $finance['valor'] ?>
+                            <?= floatToMoney($finance['valor']) ?>
                         </span>
                     </div>
                     <div class='form-group col-md-12 space-2'>

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-fixed-top">
     <div class="container-fluid">
-        <div class="navbar-brand">
+        <div class="navbar-brand" style="overflow: hidden;">
             <a href="<?= BASED; ?>">
                 <img src="<?= LOGOALT; ?>" alt="<?= COMPANY; ?>" class="img-responsive logo">
                 <span class="name">

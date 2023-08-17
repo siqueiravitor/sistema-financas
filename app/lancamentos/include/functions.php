@@ -152,6 +152,7 @@ function categories($id = null){
             description
         FROM categories
         WHERE id_user = $id
+        OR id_user is null
         ORDER BY type";
 
   $query = mysqli_query($con, $sql);
@@ -165,7 +166,8 @@ function paymentType($id = null){
             id,
             description
         FROM payment_type
-        WHERE id_user = $id";
+        WHERE id_user = $id
+        OR id_user is null";
 
   $query = mysqli_query($con, $sql);
   $result = mysqli_fetch_all($query, MYSQLI_NUM);
@@ -216,7 +218,8 @@ function dataFinance($userId, $id = null){
               WHEN c.type = 'in' THEN 'Entrada'
               ELSE 'Saída'
             END as tipo,
-            c.description AS categoria
+            c.description AS categoria,
+            c.id as idCategory
         FROM finances f
         INNER JOIN categories c ON (c.id = f.id_category)
         LEFT JOIN payments p ON (p.id_finance = f.id)

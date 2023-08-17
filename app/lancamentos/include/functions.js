@@ -154,6 +154,30 @@ function loadFinanceData(id) {
         $("#ocTemplate").html(divError(textStatus));
     });
 }
+function loadFinancePayment(id) {
+    let url = './include/cAjaxFinancePayment.php';
+    const request = $.ajax({
+        url,
+        data: { id },
+        method: "GET",
+        dataType: "html",
+        beforeSend: function () {
+            $("#modal-content").html(divLoading);
+        }
+    });
+    request.done(function (data) {
+        $("#modal-content").html(data);
+
+        $(".select2").select2('destroy');
+        $(".select2").select2();
+        $('#date').datepicker({
+            todayHighlight: true
+        });
+    });
+    request.fail(function (jqXHR, textStatus) {
+        $("#modal-content").html(divError(textStatus));
+    });
+}
 function deleteFinance(id) {
     let url = './include/cAjaxDeleteFinance.php';
     const request = $.ajax({
