@@ -8,20 +8,17 @@ include './functions.php';
 
 $msg = 'Dados registrados';
 
-$categoryFilter = filter_input_array(INPUT_POST, [
-    "type" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+$typePaymentFilter = filter_input_array(INPUT_POST, [
     "description" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
 ]);
 
-$type = $categoryFilter['type'] ? $categoryFilter['type'] : null;
-$description = empty($categoryFilter['description']) ? null : $categoryFilter['description'];
+$description = empty($typePaymentFilter['description']) ? null : $typePaymentFilter['description'];
 
-$category = [
-    'type' => $type,
+$typePayment = [
     'description' => $description
 ];
 
-if(!createCategory($category)){
+if(!createTypePayment($typePayment)){
     $msg = 'Erro ao registrar dados';
     $msg .= "&alert=1";
 }

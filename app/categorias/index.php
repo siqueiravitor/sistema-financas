@@ -95,7 +95,7 @@ include_once './include/functions.php';
                         <div class="card shadow-sm">
                             <div class="card-body">
                                 <div class="border-bottom mb-4">
-                                    <h5 class="text-muted text-center space-1">Criar Categoria</h5>
+                                    <h5 class="text-muted text-center space-1">Cadastrar Categoria</h5>
                                 </div>
 
                                 <form method="POST" action="./include/cCategory.php">
@@ -112,7 +112,7 @@ include_once './include/functions.php';
                                     </div>
 
                                     <div class="text-center mt-4">
-                                        <button class="btn w-100 btn-success space-1">Registrar</button>
+                                        <button class="btn w-100 btn-success space-1">Cadastrar</button>
                                     </div>
                                 </form>
                             </div>

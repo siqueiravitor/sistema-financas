@@ -16,7 +16,7 @@ $finance = filter_input_array(INPUT_GET, [
 ]);
 $id = $finance['id'];
 
-if($rows = deleteCategory($id)){
+if($rows = deleteTypePayment($id)){
     $msg = "Dados apagados ($rows)";
 } else {
     $msg = 'Erro ao apagar dados';

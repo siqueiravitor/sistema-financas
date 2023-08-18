@@ -42,7 +42,7 @@ include_once './include/functions.php';
                 todayHighlight: true
             });
             $(".select2").select2();
-            loadCategories();
+            loadTypePayment();
         });
     </script>
     <style>
@@ -95,24 +95,17 @@ include_once './include/functions.php';
                         <div class="card shadow-sm">
                             <div class="card-body">
                                 <div class="border-bottom mb-4">
-                                    <h5 class="text-muted text-center space-1">Criar tipo de pagamento</h5>
+                                    <h5 class="text-muted text-center space-1">Cadastrar tipo de pagamento</h5>
                                 </div>
 
-                                <form method="POST" action="./include/cCategory.php">
-                                    <div class="form-group">
-                                        <small><b>Tipo</b></small>
-                                        <select class="form-control select2" name="type">
-                                            <option value='in'>Receita</option>
-                                            <option value='out'>Despesa</option>
-                                        </select>
-                                    </div>
+                                <form method="POST" action="./include/cTypePayment.php">
                                     <div class="form-group">
                                         <small><b>Descrição</b></small>
                                         <input class="form-control" name="description" autocomplete="off">
                                     </div>
 
                                     <div class="text-center mt-4">
-                                        <button class="btn w-100 btn-success space-1">Registrar</button>
+                                        <button class="btn w-100 btn-success space-1">Cadastrar</button>
                                     </div>
                                 </form>
                             </div>
@@ -125,7 +118,7 @@ include_once './include/functions.php';
                                     <h5 class="text-muted text-center space-1">Tipos de pagamento</h5>
                                 </div>
                                 <div class='table-responsive'>
-                                    <table class='table table-sm table-hover table-striped text-center dataTable no-footer' id='category_table'></table>
+                                    <table class='table table-sm table-hover table-striped text-center dataTable no-footer' id='typePayment_table'></table>
                                 </div>
 
                             </div>

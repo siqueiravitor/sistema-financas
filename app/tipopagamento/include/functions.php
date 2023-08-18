@@ -1,17 +1,16 @@
 <?php
 // C r e a t e
-function createCategory($fields){
+function createTypePayment($fields){
     global $con;
 
-    $insert = "INSERT INTO categories (id_user, type, description, created_at, updated_at) 
-    VALUES (?, ?, ?, ?, ?)";
+    $insert = "INSERT INTO payment_type (id_user, description, created_at, updated_at) 
+    VALUES (?, ?, ?, ?)";
 
     $prepareInsert = mysqli_prepare($con, $insert);
-    mysqli_stmt_bind_param($prepareInsert, 'issss', $fieldUser, $fieldType, $fieldDesc, $fieldCreatedAt, $fieldUpdatedAt);
+    mysqli_stmt_bind_param($prepareInsert, 'isss', $fieldUser, $fieldDesc, $fieldCreatedAt, $fieldUpdatedAt);
 
     $datetime = date('Y-m-d H:i:s');
     $fieldUser = $_SESSION['id'];
-    $fieldType = $fields['type'];
     $fieldDesc = $fields['description'];
     $fieldCreatedAt = $datetime;
     $fieldUpdatedAt = $datetime;
@@ -27,20 +26,19 @@ function createCategory($fields){
 }
 
 // R e a d
-function categories($id = null){
+function typePayment($id = null){
     global $con;
 
     $sql = "SELECT 
                 id,
-                type,
+                id_user,
                 description
-            FROM categories
+            FROM payment_type
             WHERE id_user is null 
             OR id_user = " . $_SESSION['id'];
     if($id){
         $sql .= " AND id = $id ";
     }
-    $sql .= " ORDER BY type ";
 
     $query = mysqli_query($con, $sql);
     $result = mysqli_fetch_all($query, MYSQLI_NUM);
@@ -49,10 +47,10 @@ function categories($id = null){
 }
 
 // D e l e t e 
-function deleteCategory($id){
+function deleteTypePayment($id){
     global $con;
 
-    $sql = "DELETE FROM categories WHERE id IN ($id)";
+    $sql = "DELETE FROM payment_type WHERE id IN ($id) AND id_user IS NOT NULL";
 
     $query = mysqli_query($con, $sql);
     if (!$query) {

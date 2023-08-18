@@ -1,50 +1,50 @@
 // A j a x
-function loadCategories() {
-    let url = './include/tableCategory.php';
+function loadTypePayment() {
+    let url = './include/tableTypePayment.php';
     const request = $.ajax({
         url,
         method: "GET",
         dataType: "html",
         beforeSend: function() {
-            $("#category_table").html(divLoading);
+            $("#typePayment_table").html(divLoading);
         }
     });
     request.done(function(data) {
-        $("#category_table").html(data);
-        $("#category_table").dataTable({
+        $("#typePayment_table").html(data);
+        $("#typePayment_table").dataTable({
             "aaSorting": [],
             "columnDefs": [{
-                "targets": [2,3],
+                "targets": [1,2],
                 "orderable": false
             }]
         });
     });
     request.fail(function(jqXHR, textStatus) {
-        $("#category_table").html(divError(textStatus));
+        $("#typePayment_table").html(divError(textStatus));
     });
 }
-function editCategory(id){
-    let url = './include/dCategory.php';
-    const request = $.ajax({
-        url,
-        method: "GET",
-        dataType: "html",
-        beforeSend: function() {
-            $("#category_table").html(divLoading);
-        },
-        data: id
-    });
-    request.done(function(data) {
-        console.log(data)
-        loadCategories()
-    });
-    request.fail(function(jqXHR, textStatus) {
-        console.log(textStatus)
-        // $("#category_table").html(divError(textStatus));
-    });
-}
-function deleteCategory(id){
-    let url = './include/dCategory.php';
+// function editTypePayment(id){
+//     let url = './include/dTypePayment.php';
+//     const request = $.ajax({
+//         url,
+//         method: "GET",
+//         dataType: "html",
+//         beforeSend: function() {
+//             $("#category_table").html(divLoading);
+//         },
+//         data: id
+//     });
+//     request.done(function(data) {
+//         console.log(data)
+//         loadCategories()
+//     });
+//     request.fail(function(jqXHR, textStatus) {
+//         console.log(textStatus)
+//         // $("#category_table").html(divError(textStatus));
+//     });
+// }
+function deleteTypePayment(id){
+    let url = './include/dTypePayment.php';
     const request = $.ajax({
         url,
         method: "GET",

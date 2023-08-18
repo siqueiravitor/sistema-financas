@@ -33,7 +33,8 @@ function categories($id = null){
     $sql = "SELECT 
                 id,
                 type,
-                description
+                description,
+                id_user
             FROM categories
             WHERE id_user is null 
             OR id_user = " . $_SESSION['id'];
@@ -52,7 +53,7 @@ function categories($id = null){
 function deleteCategory($id){
     global $con;
 
-    $sql = "DELETE FROM categories WHERE id IN ($id)";
+    $sql = "DELETE FROM categories WHERE id IN ($id) AND id_user IS NOT NULL";
 
     $query = mysqli_query($con, $sql);
     if (!$query) {
