@@ -19,7 +19,7 @@ $value = moneyToFloat($finance['value']);
 $category = $finance['category'];
 $recurrent = $finance['recurrent'];
 $financeRecurrent = $recurrent == 'u' ? 'n' : 'y';
-$description = $recurrent == 'n' ? $finance['description'] : null;
+$description = $financeRecurrent == 'n' ? $finance['description'] : null;
 $paid = !empty($finance['payment']) ? 'y' : 'n';
 $payday = dateConvert($finance['date'], '/', '-');
 
@@ -111,6 +111,14 @@ if ($paid == 'y') {
         $data['finance']['paid'] = 'n';
         $data['finance']['payday'] = $newDate;
         $newFinance = registerFinance($data);
+        $newFinanceId = $newFinance['id'];
+
+        $link = [
+            'id_finance' => $newFinanceId,
+            'id_recurrence' => $id_recurrence
+        ];
+
+        finance_recurrence($link);
     }
 }
 

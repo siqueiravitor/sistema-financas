@@ -34,7 +34,8 @@ function registerFinance($fields)
   return ['success' => true, 'id' => $id];
 }
 
-function registerPayment($fields){
+function registerPayment($fields)
+{
   global $con;
   $date = date('Y-m-d H:i:s');
 
@@ -60,7 +61,8 @@ function registerPayment($fields){
   return ['success' => true];
 }
 
-function registerRecurrence($fields){
+function registerRecurrence($fields)
+{
   global $con;
   $date = date('Y-m-d H:i:s');
   $recurrencies = $fields['recurrence'];
@@ -85,15 +87,16 @@ function registerRecurrence($fields){
     mysqli_stmt_close($prepareInsert);
     return false;
   }
-  
+
   $id_recurrence = mysqli_stmt_insert_id($prepareInsert);
   mysqli_stmt_close($prepareInsert);
   return $id_recurrence;
 }
-function registerRecurrenceFixed($fields){
+function registerRecurrenceFixed($fields)
+{
   try {
     global $con;
-    
+
     $fixed = $fields['fixed'];
     $date = date('Y-m-d H:i:s');
 
@@ -121,7 +124,8 @@ function registerRecurrenceFixed($fields){
     return ['success' => false, 'message' => $e];
   }
 }
-function finance_recurrence($fields){
+function finance_recurrence($fields)
+{
   global $con;
   $success = true;
   $date = date('Y-m-d H:i:s');
@@ -136,15 +140,56 @@ function finance_recurrence($fields){
   $fieldCreatedAt = $date;
   $fieldUpdatedAt = $date;
 
-  if(!mysqli_stmt_execute($prepareInsert)){
+  if (!mysqli_stmt_execute($prepareInsert)) {
     $success = false;
   }
   mysqli_stmt_close($prepareInsert);
 
   return ['success' => $success];
 }
+function repeatFixedRecurrence($idUser, $idFinance, $value){
+  global $con;
+  $sql = "SELECT 
+            f.id_category as idcategory,
+            f.value,
+            f.payday,
+            f.recurrent,
+            r.period,
+            r.recurrence,
+            concat('+', r.period, ' ', r.recurrence) as newPeriod
+          FROM finances f
+          INNER JOIN finance_recurrence fr ON (fr.id_finance = f.id)
+          INNER JOIN recurrencies r ON (r.id = fr.id_recurrence)
+          WHERE f.id_user = $idUser
+          AND f.id = $idFinance";
+
+  $query = mysqli_query($con, $sql);
+  $dataFinance = mysqli_fetch_array($query, MYSQLI_NUM);
+  $idcategory = $dataFinance[0];
+  $payday = $dataFinance[2];
+  $recurrent = $dataFinance[3];
+  $period = $dataFinance[4];
+  $recurrence = $dataFinance[5];
+
+  if($recurrent){
+    $fields['finance'] = [
+      'iduser' => $idUser,
+      'idcategory' => $idcategory,
+      'value' => $value,
+      'description' => null,
+      'recurrent' => 'y',
+      'paid' => 'n',
+      'payday' => dateChange($payday, $period, $recurrence)
+    ];
+
+    registerFinance($fields);
+  }
+
+  return true;
+}
 // R e a d
-function categories($id = null){
+function categories($id = null)
+{
   global $con;
   $sql = "SELECT 
             id,
@@ -160,7 +205,8 @@ function categories($id = null){
 
   return $result;
 }
-function paymentType($id = null){
+function paymentType($id = null)
+{
   global $con;
   $sql = "SELECT 
             id,
@@ -174,7 +220,8 @@ function paymentType($id = null){
 
   return $result;
 }
-function financeValues(){
+function financeValues()
+{
   global $con;
   $id_user = $_SESSION['id'];
 
@@ -187,8 +234,8 @@ function financeValues(){
             SUM(CASE WHEN c.type = 'out' AND paid = 'y' THEN f.value ELSE 0 END) as pago,
             SUM(CASE WHEN c.type = 'in' THEN f.value ELSE -f.value END) as total,
             SUM(CASE 
-                  WHEN c.type = 'in' and paid = 'n' THEN f.value 
-                  ELSE if(c.type = 'out' and paid = 'n', -f.value, 0) 
+                  WHEN c.type = 'in' and paid = 'y' THEN f.value 
+                  ELSE if(c.type = 'out' and paid = 'y', -f.value, 0) 
             END) as totalRecebido
           FROM finances f
           INNER JOIN categories c ON (c.id = f.id_category)
@@ -200,7 +247,8 @@ function financeValues(){
   return $result;
 }
 
-function dataFinance($userId, $id = null){
+function dataFinance($userId, $id = null)
+{
   global $con;
 
   $sql = "SELECT 
@@ -240,7 +288,8 @@ function dataFinance($userId, $id = null){
 
   return $result;
 }
-function recurrence($userId, $id){
+function recurrence($userId, $id)
+{
   global $con;
 
   $sql = "SELECT 
@@ -259,20 +308,37 @@ function updateFinance($fields)
 {
   global $con;
 
-  $update = "UPDATE finances SET 
+  if ($fields['paid']) {
+    $update = "UPDATE finances SET 
                 id_category = ?, 
                 value = ?, 
-                description = ?
+                description = ?,
+                paid = ?
             WHERE id = ?";
 
-  $prepareUpdate = mysqli_prepare($con, $update);
-  mysqli_stmt_bind_param($prepareUpdate, 'idsi', $fieldCategory, $fieldValue, $fieldDesc, $fieldId);
+    $prepareUpdate = mysqli_prepare($con, $update);
+    mysqli_stmt_bind_param($prepareUpdate, 'idssi', $fieldCategory, $fieldValue, $fieldDesc, $fieldPaid, $fieldId);
 
-  $fieldCategory = $fields['idcategory'];
-  $fieldValue = $fields['value'];
-  $fieldDesc = $fields['description'];
-  $fieldId = $fields['id'];
+    $fieldCategory = $fields['idcategory'];
+    $fieldValue = $fields['value'];
+    $fieldDesc = $fields['description'];
+    $fieldPaid = $fields['paid'];
+    $fieldId = $fields['id'];
+  } else {
+    $update = "UPDATE finances SET 
+                  id_category = ?, 
+                  value = ?, 
+                  description = ?
+                WHERE id = ?";
 
+    $prepareUpdate = mysqli_prepare($con, $update);
+    mysqli_stmt_bind_param($prepareUpdate, 'idsi', $fieldCategory, $fieldValue, $fieldDesc, $fieldId);
+
+    $fieldCategory = $fields['idcategory'];
+    $fieldValue = $fields['value'];
+    $fieldDesc = $fields['description'];
+    $fieldId = $fields['id'];
+  }
   if (!mysqli_stmt_execute($prepareUpdate)) {
     mysqli_stmt_close($prepareUpdate);
     return ['success' => false, 'message' => "Erro ao atualizar dados"];
@@ -283,15 +349,16 @@ function updateFinance($fields)
 }
 
 // D e l e t e
-function deleteFinance($id){
+function deleteFinance($id)
+{
   global $con;
 
-  $sqlVerifyLink  = "SELECT fr.id_recurrence 
+  $sqlVerifyLink = "SELECT fr.id_recurrence 
                       FROM finance_recurrence fr 
                       INNER JOIN finances f on (f.id = fr.id_finance)
                       WHERE fr.id_finance IN ($id) and f.id_user=" . $_SESSION['id'];
-  $verifyLink  = mysqli_query($con, $sqlVerifyLink );
-  while($recurrence = mysqli_fetch_array($verifyLink)){
+  $verifyLink = mysqli_query($con, $sqlVerifyLink);
+  while ($recurrence = mysqli_fetch_array($verifyLink)) {
     //Delete Link
     $sqlRecurrence = "DELETE FROM finance_recurrence WHERE id_recurrence = $recurrence[0]";
     mysqli_query($con, $sqlRecurrence);
@@ -300,14 +367,14 @@ function deleteFinance($id){
     $sqlRecurrenceFixed = "DELETE FROM recurrencies_fixed 
                             WHERE id_recurrence = $recurrence[0]";
     mysqli_query($con, $sqlRecurrenceFixed);
-    
+
     $sqlRecurrence = "DELETE FROM recurrencies WHERE id =$recurrence[0]";
     mysqli_query($con, $sqlRecurrence);
   }
   //Delete payments
   $sqlPayment = "DELETE FROM payments WHERE id_finance IN ($id)";
   mysqli_query($con, $sqlPayment);
-  
+
   //Delete finances
   $sql = "DELETE FROM finances WHERE id IN ($id) and id_user=" . $_SESSION['id'];
 

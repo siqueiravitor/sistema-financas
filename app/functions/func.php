@@ -14,6 +14,13 @@ function moneyToFloat($str){
     
     return $floatValue;
 }
+
+function moneyToFloatAlt($str){
+    $output = preg_replace( '/[^0-9,.]/', '', $str );
+    $value = str_replace(',','.', str_replace('.','', $output));
+    
+    return $value;
+}
 function floatToMoney($amount, $currency = 'R$ ') {
     $formatted = number_format($amount, 2, ',', '.');
     return $currency . $formatted;

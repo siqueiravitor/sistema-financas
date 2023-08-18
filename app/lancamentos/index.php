@@ -124,9 +124,9 @@ $financeValues = financeValues();
                     <div class="col-md-12 col-lg-4">
                         <div class="card card-info">
                             <div class="card-body card-body-info card-border-left card-border-right card-border-info shadow-sm">
-                                Saldo Geral (R$)
+                                Saldo Geral | Previsão(R$)
                                 <div class='moneyLabel'>
-                                    <?= floatToMoney($financeValues['totalRecebido'], null) . ' -><wbr> ' . floatToMoney($financeValues['total'], null)  ?>
+                                    <?= floatToMoney($financeValues['totalRecebido'], null) . ' |<wbr> ' . floatToMoney($financeValues['total'], null)  ?>
                                 </div>
                             </div>
                         </div>

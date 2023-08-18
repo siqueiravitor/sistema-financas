@@ -26,7 +26,7 @@
     if ($finances[0] > 0) {
         array_shift($finances);
         foreach ($finances as $finance) {
-            $dataPagamento = timestampToDate($finance['dataPagamento'])['date'];
+            $dataPagamento = $finance['dataPagamento'] ? timestampToDate($finance['dataPagamento'])['date'] : '-';
             $value = floatToMoney($finance['valor']);
 
             $recurrentInfo = "";
