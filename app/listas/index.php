@@ -41,8 +41,37 @@ include_once '../config/connMysql.php';
                 todayHighlight: true
             });
             $(".select2").select2();
+            loadList();
         });
     </script>
+    <style>
+        table svg {
+            width: .9rem !important;
+            height: .9rem !important;
+        }
+
+        table td:first-child,
+        table th:first-child {
+            text-align: center;
+            width: 20%;
+        }
+
+        table td:nth-last-child(1),
+        table th:nth-last-child(1),
+        table td:nth-last-child(2),
+        table th:nth-last-child(2),
+        table td:nth-last-child(3),
+        table th:nth-last-child(3) {
+            text-align: center;
+            border-left: 1px solid var(--color-border-lighter) !important;
+            border-right: 1px solid var(--color-border-lighter) !important;
+            width: 5%;
+        }
+
+        td a {
+            color: var(--color-info)
+        }
+    </style>
 </head>
 
 <body>
@@ -63,22 +92,39 @@ include_once '../config/connMysql.php';
                 }
                 ?>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="card shadow-sm">
                             <div class="card-body">
                                 <div class="border-bottom mb-4">
                                     <h5 class="text-muted text-center space-1">Criar Lista</h5>
                                 </div>
+                                <form method="POST" action="./include/cList.php">
+                                    <div class="form-group">
+                                        <small><b>Título</b></small>
+                                        <input class="form-control" name="title" autocomplete="off">
+                                    </div>
+                                    <div class="form-group">
+                                        <small><b>Descrição</b></small>
+                                        <input class="form-control" name="description" autocomplete="off">
+                                    </div>
+
+                                    <div class="text-center mt-4">
+                                        <button class="btn w-100 btn-success space-1">Cadastrar</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                         <div class="card shadow-sm">
                             <div class="card-body">
                                 <div class="border-bottom mb-4">
                                     <h5 class="text-muted text-center space-1">Listas</h5>
                                 </div>
 
+                                <div class='table-responsive'>
+                                    <table class='table table-sm table-hover table-striped text-center dataTable no-footer' id='list_table'></table>
+                                </div>
                             </div>
                         </div>
                     </div>
