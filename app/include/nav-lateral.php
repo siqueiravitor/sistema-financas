@@ -46,20 +46,14 @@
                 ?>
                 <li class="middle <?= 'lancamentos' == $page ? 'active' : '' ?>">
                     <a href="<?= BASED . "/lancamentos" ?>">
-                        <i class='iconColor navIcon' data-feather="dollar-sign"></i>
+                        <i class='iconColor navIcon' data-feather="edit"></i>
                         <span class='ml-2'>Lançamentos</span>
                     </a>
                 </li>
-                <li class="middle <?= 'categorias' == $page ? 'active' : '' ?>">
-                    <a href="<?= BASED . "/categorias" ?>">
-                        <i class='iconColor navIcon' data-feather="command"></i>
-                        <span class='ml-2'>Categorias</span>
-                    </a>
-                </li>
-                <li class="middle <?= 'tipopagamento' == $page ? 'active' : '' ?>">
-                    <a href="<?= BASED . "/tipopagamento" ?>">
-                        <i class='iconColor navIcon' data-feather="command"></i>
-                        <span class='ml-2'>Tipo Pagamento</span>
+                <li class="middle <?= 'poupanca' == $page ? 'active' : '' ?>">
+                    <a href="<?= BASED . "/poupanca" ?>">
+                        <i class='iconColor navIcon' data-feather="pocket"></i>
+                        <span class='ml-2'>Poupança</span>
                     </a>
                 </li>
                 <li class="middle <?= 'grupos' == $page ? 'active' : '' ?>">
@@ -72,6 +66,18 @@
                     <a href="<?= BASED . "/listas" ?>">
                         <i class='iconColor navIcon' data-feather="list"></i>
                         <span class='ml-2'>Listas</span>
+                    </a>
+                </li>
+                <li class="middle <?= 'categorias' == $page ? 'active' : '' ?>">
+                    <a href="<?= BASED . "/categorias" ?>">
+                        <i class='iconColor navIcon' data-feather="command"></i>
+                        <span class='ml-2'>Categorias</span>
+                    </a>
+                </li>
+                <li class="middle <?= 'tipopagamento' == $page ? 'active' : '' ?>">
+                    <a href="<?= BASED . "/tipopagamento" ?>">
+                        <i class='iconColor navIcon' data-feather="dollar-sign"></i>
+                        <span class='ml-2'>Tipo Pagamento</span>
                     </a>
                 </li>
                 <li class="middle" id="navDocumentacao">

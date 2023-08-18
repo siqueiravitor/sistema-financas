@@ -35,7 +35,8 @@ function categories($id = null){
                 type,
                 description
             FROM categories
-            WHERE id_user = " . $_SESSION['id'];
+            WHERE id_user is null 
+            OR id_user = " . $_SESSION['id'];
     if($id){
         $sql .= " AND id = $id ";
     }
