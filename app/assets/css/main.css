@@ -392,6 +392,14 @@ table.dataTable * {
     border: none !important;
 }
 
+table svg {
+    width: .9rem !important;
+    height: .9rem !important;
+}
+
+td a {
+    color: var(--color-info)
+}
 a {
     text-decoration: none !important;
 }

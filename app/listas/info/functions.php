@@ -1,17 +1,19 @@
 <?php
 // C r e a t e
-function createTypePayment($fields){
+function createItem($fields){
     global $con;
 
-    $insert = "INSERT INTO payment_type (id_user, description, created_at, updated_at) 
-    VALUES (?, ?, ?, ?)";
+    $insert = "INSERT INTO items (id_list, id_category, description, value, created_at, updated_at) 
+    VALUES (?, ?, ?, ?, ?, ?)";
 
     $prepareInsert = mysqli_prepare($con, $insert);
-    mysqli_stmt_bind_param($prepareInsert, 'isss', $fieldUser, $fieldDesc, $fieldCreatedAt, $fieldUpdatedAt);
+    mysqli_stmt_bind_param($prepareInsert, 'iisdss', $fieldIdList, $fieldCategory, $fieldDesc, $fieldValue, $fieldCreatedAt, $fieldUpdatedAt);
 
     $datetime = date('Y-m-d H:i:s');
-    $fieldUser = $_SESSION['id'];
+    $fieldIdList = $fields['id_list'];
+    $fieldCategory = $fields['id_category'];
     $fieldDesc = $fields['description'];
+    $fieldValue = $fields['value'];
     $fieldCreatedAt = $datetime;
     $fieldUpdatedAt = $datetime;
 
@@ -26,31 +28,32 @@ function createTypePayment($fields){
 }
 
 // R e a d
-function typePayment($id = null){
+function items($id = null){
     global $con;
 
     $sql = "SELECT 
-                id,
-                id_user,
-                description
-            FROM payment_type
-            WHERE (id_user is null 
-            OR id_user = " . $_SESSION['id'] . ")";
-    if($id){
-        $sql .= " AND id = $id ";
-    }
+                id_category,
+                description,
+                value,
+                paid
+            FROM items
+            WHERE id_list = $id ";
 
     $query = mysqli_query($con, $sql);
     $result = mysqli_fetch_all($query, MYSQLI_NUM);
 
     return $result;
 }
-
 // D e l e t e 
-function deleteTypePayment($id){
+function deleteItem($id, $list = null){
     global $con;
 
-    $sql = "DELETE FROM payment_type WHERE id IN ($id) AND id_user IS NOT NULL";
+    $item = "id IN ($id)";
+    if($list){
+        $item = "id_list = $list";
+    }
+
+    $sql = "DELETE FROM items WHERE $item";
 
     $query = mysqli_query($con, $sql);
     if (!$query) {

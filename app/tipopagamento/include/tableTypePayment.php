@@ -24,8 +24,9 @@
             </td>
             <td>
                 <?php if ($typePayment[1]) { ?>
-                    <a href='./include/dTypePayment.php?id=<?= $typePayment[0] ?>' class='d-block'>
-                        <i class='text-danger' data-feather='trash-2'></i></a>
+                <a onclick="deleteModal(<?= $typePayment[0] ?>, './include/cAjaxDeleteTypePayment.php')" href='#' data-bs-toggle='modal' 
+                    data-bs-target='#modalTemplate' class='d-block'>
+                    <i class='text-danger' data-feather='trash-2'></i></a>
                 <?php } ?>
 
             </td>

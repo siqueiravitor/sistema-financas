@@ -26,9 +26,9 @@
             </td>
             <td>
                 <?php if ($category[3]) { ?>
-                    <!-- <a href='#' class='d-block' onclick="deleteCategory(<?= $category[0] ?>)"> -->
-                    <a href='./include/dCategory.php?id=<?= $category[0] ?>' class='d-block'>
-                        <i class='text-danger' data-feather='trash-2'></i></a>
+                <a onclick="deleteModal(<?= $category[0] ?>, './include/cAjaxDeleteCategory.php')" href='#' data-bs-toggle='modal' 
+                    data-bs-target='#modalTemplate' class='d-block'>
+                    <i class='text-danger' data-feather='trash-2'></i></a>
                 <?php } ?>
             </td>
         </tr>

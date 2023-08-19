@@ -1,11 +1,22 @@
 <?php
-require('../../required.php');
-include_once '../config/config.php';
-include_once '../functions/func.php';
-include_once '../config/security.php';
-include_once '../config/connMysql.php';
-include_once './include/functions.php';
+require('../../../required.php');
+include_once '../../config/config.php';
+include_once '../../functions/func.php';
+include_once '../../config/security.php';
+include_once '../../config/connMysql.php';
+include_once '../include/functions.php';
 
+$list = filter_input_array(INPUT_GET, [
+    "item" => FILTER_SANITIZE_NUMBER_INT
+]);
+$listId = $list['item'];
+$list = lists($listId)[0];
+$listTitle = $list[1];
+$listDesc = $list[2];
+
+if (!$list) {
+    exit(header('Location: ../?msg=Erro ao buscar lista'));
+}
 ?>
 <!doctype html>
 <html lang="pt-br">
@@ -51,6 +62,7 @@ include_once './include/functions.php';
             text-align: center;
             width: 20%;
         }
+
         table td:nth-last-child(1),
         table th:nth-last-child(1),
         table td:nth-last-child(2),
@@ -68,14 +80,14 @@ include_once './include/functions.php';
 <body>
     <div id="wrapper">
         <?php
-        include '../include/loader.php';
-        include '../include/nav-topo.php';
-        include '../include/nav-lateral.php';
+        include '../../include/loader.php';
+        include '../../include/nav-topo.php';
+        include '../../include/nav-lateral.php';
         ?>
         <div id="main-content">
             <div class="container-fluid">
                 <?php
-                include '../include/breadcrumb.php';
+                include '../../include/breadcrumb.php';
 
                 if (!empty($_GET["msg"])) {
                     $alert = isset($_GET["alert"]) ? $_GET["alert"] : 0;
@@ -87,40 +99,22 @@ include_once './include/functions.php';
                         <div class="card shadow-sm">
                             <div class="card-body">
                                 <div class="border-bottom mb-4">
-                                    <h5 class="text-muted text-center space-1">Criar Lista</h5>
+                                    <h5 class="text-muted text-center space-1">Adicionar item</h5>
                                 </div>
-                                <form method="POST" action="./include/cList.php">
-                                    <div class="form-group">
-                                        <small><b>Título</b></small>
-                                        <input class="form-control" name="title" autocomplete="off" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <small><b>Categoria</b></small>
-                                        <select class="form-control select2" name="category" required>
-                                            <?php
-                                            $list = '';
-                                            $categorias = categories();
-                                            foreach ($categorias as $categoria) {
-                                                if ($tipo != $categoria[1]) {
-                                                    $tipo = $categoria[1] == 'in' ? 'Receita' : 'Despesa';
-                                                    echo "<optgroup label='$tipo'>";
-                                                    $tipo = $categoria[1];
-                                                }
-                                                echo "<option value='$categoria[0]'>$categoria[2]</option>";
-                                                if ($tipo != $categoria[1]) {
-                                                    echo "</optgroup>";
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
+                                <form method="POST" action="./include/cItem.php">
+                                    <input hidden name='list' value='<?= $listId ?>'>
                                     <div class="form-group">
                                         <small><b>Descrição</b></small>
                                         <input class="form-control" name="description" autocomplete="off">
                                     </div>
+                                    <div class="form-group">
+                                        <small><b>Valor</b></small>
+                                        <input class="form-control" id="value" placeholder="R$ 0,00" name="value"
+                                            onkeyup="moneyMask(this)">
+                                    </div>
 
                                     <div class="text-center mt-4">
-                                        <button class="btn w-100 btn-success space-1">Cadastrar</button>
+                                        <button class="btn w-100 btn-success space-1">Adicionar</button>
                                     </div>
                                 </form>
                             </div>
@@ -130,11 +124,15 @@ include_once './include/functions.php';
                         <div class="card shadow-sm">
                             <div class="card-body">
                                 <div class="border-bottom mb-4">
-                                    <h5 class="text-muted text-center space-1">Listas</h5>
+                                    <h5 class="text-muted text-center space-1">Lista - <b>
+                                            <?= $listTitle ?>
+                                        </b> </h5>
                                 </div>
 
                                 <div class='table-responsive'>
-                                    <table class='table table-sm table-hover table-striped text-center dataTable no-footer' id='list_table'></table>
+                                    <table
+                                        class='table table-sm table-hover table-striped text-center dataTable no-footer'
+                                        id='items_table'></table>
                                 </div>
                             </div>
                         </div>
@@ -142,15 +140,15 @@ include_once './include/functions.php';
                 </div>
             </div>
             <?php
-            include '../include/footer.php';
-            include '../include/offcanva.php';
+            include '../../include/footer.php';
+            include '../../include/offcanva.php';
             ?>
         </div>
     </div>
     <!-- FeatherIcons -->
     <script src="<?= ICON ?>/feather.js"></script>
     <!-- Javascript -->
-    <script src="./include/functions.js"></script>
+    <script src="../include/functions.js"></script>
     <script src="<?= BASE; ?>/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="<?= BASED; ?>/assets/bundles/libscripts.bundle.js"></script>
     <script src="<?= BASED; ?>/assets/bundles/vendorscripts.bundle.js"></script>

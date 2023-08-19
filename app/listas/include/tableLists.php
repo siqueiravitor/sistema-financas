@@ -1,5 +1,6 @@
 <thead>
     <tr>
+        <th>Categoria</th>
         <th>Título</th>
         <th>Descrição</th>
         <th class='text-muted'><i data-feather='eye'></i></th>
@@ -17,15 +18,22 @@
     foreach ($typeLists as $list) {
     ?>
         <tr>
+            <td><?= $list[4] ?></td>
             <td><?= $list[1] ?></td>
             <td><?= $list[2] ?></td>
-            <td></td>
+            <td>
+                <form method="GET" action="./info" style="cursor:pointer">
+                    <input hidden value='<?= $list[0] ?>' name="item">
+                    <button class='text-info'><i data-feather='eye'></i></button>
+                </form>
+            </td>
             <td>
                 <a onclick="listData(<?= $list[0] ?>)" href='#' class='d-block' aria-controls='ocNewRecord' data-bs-toggle='offcanvas' data-bs-target='#ocTemplate'>
                     <i data-feather='edit'></i></a>
             </td>
             <td>
-                <a href='./include/list.php?id=<?= $list[0] ?>' class='d-block'>
+                <a onclick="deleteModal(<?= $list[0] ?>, './include/cAjaxDeleteList.php')" href='#' data-bs-toggle='modal' 
+                    data-bs-target='#modalTemplate' class='d-block'>
                     <i class='text-danger' data-feather='trash-2'></i></a>
             </td>
         </tr>

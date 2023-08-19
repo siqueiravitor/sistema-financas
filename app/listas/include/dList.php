@@ -11,9 +11,9 @@ $finance = filter_input_array(INPUT_POST, [
 ]);
 
 $id = $finance['id'];
-$deleteTypePayment = deleteTypePayment($id);
-if(!$deleteTypePayment['success']){
+$deleteList = deleteList($id);
+if(!$deleteList['success']){
     $alert = "&alert=1";
 }
 
-header("Location: ../?msg=".$deleteTypePayment['message']. $alert);
+header("Location: ../?msg=".$deleteList['message']. $alert);

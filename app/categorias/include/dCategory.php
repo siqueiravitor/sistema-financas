@@ -6,12 +6,7 @@ include '../../functions/func.php';
 include '../../config/connMysql.php';
 include './functions.php';
 
-if(!isset($_GET['id'])){
-    $msg = "Categoria não encontrada&alert=1";
-    exit(header("Location: ../?msg=$msg"));
-}
-
-$finance = filter_input_array(INPUT_GET, [
+$finance = filter_input_array(INPUT_POST, [
     "id" => FILTER_SANITIZE_NUMBER_INT
 ]);
 $id = $finance['id'];

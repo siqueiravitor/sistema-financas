@@ -46,11 +46,6 @@ include_once './include/functions.php';
         });
     </script>
     <style>
-        table svg {
-            width: .9rem !important;
-            height: .9rem !important;
-        }
-
         table td:first-child,
         table th:first-child {
             text-align: center;
@@ -65,10 +60,6 @@ include_once './include/functions.php';
             border-left: 1px solid var(--color-border-lighter) !important;
             border-right: 1px solid var(--color-border-lighter) !important;
             width: 5%;
-        }
-
-        td a {
-            color: var(--color-info)
         }
     </style>
 </head>

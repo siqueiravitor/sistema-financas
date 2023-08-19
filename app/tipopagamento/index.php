@@ -46,17 +46,11 @@ include_once './include/functions.php';
         });
     </script>
     <style>
-        table svg {
-            width: .9rem !important;
-            height: .9rem !important;
-        }
-
         table td:first-child,
         table th:first-child {
             text-align: center;
             width: 20%;
         }
-
         table td:nth-last-child(1),
         table th:nth-last-child(1),
         table td:nth-last-child(2),
@@ -65,10 +59,6 @@ include_once './include/functions.php';
             border-left: 1px solid var(--color-border-lighter) !important;
             border-right: 1px solid var(--color-border-lighter) !important;
             width: 5%;
-        }
-
-        td a {
-            color: var(--color-info)
         }
     </style>
 </head>
@@ -101,7 +91,7 @@ include_once './include/functions.php';
                                 <form method="POST" action="./include/cTypePayment.php">
                                     <div class="form-group">
                                         <small><b>Descrição</b></small>
-                                        <input class="form-control" name="description" autocomplete="off">
+                                        <input class="form-control" name="description" autocomplete="off" required>
                                     </div>
 
                                     <div class="text-center mt-4">

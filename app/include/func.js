@@ -22,6 +22,24 @@ function abrirHistorico(parametro, url) {
     });
 }
 
+function deleteModal(id, url) {
+    const request = $.ajax({
+        url,
+        data: { id },
+        method: "GET",
+        dataType: "html",
+        beforeSend: function () {
+            $("#modal-content").html(divLoading);
+        }
+    });
+    request.done(function (data) {
+        $("#modal-content").html(data);
+    });
+    request.fail(function (jqXHR, textStatus) {
+        $("#modal-content").html(divError(textStatus));
+    });
+}
+
 function moneyMask(input) {
     if (input.value) {
         const numericInput = input.value.replace(/\D/g, '');

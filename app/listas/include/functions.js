@@ -43,23 +43,3 @@ function loadList() {
 //         // $("#category_table").html(divError(textStatus));
 //     });
 // }
-function deleteTypePayment(id){
-    let url = './include/dTypePayment.php';
-    const request = $.ajax({
-        url,
-        method: "GET",
-        dataType: "html",
-        beforeSend: function() {
-            $("#category_table").html(divLoading);
-        },
-        data: id
-    });
-    request.done(function(data) {
-        console.log(data)
-        loadCategories()
-    });
-    request.fail(function(jqXHR, textStatus) {
-        console.log(textStatus)
-        // $("#category_table").html(divError(textStatus));
-    });
-}
