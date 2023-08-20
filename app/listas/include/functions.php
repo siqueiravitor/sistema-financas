@@ -49,6 +49,26 @@ function lists($id = null){
 
     return $result;
 }
+function checkListEmpty($id){
+    try{
+        global $con;
+
+        $sql = "SELECT 
+                    1
+                FROM lists l
+                INNER JOIN items i ON (i.id_list = l.id)
+                WHERE l.id_user = ". $_SESSION['id'] ."
+                AND l.id = $id 
+                LIMIT 1";
+
+        $query = mysqli_query($con, $sql);
+        $have = mysqli_num_rows($query);
+
+        return $have;
+    } catch(Exception $e) {
+        return ['success' => false, 'message' => "Erro ao verificar lista", 'error' => $e];
+    }
+}
 function categories(){
     global $con;
 

@@ -12,9 +12,9 @@ function loadList() {
     request.done(function(data) {
         $("#list_table").html(data);
         $("#list_table").dataTable({
-            "aaSorting": [],
+            "aaSorting": [[0, 'asc']],
             "columnDefs": [{
-                "targets": [2,3],
+                "targets": [3,4,5],
                 "orderable": false
             }]
         });
