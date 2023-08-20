@@ -65,7 +65,6 @@
                         data-bs-toggle='offcanvas' data-bs-target='#ocTemplate' class='d-block'>
                         <i data-feather='edit'></i></a>
                 </td>";
-                //href='./include/dFinance.php?id={$finance['id']}'
             echo "<td><a onclick='deleteFinance({$finance['id']})' href='#' data-bs-toggle='modal' 
                             data-bs-target='#modalTemplate' class='d-block'>
                     <i class='text-danger' data-feather='trash-2'></i></a>

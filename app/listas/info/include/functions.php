@@ -50,6 +50,37 @@ function items($id = null, $idItem = null){
         return ["success" => false, "message" => "Erro ao buscar dados", $e];
     }
 }
+
+// U p d a t e
+function updateItem($fields){
+    try{
+        global $con;
+        $datetime = date('Y-m-d H:i:s');
+
+        $update = "UPDATE items SET 
+                    description = ?,
+                    value = ?, 
+                    updated_at = ?
+                WHERE id = ?";
+
+        $prepareUpdate = mysqli_prepare($con, $update);
+        mysqli_stmt_bind_param($prepareUpdate, 'sdsi', $fieldDesc, $fieldValue, $fieldUpdated, $fieldId);
+
+        $fieldDesc = $fields['description'];
+        $fieldValue = $fields['value'];
+        $fieldUpdated = $datetime;
+        $fieldId = $fields['id'];
+        if (!mysqli_stmt_execute($prepareUpdate)) {
+            mysqli_stmt_close($prepareUpdate);
+            return ['success' => false, 'message' => "Erro ao atualizar dados"];
+        }
+
+        mysqli_stmt_close($prepareUpdate);
+        return ['success' => true, 'message' => "Dados atualizados"];
+    } catch(Exception $e) {
+        return ['success' => false, 'message' => "Erro ao atualizar dados", 'error' => $e];
+    }
+}
 // D e l e t e 
 function deleteItem($id, $list = null){
     global $con;

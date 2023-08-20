@@ -28,8 +28,10 @@
                 </form>
             </td>
             <td>
-                <a onclick="listData(<?= $list[0] ?>)" href='#' class='d-block' aria-controls='ocNewRecord' data-bs-toggle='offcanvas' data-bs-target='#ocTemplate'>
+                <a onclick="loadData(<?= $list[0] ?>, './include/cAjaxEditList.php')" href='#' 
+                class='d-block' aria-controls='ocNewRecord' data-bs-toggle='offcanvas' data-bs-target='#ocTemplate'>
                     <i data-feather='edit'></i></a>
+                </td>
             </td>
             <td>
                 <a onclick="deleteModal(<?= $list[0] ?>, './include/cAjaxDeleteList.php')" href='#' data-bs-toggle='modal' 

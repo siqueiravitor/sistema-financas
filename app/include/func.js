@@ -40,6 +40,29 @@ function deleteModal(id, url, params) {
     });
 }
 
+function loadData(id, url, id_alt) {
+    const request = $.ajax({
+        url,
+        data: { id, id_alt },
+        method: "GET",
+        dataType: "html",
+        beforeSend: function () {
+            $("#ocTemplate").html(divLoading);
+        }
+    });
+    request.done(function (data) {
+        $("#ocTemplate").html(data);
+
+        $(".select2").select2('destroy');
+        $(".select2").select2();
+        $('#date').datepicker({
+            todayHighlight: true
+        });
+    });
+    request.fail(function (jqXHR, textStatus) {
+        $("#ocTemplate").html(divError(textStatus));
+    });
+}
 function moneyMask(input) {
     if (input.value) {
         const numericInput = input.value.replace(/\D/g, '');

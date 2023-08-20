@@ -68,6 +68,36 @@ function categories(){
     return $result;
 }
 
+// U p d a t e
+function updateList($fields){
+    try{
+        global $con;
+        $datetime = date('Y-m-d H:i:s');
+
+        $update = "UPDATE lists SET 
+                    title = ?, 
+                    description = ?,
+                    updated_at = ?
+                WHERE id = ?";
+
+        $prepareUpdate = mysqli_prepare($con, $update);
+        mysqli_stmt_bind_param($prepareUpdate, 'sssi', $fieldTitle, $fieldDesc, $fieldUpdated, $fieldId);
+
+        $fieldTitle = $fields['title'];
+        $fieldDesc = $fields['description'];
+        $fieldUpdated = $datetime;
+        $fieldId = $fields['id'];
+        if (!mysqli_stmt_execute($prepareUpdate)) {
+            mysqli_stmt_close($prepareUpdate);
+            return ['success' => false, 'message' => "Erro ao atualizar dados"];
+        }
+
+        mysqli_stmt_close($prepareUpdate);
+        return ['success' => true, 'message' => "Dados atualizados"];
+    } catch(Exception $e) {
+        return ['success' => false, 'message' => "Erro ao atualizar dados", 'error' => $e];
+    }
+}
 // D e l e t e 
 function deleteList($id){
     global $con;

@@ -21,8 +21,10 @@
             <td><?= $item[1] ?></td>
             <td><?= floatToMoney($item[2]) ?></td>
             <td>
-                <a onclick="listData(<?= $item[0] ?>)" href='#' class='d-block' aria-controls='ocNewRecord' data-bs-toggle='offcanvas' data-bs-target='#ocTemplate'>
+                <a onclick="loadData(<?= $list ?>, './include/cAjaxEditItem.php', <?= $item[0] ?>)" href='#' 
+                class='d-block' aria-controls='ocNewRecord' data-bs-toggle='offcanvas' data-bs-target='#ocTemplate'>
                     <i data-feather='edit'></i></a>
+                </td>
             </td>
             <td>
                 <a onclick="deleteModal(<?= $list ?>, './include/cAjaxDeleteItem.php', <?= $item[0] ?>)" href='#' data-bs-toggle='modal' 
