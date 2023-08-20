@@ -13,8 +13,7 @@ $listId = $list['item'];
 $list = lists($listId)[0];
 $listTitle = $list[1];
 $listDesc = $list[2];
-
-if (!$list) {
+if (!$listId) {
     exit(header('Location: ../?msg=Erro ao buscar lista'));
 }
 ?>
@@ -53,22 +52,20 @@ if (!$list) {
                 todayHighlight: true
             });
             $(".select2").select2();
-            loadList();
+            loadItem(<?= $listId ?>);
         });
     </script>
     <style>
         table td:first-child,
         table th:first-child {
             text-align: center;
-            width: 20%;
+            width: 50%;
         }
 
         table td:nth-last-child(1),
         table th:nth-last-child(1),
         table td:nth-last-child(2),
-        table th:nth-last-child(2),
-        table td:nth-last-child(3),
-        table th:nth-last-child(3) {
+        table th:nth-last-child(2) {
             text-align: center;
             border-left: 1px solid var(--color-border-lighter) !important;
             border-right: 1px solid var(--color-border-lighter) !important;
@@ -124,15 +121,11 @@ if (!$list) {
                         <div class="card shadow-sm">
                             <div class="card-body">
                                 <div class="border-bottom mb-4">
-                                    <h5 class="text-muted text-center space-1">Lista - <b>
-                                            <?= $listTitle ?>
-                                        </b> </h5>
+                                    <h5 class="text-muted text-center space-1">Lista - <b><?= $listTitle ?></b> </h5>
                                 </div>
 
                                 <div class='table-responsive'>
-                                    <table
-                                        class='table table-sm table-hover table-striped text-center dataTable no-footer'
-                                        id='items_table'></table>
+                                    <table class='table table-sm table-hover table-striped text-center dataTable no-footer' id='items_table'></table>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +141,7 @@ if (!$list) {
     <!-- FeatherIcons -->
     <script src="<?= ICON ?>/feather.js"></script>
     <!-- Javascript -->
-    <script src="../include/functions.js"></script>
+    <script src="./include/functions.js"></script>
     <script src="<?= BASE; ?>/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="<?= BASED; ?>/assets/bundles/libscripts.bundle.js"></script>
     <script src="<?= BASED; ?>/assets/bundles/vendorscripts.bundle.js"></script>

@@ -22,10 +22,10 @@ function abrirHistorico(parametro, url) {
     });
 }
 
-function deleteModal(id, url) {
+function deleteModal(id, url, params) {
     const request = $.ajax({
         url,
-        data: { id },
+        data: { id, params },
         method: "GET",
         dataType: "html",
         beforeSend: function () {
