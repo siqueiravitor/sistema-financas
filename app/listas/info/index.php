@@ -48,6 +48,8 @@ if (!$listId) {
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
+            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+
             $('#date').datepicker({
                 todayHighlight: true
             });
@@ -65,7 +67,9 @@ if (!$listId) {
         table td:nth-last-child(1),
         table th:nth-last-child(1),
         table td:nth-last-child(2),
-        table th:nth-last-child(2) {
+        table th:nth-last-child(2),
+        table td:nth-last-child(3),
+        table th:nth-last-child(3) {
             text-align: center;
             border-left: 1px solid var(--color-border-lighter) !important;
             border-right: 1px solid var(--color-border-lighter) !important;

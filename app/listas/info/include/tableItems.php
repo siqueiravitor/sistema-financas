@@ -2,6 +2,7 @@
     <tr>
         <th>Descrição</th>
         <th>Valor</th>
+        <th class='text-muted'><i data-feather='toggle-right'></i></th>
         <th class='text-muted'><i data-feather='edit'></i></th>
         <th class='text-muted'><i data-feather='trash-2'></i></th>
     </tr>
@@ -16,10 +17,20 @@
     $list = $_GET['list'];
     $items = items($list);
     foreach ($items as $item) {
+        $status = $item[4] == 'a' ? 'Ativo' : 'Inativo';
+        // $changeTo = $item[4] == 'a' ? 'Inativar' : 'Ativar'; 
+        $btnColor = $item[4] == 'a' ? 'btn-outline-success' : 'btn-outline-danger';
+
+        // $ativo = "<span class='badge-btn $btnColor space-1' href='#' 
+        //                 data-toggle='tooltip' title='$changeTo'
+        //                 onclick='changeItemStatus({$item[0]})' class='d-block'>$status</span>";
+        $ativo = "<span class='badge-btn $btnColor space-1' href='#' 
+                        onclick='changeItemStatus({$item[0]})' class='d-block'>$status</span>";
     ?>
         <tr>
             <td><?= $item[1] ?></td>
             <td><?= floatToMoney($item[2]) ?></td>
+            <td id='<?= 'item_'.$item[0] ?>'><?= $ativo ?></td>
             <td>
                 <a onclick="loadData(<?= $list ?>, './include/cAjaxEditItem.php', <?= $item[0] ?>)" href='#' 
                 class='d-block' aria-controls='ocNewRecord' data-bs-toggle='offcanvas' data-bs-target='#ocTemplate'>

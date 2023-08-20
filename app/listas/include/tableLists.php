@@ -1,7 +1,7 @@
 <thead>
     <tr>
         <th>Categoria</th>
-        <th>Título</th>
+        <th>Nome</th>
         <th>Descrição</th>
         <th class='text-muted'><i data-feather='eye'></i></th>
         <th class='text-muted'><i data-feather='edit'></i></th>

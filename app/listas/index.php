@@ -91,7 +91,7 @@ include_once './include/functions.php';
                                 </div>
                                 <form method="POST" action="./include/cList.php">
                                     <div class="form-group">
-                                        <small><b>Título</b></small>
+                                        <small><b>Nome</b></small>
                                         <input class="form-control" name="title" autocomplete="off" required>
                                     </div>
                                     <div class="form-group">

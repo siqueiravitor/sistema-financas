@@ -35,7 +35,8 @@ function items($id = null, $idItem = null){
                     id,
                     description,
                     value,
-                    paid
+                    paid,
+                    status
                 FROM items
                 WHERE id_list = $id ";
         if($idItem){
@@ -77,6 +78,44 @@ function updateItem($fields){
 
         mysqli_stmt_close($prepareUpdate);
         return ['success' => true, 'message' => "Dados atualizados"];
+    } catch(Exception $e) {
+        return ['success' => false, 'message' => "Erro ao atualizar dados", 'error' => $e];
+    }
+}
+function updateItemStatus($fields){
+    try{
+        global $con;
+        $idItem = $fields['id'];
+
+        $sql = "SELECT 
+                    status
+                FROM items
+                WHERE id = $idItem ";
+
+        $query = mysqli_query($con, $sql);
+        $statusItem = mysqli_fetch_array($query, MYSQLI_NUM)[0];
+        $newStatus = $statusItem == 'a' ? 'i' : 'a';
+
+        $datetime = date('Y-m-d H:i:s');
+
+        $update = "UPDATE items SET 
+                    status = ?,
+                    updated_at = ?
+                WHERE id = ?";
+
+        $prepareUpdate = mysqli_prepare($con, $update);
+        mysqli_stmt_bind_param($prepareUpdate, 'ssi', $fieldStatus, $fieldUpdated, $fieldId);
+
+        $fieldStatus = $newStatus;
+        $fieldUpdated = $datetime;
+        $fieldId = $idItem;
+        if (!mysqli_stmt_execute($prepareUpdate)) {
+            mysqli_stmt_close($prepareUpdate);
+            return ['success' => false, 'message' => "Erro ao atualizar dados"];
+        }
+
+        mysqli_stmt_close($prepareUpdate);
+        return ['success' => true, 'message' => "Dados atualizados", 'status' => $newStatus];
     } catch(Exception $e) {
         return ['success' => false, 'message' => "Erro ao atualizar dados", 'error' => $e];
     }
