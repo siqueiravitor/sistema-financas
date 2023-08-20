@@ -11,6 +11,7 @@
     require('../../../../required.php');
     include_once '../../../config/connMysql.php';
     include_once '../../../config/config.php';
+    include_once '../../../functions/func.php';
     include_once './functions.php';
     $list = $_GET['list'];
     $items = items($list);
@@ -18,7 +19,7 @@
     ?>
         <tr>
             <td><?= $item[1] ?></td>
-            <td><?= $item[2] ?></td>
+            <td><?= floatToMoney($item[2]) ?></td>
             <td>
                 <a onclick="listData(<?= $item[0] ?>)" href='#' class='d-block' aria-controls='ocNewRecord' data-bs-toggle='offcanvas' data-bs-target='#ocTemplate'>
                     <i data-feather='edit'></i></a>

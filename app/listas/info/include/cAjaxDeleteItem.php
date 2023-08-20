@@ -25,16 +25,15 @@ if ($item[0]) {
         <div class="modal-body space-1 mt-2 text-center" id='modal-body'>
             <h4>Deseja deletar esse registro?</h4>
             <div class='row text-left space-2'>
-                <div class='form-group col-md-12'>
+                <div class='form-group col-md-8'>
                     <label>Título:</label>
                     <span class='form-control' readonly>
                         <?= $item[1] ?>
                     </span>
                 </div>
-                <div class='form-group col-md-12'>
-                    <label>Descrição:</label>
-                    <textarea readonly class='form-control h-auto text-left' style='resize: none'
-                        rows='3'><?= $item[2] ?></textarea>
+                <div class='form-group col-md-4'>
+                    <label>Valor:</label>
+                    <span class='form-control' readonly><?= floatToMoney($item[2]) ?></textarea>
                 </div>
             </div>
         </div>
