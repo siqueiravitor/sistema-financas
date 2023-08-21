@@ -3,13 +3,27 @@
 function createList($fields){
     global $con;
 
-    $insert = "INSERT INTO lists (id_user, id_category, title, description, created_at, updated_at) 
-    VALUES (?, ?, ?, ?, ?, ?)";
+    global $con;
+
+    $sql = "SELECT 
+                max(idList) + 1 as idList
+            FROM lists
+            WHERE id_user = " . $_SESSION['id'];
+
+    $query = mysqli_query($con, $sql);
+    $newIdList = mysqli_fetch_array($query, MYSQLI_NUM)[0];
+    if(empty($newIdList)){
+        $newIdList = 1;
+    }
+
+    $insert = "INSERT INTO lists (idList, id_user, id_category, title, description, created_at, updated_at) 
+    VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     $prepareInsert = mysqli_prepare($con, $insert);
-    mysqli_stmt_bind_param($prepareInsert, 'iissss', $fieldUser, $fieldCategory, $fieldTitle, $fieldDesc, $fieldCreatedAt, $fieldUpdatedAt);
+    mysqli_stmt_bind_param($prepareInsert, 'iiissss', $fieldIdList, $fieldUser, $fieldCategory, $fieldTitle, $fieldDesc, $fieldCreatedAt, $fieldUpdatedAt);
 
     $datetime = date('Y-m-d H:i:s');
+    $fieldIdList = $newIdList;
     $fieldUser = $_SESSION['id'];
     $fieldCategory = $fields['id_category'];
     $fieldTitle = $fields['title'];
@@ -36,7 +50,8 @@ function lists($id = null){
                 l.title,
                 l.description,
                 c.id,
-                c.description
+                c.description,
+                l.idList
             FROM lists l
             INNER JOIN categories c on (c.id = l.id_category)
             WHERE l.id_user = " . $_SESSION['id'];

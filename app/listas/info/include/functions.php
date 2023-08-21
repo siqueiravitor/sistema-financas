@@ -52,6 +52,36 @@ function items($id = null, $idItem = null){
     }
 }
 
+// R e a d
+function getList($id){
+    try{
+        global $con;
+
+        $sql = "SELECT 
+                    l.id,
+                    l.title,
+                    l.description,
+                    c.id,
+                    c.description
+                FROM lists l
+                INNER JOIN categories c on (c.id = l.id_category)
+                WHERE l.id_user = " . $_SESSION['id'] . 
+                " AND l.idList = $id ";
+
+        $query = mysqli_query($con, $sql);
+        $result = mysqli_fetch_all($query, MYSQLI_NUM);
+
+        return $result;
+    } catch(Exception $e){
+        $result = [
+            'success' => false,
+            'redirect' => true,
+            'message' => 'Erro inesperado',
+            'error' => $e->getMessage()
+        ];
+    }
+}
+
 // U p d a t e
 function updateItem($fields){
     try{

@@ -23,7 +23,7 @@
             <td><?= $list[2] ?></td>
             <td>
                 <form method="GET" action="./info">
-                    <input hidden value='<?= $list[0] ?>' name="item">
+                    <input hidden value='<?= $list[5] ?>' name="list">
                     <button class='text-info d-block w-100 bg-transparent'><i data-feather='eye'></i></button>
                 </form>
             </td>

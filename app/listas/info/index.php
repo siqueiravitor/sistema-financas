@@ -4,17 +4,18 @@ include_once '../../config/config.php';
 include_once '../../functions/func.php';
 include_once '../../config/security.php';
 include_once '../../config/connMysql.php';
-include_once '../include/functions.php';
+include_once './include/functions.php';
 
 $list = filter_input_array(INPUT_GET, [
-    "item" => FILTER_SANITIZE_NUMBER_INT
+    "list" => FILTER_SANITIZE_NUMBER_INT
 ]);
-$listId = $list['item'];
-$list = lists($listId)[0];
+$idList = $list['list'];
+$list = getList($idList)[0];
+$listId = $list[0];
 $listTitle = $list[1];
 $listDesc = $list[2];
-if (!$listId) {
-    exit(header('Location: ../?msg=Erro ao buscar lista'));
+if (empty($list)) {
+    exit(header('Location: ../?msg=Erro ao buscar lista&alert=2'));
 }
 ?>
 <!doctype html>
@@ -107,6 +108,7 @@ if (!$listId) {
                                     <h5 class="text-muted text-center space-1">Adicionar item</h5>
                                 </div>
                                 <form method="POST" action="./include/cItem.php">
+                                    <input hidden name='idList' value='<?= $idList ?>'>
                                     <input hidden name='list' value='<?= $listId ?>'>
                                     <div class="form-group">
                                         <small><b>Descrição</b></small>

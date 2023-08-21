@@ -23,6 +23,7 @@ $list = [
     'id_category' => $id_category,
     'description' => $description
 ];
+
 if(!createList($list)){
     $msg = 'Erro ao registrar dados';
     $msg .= "&alert=1";
