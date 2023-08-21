@@ -53,7 +53,7 @@ function items($id = null, $idItem = null){
 }
 
 // R e a d
-function getList($id){
+function getList($id, $idList = null){
     try{
         global $con;
 
@@ -62,11 +62,17 @@ function getList($id){
                     l.title,
                     l.description,
                     c.id,
-                    c.description
+                    c.description,
+                    l.idList
                 FROM lists l
                 INNER JOIN categories c on (c.id = l.id_category)
-                WHERE l.id_user = " . $_SESSION['id'] . 
-                " AND l.idList = $id ";
+                WHERE l.id_user = " . $_SESSION['id'];
+
+        if(!$idList){
+            $sql .= " AND l.idList = $id ";
+        } else {
+            $sql .= " AND l.id = $idList ";
+        }
 
         $query = mysqli_query($con, $sql);
         $result = mysqli_fetch_all($query, MYSQLI_NUM);

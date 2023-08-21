@@ -14,6 +14,7 @@ $list = getList($idList)[0];
 $listId = $list[0];
 $listTitle = $list[1];
 $listDesc = $list[2];
+
 if (empty($list)) {
     exit(header('Location: ../?msg=Erro ao buscar lista&alert=2'));
 }
