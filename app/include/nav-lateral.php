@@ -20,6 +20,19 @@
                     </a>
                 </li>
 
+                <?php
+                $page = explode('/', $_SERVER['REQUEST_URI'])[3] ?? '';
+                $menuUser = [
+                    [
+                        'url' => 'perfil',
+                        'description' => 'Meu perfil',
+                    ],
+                    [
+                        'url' => 'manual',
+                        'description' => 'Manual',
+                    ],
+                ];
+                ?>
                 <li class="heading">Menu</li>
                 <li class="middle" id="navMenuUsuario">
                     <a class="has-arrow">
@@ -27,23 +40,27 @@
                         <span class='ml-2'><?= $nome ?></span>
                     </a>
                     <ul id="subNavMenuUsuario">
-                        <li>
-                            <a href="<?= BASED . "/perfil" ?>">
-                                <span>Meu perfil</span>
-                            </a>
-                        </li>
+                        <?php
+                        foreach($menuUser as $menu){
+                            $link = $menu['url'] == $page ? '#' : BASED . "/" . $menu['url'];
+                            ?>
+                            <li>
+                                <a href="<?= $link ?>" class=" <?= $menu['url'] == $page ? 'active' : '' ?>">
+                                    <span><?= $menu['description'] ?></span>
+                                </a>
+                            </li>
+                            <?php
+                        }
+                        ?>
                     </ul>
                 </li>
                 <li class="divider"></li>
-                <li class="middle <?= explode('/', $_SERVER['REQUEST_URI'])[3] == 'sistema' ? 'active' : '' ?>">
+                <li class="middle <?= 'sistema' == $page ? 'active' : '' ?>">
                     <a href="<?= BASED . "/sistema" ?>">
                         <i class='iconColor navIcon' data-feather="cpu"></i>
                         <span class='ml-2'>Sistema</span>
                     </a>
                 </li>
-                <?php
-                $page = explode('/', $_SERVER['REQUEST_URI'])[3] ?? '';
-                ?>
                 <li class="middle <?= 'lancamentos' == $page ? 'active' : '' ?>">
                     <a href="<?= BASED . "/lancamentos" ?>">
                         <i class='iconColor navIcon' data-feather="edit"></i>

@@ -4938,6 +4938,10 @@ html.fullscreen-bg #wrapper {
     border-left: 4px solid transparent;
 }
 
+.sidebar .metismenu ul a.active {
+    border-left-color: var(--color-secondary) !important;
+    padding-left: 24px
+}
 .sidebar .metismenu ul a:hover {
     border-left-color: var(--color-secondary) !important;
     padding-left: 24px
