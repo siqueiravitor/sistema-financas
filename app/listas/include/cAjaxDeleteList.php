@@ -9,7 +9,8 @@ $userId = $_SESSION['id'];
 $id = $_GET['id'];
 
 $list = lists($id)[0];
-if ($list[0]) {
+
+if ($list['id']) {
     ?>
     <div class="modal-content" id='modal-content'>
 
@@ -26,13 +27,13 @@ if ($list[0]) {
                 <div class='form-group col-md-12'>
                     <label>Título:</label>
                     <span class='form-control' readonly>
-                        <?= $list[1] ?>
+                        <?= $list['name'] ?>
                     </span>
                 </div>
                 <div class='form-group col-md-12'>
                     <label>Descrição:</label>
                     <textarea readonly class='form-control h-auto text-left' style='resize: none'
-                        rows='3'><?= $list[2] ?></textarea>
+                        rows='3'><?= $list['description'] ?></textarea>
                 </div>
             </div>
         </div>
@@ -40,7 +41,7 @@ if ($list[0]) {
         <div class="modal-footer" id='modal-footer'>
             <button type="button" class="btn btn-tertiary" data-bs-dismiss="modal">Fechar</button>
             <form method='POST' action="./include/dList.php">
-                <input value="<?= $list[0] ?>" name='id' hidden>
+                <input value="<?= $list['id'] ?>" name='id' hidden>
                 <button class="btn btn-danger" data-bs-dismiss="modal">Confirmar</button>
             </form>
         </div>

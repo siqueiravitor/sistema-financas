@@ -63,13 +63,13 @@ function getList($id, $idList = null){
                     l.description,
                     c.id,
                     c.description,
-                    l.idList
+                    l.list_id
                 FROM lists l
                 INNER JOIN categories c on (c.id = l.id_category)
                 WHERE l.id_user = " . $_SESSION['id'];
 
         if(!$idList){
-            $sql .= " AND l.idList = $id ";
+            $sql .= " AND l.list_id = $id ";
         } else {
             $sql .= " AND l.id = $idList ";
         }
