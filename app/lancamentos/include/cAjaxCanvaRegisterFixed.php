@@ -23,7 +23,7 @@ include_once './functions.php';
 </div>
 <div class="form-group">
     <small><b>Valor</b></small>
-    <input class="form-control" placeholder="R$ 0,00" name="value" onkeyup="moneyMask(this)">
+    <input class="form-control" name="value" placeholder="R$ 0,00" onkeyup="moneyMask(this)">
 </div>
 <div class="form-group">
     <small> <b> Categoria </b> </small>

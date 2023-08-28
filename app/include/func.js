@@ -76,6 +76,16 @@ function moneyBRL(input) {
 
     input.value = formattedInput;
 }
+function moneytToFloat(value){
+    let format =value.replace(/\D/g, '');
+    let floatValue = Math.floor(format)/100;
+    return floatValue;
+}
+function floatToBRL(value) {     
+    const formattedInput = value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+    return formattedInput;
+}
 function divError(statusError, canva = null) {
     var divError =
         `<div class='offcanvas-body offcanvas-loading' style='flex-grow: 10!important'>

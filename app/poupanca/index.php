@@ -4,6 +4,7 @@ include_once '../config/config.php';
 include_once '../functions/func.php';
 include_once '../config/security.php';
 include_once '../config/connMysql.php';
+include_once './include/functions.php';
 
 ?>
 <!doctype html>
@@ -41,6 +42,7 @@ include_once '../config/connMysql.php';
                 todayHighlight: true
             });
             $(".select2").select2();
+            loadSavings();
         });
     </script>
 </head>
@@ -63,22 +65,40 @@ include_once '../config/connMysql.php';
                 }
                 ?>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="card shadow-sm">
                             <div class="card-body">
                                 <div class="border-bottom mb-4">
                                     <h5 class="text-muted text-center space-1">Criar Poupança</h5>
                                 </div>
+
+                                <form method="POST" action="./include/cSavings.php">
+                                    <div class="form-group">
+                                        <small><b>Nome</b></small>
+                                        <input class="form-control" name="name" autocomplete="off">
+                                    </div>
+                                    <div class="form-group">
+                                        <small><b>Descrição</b></small>
+                                        <input class="form-control" name="description" autocomplete="off">
+                                    </div>
+
+                                    <div class="text-center mt-4">
+                                        <button class="btn w-100 btn-success space-1">Criar</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                         <div class="card shadow-sm">
                             <div class="card-body">
                                 <div class="border-bottom mb-4">
-                                    <h5 class="text-muted text-center space-1">Poupança</h5>
+                                    <h5 class="text-muted text-center space-1">Poupanças</h5>
                                 </div>
 
+                                <div class='table-responsive'>
+                                    <table class='table table-sm table-hover table-striped text-center dataTable no-footer' id='savings_table'></table>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -120,7 +120,7 @@ include_once './include/functions.php';
                                     </div>
 
                                     <div class="text-center mt-4">
-                                        <button class="btn w-100 btn-success space-1">Cadastrar</button>
+                                        <button class="btn w-100 btn-success space-1">Criar</button>
                                     </div>
                                 </form>
                             </div>

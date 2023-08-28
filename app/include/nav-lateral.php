@@ -70,7 +70,7 @@
                 <li class="middle middle-sm-hide <?= 'poupanca' == $page ? 'active' : '' ?>">
                     <a href="<?= BASED . "/poupanca" ?>">
                         <i class='iconColor navIcon' data-feather="pocket"></i>
-                        <span class='ml-2'>Poupança</span>
+                        <span class='ml-2'>Poupanças</span>
                     </a>
                 </li>
                 <li class="middle middle-sm-hide <?= 'grupos' == $page ? 'active' : '' ?>">
