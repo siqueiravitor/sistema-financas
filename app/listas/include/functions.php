@@ -93,7 +93,8 @@ function categories(){
                 description,
                 id_user
             FROM categories
-            WHERE (id_user is null 
+            WHERE type != 'save'
+            AND (id_user is null 
             OR id_user = " . $_SESSION['id'] . ")";
     $sql .= " ORDER BY type desc";
 

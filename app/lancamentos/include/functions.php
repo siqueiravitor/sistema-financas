@@ -196,8 +196,9 @@ function categories($id = null)
             type,
             description
         FROM categories
-        WHERE id_user = $id
-        OR id_user is null
+        WHERE type != 'save'
+        AND (id_user = $id
+        OR id_user is null)
         ORDER BY type";
 
   $query = mysqli_query($con, $sql);

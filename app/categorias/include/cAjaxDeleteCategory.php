@@ -9,7 +9,7 @@ $userId = $_SESSION['id'];
 $id = $_GET['id'];
 
 $category = categories($id)[0];
-if ($category[0]) {
+if ($category['id']) {
     ?>
     <div class="modal-content" id='modal-content'>
 
@@ -26,12 +26,12 @@ if ($category[0]) {
                 <div class='form-group col-md-4'>
                     <label>Tipo:</label>
                     <span class='form-control' readonly>
-                        <?= $category[1] == 'in' ? 'Receita' : 'Despesa' ?>
+                        <?= $category['type'] == 'in' ? 'Receita' : 'Despesa' ?>
                     </span>
                 </div>
                 <div class='form-group col-md-8'>
                     <label>Descrição:</label>
-                    <span class='form-control' readonly><?= $category[2] ?></span>
+                    <span class='form-control' readonly><?= $category['description'] ?></span>
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@ if ($category[0]) {
         <div class="modal-footer" id='modal-footer'>
             <button type="button" class="btn btn-tertiary" data-bs-dismiss="modal">Fechar</button>
             <form method='POST' action="./include/dCategory.php">
-                <input value="<?= $category[0] ?>" name='id' hidden>
+                <input value="<?= $category['id'] ?>" name='id' hidden>
                 <button class="btn btn-danger" data-bs-dismiss="modal">Confirmar</button>
             </form>
         </div>

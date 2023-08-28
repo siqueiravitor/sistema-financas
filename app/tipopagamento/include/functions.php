@@ -37,13 +37,41 @@ function typePayment($id = null){
             WHERE (id_user is null 
             OR id_user = " . $_SESSION['id'] . ")";
     if($id){
-        $sql .= " AND id = $id ";
+        $sql .= " AND id = $id AND id_user = " . $_SESSION['id'];
     }
 
     $query = mysqli_query($con, $sql);
-    $result = mysqli_fetch_all($query, MYSQLI_NUM);
+    $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
     return $result;
+}
+// U p d a t e
+function updateTypePayment($fields){
+    try{
+        global $con;
+        $datetime = date('Y-m-d H:i:s');
+
+        $update = "UPDATE payment_type SET 
+                    description = ?,
+                    updated_at = ?
+                WHERE id = ?";
+
+        $prepareUpdate = mysqli_prepare($con, $update);
+        mysqli_stmt_bind_param($prepareUpdate, 'ssi', $fieldDesc, $fieldUpdated, $fieldId);
+
+        $fieldDesc = $fields['description'];
+        $fieldUpdated = $datetime;
+        $fieldId = $fields['id'];
+        if (!mysqli_stmt_execute($prepareUpdate)) {
+            mysqli_stmt_close($prepareUpdate);
+            return ['success' => false, 'message' => "Erro ao atualizar dados"];
+        }
+
+        mysqli_stmt_close($prepareUpdate);
+        return ['success' => true, 'message' => "Dados atualizados"];
+    } catch(Exception $e) {
+        return ['success' => false, 'message' => "Erro ao atualizar dados", 'error' => $e];
+    }
 }
 
 // D e l e t e 

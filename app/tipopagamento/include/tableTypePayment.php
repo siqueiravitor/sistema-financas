@@ -15,16 +15,17 @@
     foreach ($typePayments as $typePayment) {
     ?>
         <tr>
-            <td><?= $typePayment[2] ?></td>
+            <td><?= $typePayment['description'] ?></td>
             <td>
-                <?php if ($typePayment[1]) { ?>
-                    <a onclick="loadTypePaymentData(<?= $typePayment[0] ?>)" href='#' class='d-block' aria-controls='ocNewRecord' data-bs-toggle='offcanvas' data-bs-target='#ocTemplate'>
+                <?php if ($typePayment['id_user']) { ?>
+                    <a onclick="loadData(<?= $typePayment['id'] ?>, './include/cAjaxEditTypePayment.php')"
+                                class='d-block' aria-controls='ocNewRecord' data-bs-toggle='offcanvas' data-bs-target='#ocTemplate'>
                         <i data-feather='edit'></i></a>
                 <?php } ?>
             </td>
             <td>
-                <?php if ($typePayment[1]) { ?>
-                <a onclick="deleteModal(<?= $typePayment[0] ?>, './include/cAjaxDeleteTypePayment.php')" href='#' data-bs-toggle='modal' 
+                <?php if ($typePayment['id_user']) { ?>
+                <a onclick="deleteModal(<?= $typePayment['id'] ?>, './include/cAjaxDeleteTypePayment.php')" data-bs-toggle='modal' 
                     data-bs-target='#modalTemplate' class='d-block'>
                     <i class='text-danger' data-feather='trash-2'></i></a>
                 <?php } ?>

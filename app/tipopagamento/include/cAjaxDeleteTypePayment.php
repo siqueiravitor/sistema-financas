@@ -9,7 +9,7 @@ $userId = $_SESSION['id'];
 $id = $_GET['id'];
 
 $typePayment = typePayment($id)[0];
-if ($typePayment[0]) {
+if ($typePayment['id']) {
     ?>
     <div class="modal-content" id='modal-content'>
         <div class="modal-header" id='modal-header'>
@@ -24,7 +24,7 @@ if ($typePayment[0]) {
             <div class='row text-left space-2'>
                 <div class='form-group col-md-12'>
                     <label>Descrição:</label>
-                    <span readonly class='form-control h-auto text-left' ><?= $typePayment[2] ?></span>
+                    <span readonly class='form-control h-auto text-left' ><?= $typePayment['description'] ?></span>
                 </div>
             </div>
         </div>
@@ -32,7 +32,7 @@ if ($typePayment[0]) {
         <div class="modal-footer" id='modal-footer'>
             <button type="button" class="btn btn-tertiary" data-bs-dismiss="modal">Fechar</button>
             <form method='POST' action="./include/dTypePayment.php">
-                <input value="<?= $typePayment[0] ?>" name='id' hidden>
+                <input value="<?= $typePayment['id'] ?>" name='id' hidden>
                 <button class="btn btn-danger" data-bs-dismiss="modal">Confirmar</button>
             </form>
         </div>
