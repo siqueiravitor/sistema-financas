@@ -8,21 +8,23 @@ include './functions.php';
 
 $msg = 'Dados registrados';
 
-$savingsFilter = filter_input_array(INPUT_POST, [
+$filter = filter_input_array(INPUT_POST, [
     "name" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+    "value" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     "description" => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
 ]);
 
-$name = $savingsFilter['name'];
-$description = empty($savingsFilter['description']) ? null : $savingsFilter['description'];
-$idFinance = registerFinance($name);
+$name = $filter['name'];
+$value = moneyToFloatAlt($filter['value']);
+$description = empty($filter['description']) ? null : $filter['description'];
 
+$idFinance = registerFinance($name, $value);
 $savings = [
     'name' => $name,
+    'value' => $value,
     'id_finance' => $idFinance,
     'description' => $description
 ];
-
 if(!createSavings($savings)){
     $msg = 'Erro ao registrar dados';
     $msg .= "&alert=1";

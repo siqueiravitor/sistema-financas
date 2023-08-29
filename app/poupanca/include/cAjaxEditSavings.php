@@ -29,6 +29,15 @@ $savings = savings($id)[0];
             <small> <b> Descrição </b> </small>
             <textarea class="form-control" name="description"><?= $savings['description'] ?></textarea>
         </div>
+        <div class="form-group">
+            <small> <b> Guardado </b> </small>
+            <input class="form-control" disabled value='<?= floatToMoney($savings['reserved']) ?>'>
+        </div>
+        <div class="form-group">
+            <small> <b> Definir meta </b> </small>
+            <input class="form-control" placeholder="R$ 0,00" name="goal" 
+            onkeyup="moneyBRL(this)" value='<?= floatToMoney($savings['goal']) ?>' required>
+        </div>
 
         <div class="row">
             <div class="col-md-6">

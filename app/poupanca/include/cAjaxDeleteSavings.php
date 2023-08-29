@@ -33,6 +33,7 @@ if ($savings['id']) {
         <div class="modal-footer" id='modal-footer'>
             <button type="button" class="btn btn-tertiary" data-bs-dismiss="modal">Fechar</button>
             <form method='POST' action="./include/dSavings.php">
+                <input value="<?= $savings['id_finance'] ?>" name='id_finance' hidden>
                 <input value="<?= $savings['id'] ?>" name='id' hidden>
                 <button class="btn btn-danger" data-bs-dismiss="modal">Confirmar</button>
             </form>

@@ -7,13 +7,20 @@ include '../../config/connMysql.php';
 include './functions.php';
 
 $savings = filter_input_array(INPUT_POST, [
+    "id_finance" => FILTER_SANITIZE_NUMBER_INT,
     "id" => FILTER_SANITIZE_NUMBER_INT
 ]);
+$id_finance = $savings['id_finance'];
 $id = $savings['id'];
 
-$deleteSavings = deleteSavings($id);
-if(!$deleteSavings['success']){
+$data = [
+    'id' => $id,
+    'id_finance' => $id_finance
+];
+
+$delete = deleteSavings($data);
+if(!$delete['success']){
     $alert = "&alert=1";
 }
 
-header("Location: ../?msg=".$deleteSavings['message']. $alert);
+header("Location: ../?msg=".$delete['message']. $alert);

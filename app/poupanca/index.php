@@ -78,6 +78,10 @@ include_once './include/functions.php';
                                         <input class="form-control" name="name" autocomplete="off">
                                     </div>
                                     <div class="form-group">
+                                        <small><b>Guardar</b></small>
+                                        <input class="form-control" name="value" autocomplete="off" placeholder="R$ 0,00" onkeyup="moneyMask(this)">
+                                    </div>
+                                    <div class="form-group">
                                         <small><b>Descrição</b></small>
                                         <input class="form-control" name="description" autocomplete="off">
                                     </div>
