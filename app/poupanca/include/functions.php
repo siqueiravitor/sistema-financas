@@ -88,6 +88,23 @@ function savings($id = null){
 
     return $result;
 }
+function savingsFinance($id = null){
+    global $con;
+
+    $sql = "SELECT 
+                reserved,
+                id_finance
+            FROM savings
+            WHERE id = $id 
+            AND (id_user is null 
+            OR id_user = " . $_SESSION['id'] . ")";
+
+    $query = mysqli_query($con, $sql);
+    $result = mysqli_fetch_array($query, MYSQLI_ASSOC);
+
+    return $result;
+}
+
 
 // U p d a t e
 function updateSavings($fields){
@@ -114,6 +131,12 @@ function updateSavings($fields){
             mysqli_stmt_close($prepareUpdate);
             return ['success' => false, 'message' => "Erro ao atualizar dados"];
         }
+        $finance = savingsFinance($fields['id']);
+        $data = [
+            'id_finance' => $finance['id_finance'],
+            'description' => $fields['name']
+        ];
+        updateFinanceSavings($data);
 
         mysqli_stmt_close($prepareUpdate);
         return ['success' => true, 'message' => "Dados atualizados"];
@@ -144,6 +167,66 @@ function updateSavingsReserved($fields){
         $fieldReserved = $fields['value'];
         $fieldUpdated = $datetime;
         $fieldId = $fields['id'];
+        if (!mysqli_stmt_execute($prepareUpdate)) {
+            mysqli_stmt_close($prepareUpdate);
+            return ['success' => false, 'message' => "Erro ao atualizar dados"];
+        }
+        $finance = savingsFinance($fields['id']);
+        $data = [
+            'id_finance' => $finance['id_finance'],
+            'value' => $finance['reserved']
+        ];
+        updateFinanceReserved($data);
+
+        mysqli_stmt_close($prepareUpdate);
+        return ['success' => true, 'message' => "Dados atualizados"];
+    } catch(Exception $e) {
+        return ['success' => false, 'message' => "Erro ao atualizar dados", 'error' => $e];
+    }
+}
+function updateFinanceReserved($fields){
+    try{
+        global $con;
+        $datetime = date('Y-m-d H:i:s');
+
+        $update = "UPDATE finances SET 
+                    value = ?,
+                    updated_at = ?
+                WHERE id = ?";
+
+        $prepareUpdate = mysqli_prepare($con, $update);
+        mysqli_stmt_bind_param($prepareUpdate, 'dsi', $fieldValue, $fieldUpdated, $fieldId);
+
+        $fieldValue = $fields['value'];
+        $fieldUpdated = $datetime;
+        $fieldId = $fields['id_finance'];
+        if (!mysqli_stmt_execute($prepareUpdate)) {
+            mysqli_stmt_close($prepareUpdate);
+            return ['success' => false, 'message' => "Erro ao atualizar dados"];
+        }
+
+        mysqli_stmt_close($prepareUpdate);
+        return ['success' => true, 'message' => "Dados atualizados"];
+    } catch(Exception $e) {
+        return ['success' => false, 'message' => "Erro ao atualizar dados", 'error' => $e];
+    }
+}
+function updateFinanceSavings($fields){
+    try{
+        global $con;
+        $datetime = date('Y-m-d H:i:s');
+
+        $update = "UPDATE finances SET 
+                    description = ?,
+                    updated_at = ?
+                WHERE id = ?";
+
+        $prepareUpdate = mysqli_prepare($con, $update);
+        mysqli_stmt_bind_param($prepareUpdate, 'ssi', $fieldDesc, $fieldUpdated, $fieldId);
+
+        $fieldDesc = $fields['description'];
+        $fieldUpdated = $datetime;
+        $fieldId = $fields['id_finance'];
         if (!mysqli_stmt_execute($prepareUpdate)) {
             mysqli_stmt_close($prepareUpdate);
             return ['success' => false, 'message' => "Erro ao atualizar dados"];
