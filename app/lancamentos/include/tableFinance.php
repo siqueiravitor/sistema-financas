@@ -22,7 +22,8 @@
     include_once './functions.php';
 
     $userId = $_SESSION['id'];
-    $finances = dataFinance($userId);
+    $date = isset($get_date) ? $get_date : date('Y-m-d');
+    $finances = dataFinance($userId, null, $date);
     if ($finances[0] > 0) {
         array_shift($finances);
         foreach ($finances as $finance) {

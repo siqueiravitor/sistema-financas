@@ -94,6 +94,24 @@ function montaAlert($status, $text) {
             </script>';
 }
 
+function getDateType($date){
+    $day = date('d', strtotime($date)); //day 01
+    $monthNum = date('m', strtotime($date)); //month 01
+    $monthTxt = date('F', strtotime($date)); //month January
+    $yearShort = date('y', strtotime($date)); //year 01
+    $yearLong = date('Y', strtotime($date)); //year 2001
+
+    $dateType = [
+        'day'=> $day,
+        'monthNum'=> $monthNum,
+        'monthTxt'=> $monthTxt,
+        'yearShort'=> $yearShort,
+        'yearLong'=> $yearLong
+    ];
+
+    return $dateType;
+}
+
 function getEnum($var) {
     $var = str_replace("(", "", $var);
     $var = str_replace(")", "", $var);

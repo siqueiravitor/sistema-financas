@@ -6,7 +6,8 @@ include_once '../config/security.php';
 include_once '../config/connMysql.php';
 include_once './include/functions.php';
 
-$financeValues = financeValues();
+$date = isset($get_date) ? $get_date : date('Y-m-d');
+$financeValues = financeValues($date);
 ?>
 <!doctype html>
 <html lang="pt-br">
@@ -79,6 +80,23 @@ $financeValues = financeValues();
             font-size: 1.2rem;
             font-weight: bold;
         }
+
+        .btn-hover{
+            color: #777;
+            border: 1px solid #999;
+            transition: .3s padding-right;
+            cursor: pointer;
+        }
+        .btn-hover:hover{
+            border-color: transparent;
+            padding-right: 0;
+        }
+        .icon-btn-hover{
+            display:none;
+        }
+        .btn-hover:hover .icon-btn-hover{
+            display: unset;
+        }
     </style>
 </head>
 
@@ -97,9 +115,15 @@ $financeValues = financeValues();
                 if (!empty($_GET["msg"])) {
                     $alert = isset($_GET["alert"]) ? $_GET["alert"] : 0;
                     echo montaAlert($alert, $_GET["msg"]);
-
                 }
                 ?>
+                <div class='top-menu-right'>
+                    <small class='font-12 btn-hover btn btn-sm' >
+                        <i class="fa fa-tasks icon-btn-hover" id="iconObservador" ></i>
+                        Ver Filtros
+                    </small>
+                </small>
+                </div>
                 <div class="row">
                     <div class="col-lg-2 col-md-6">
                         <div class="card card-info">
@@ -154,8 +178,13 @@ $financeValues = financeValues();
                     <div class="col-md-12">
                         <div class="card shadow-sm">
                             <div class="card-body">
-                                <div class="border-bottom mb-4">
-                                    <h5 class="text-muted text-center space-1">Lançamentos</h5>
+                                <div class="border-bottom mb-4 d-flex">
+                                    <div class='flex-6 text-right'>
+                                        <h5 class="text-muted space-1">Lançamentos</h5>
+                                    </div>
+                                    <div class='flex-5 text-right'>
+                                        <h5 class="text-muted space-1"><?= $date ?></h5>
+                                    </div>
                                 </div>
                                 <div class='table-responsive'>
                                     <div class='row mr-0' id='deleteSelected'>

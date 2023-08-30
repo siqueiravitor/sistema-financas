@@ -160,9 +160,33 @@ th,label{
     font-family: 'mukta';
     text-transform: lowercase;
 } */
+.flex-1{
+    flex-grow: 1;
+}
+.flex-2{
+    flex-grow: 2;
+}
+.flex-3{
+    flex-grow: 3;
+}
+.flex-4{
+    flex-grow: 4;
+}
+.flex-5{
+    flex-grow: 5;
+}
+.flex-6{
+    flex-grow: 6;
+}
 
 .container-fluid {
     flex-grow: 1;
+    position: relative;
+}
+.top-menu-right{
+    position: absolute;
+    top: .9rem;
+    right: 1rem;
 }
 
 .breadcrumb-item a {

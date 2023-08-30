@@ -100,6 +100,7 @@ function divError(statusError, canva = null) {
 
     return divError;
 }
+
 var divLoading =
     `<div class="offcanvas-body offcanvas-loading pt-3">
     <i class='fa-spin fa fa-spinner'></i> <strong>Carregando...</strong>

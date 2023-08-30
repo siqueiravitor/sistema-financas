@@ -1,7 +1,6 @@
 <?php
 // C r e a t e 
-function registerFinance($fields)
-{
+function registerFinance($fields){
   global $con;
   $finance = $fields['finance'];
   $date = date('Y-m-d H:i:s');
@@ -34,8 +33,7 @@ function registerFinance($fields)
   return ['success' => true, 'id' => $id];
 }
 
-function registerPayment($fields)
-{
+function registerPayment($fields){
   global $con;
   $date = date('Y-m-d H:i:s');
 
@@ -61,8 +59,7 @@ function registerPayment($fields)
   return ['success' => true];
 }
 
-function registerRecurrence($fields)
-{
+function registerRecurrence($fields){
   global $con;
   $date = date('Y-m-d H:i:s');
   $recurrencies = $fields['recurrence'];
@@ -92,8 +89,7 @@ function registerRecurrence($fields)
   mysqli_stmt_close($prepareInsert);
   return $id_recurrence;
 }
-function registerRecurrenceFixed($fields)
-{
+function registerRecurrenceFixed($fields){
   try {
     global $con;
 
@@ -124,8 +120,7 @@ function registerRecurrenceFixed($fields)
     return ['success' => false, 'message' => $e];
   }
 }
-function finance_recurrence($fields)
-{
+function finance_recurrence($fields){
   global $con;
   $success = true;
   $date = date('Y-m-d H:i:s');
@@ -188,8 +183,7 @@ function repeatFixedRecurrence($idUser, $idFinance, $value){
   return true;
 }
 // R e a d
-function categories($id = null)
-{
+function categories($id = null){
   global $con;
   $sql = "SELECT 
             id,
@@ -206,8 +200,7 @@ function categories($id = null)
 
   return $result;
 }
-function paymentType($id = null)
-{
+function paymentType($id = null){
   global $con;
   $sql = "SELECT 
             id,
@@ -221,8 +214,7 @@ function paymentType($id = null)
 
   return $result;
 }
-function financeValues()
-{
+function financeValues($date){
   global $con;
   $id_user = $_SESSION['id'];
 
@@ -241,6 +233,10 @@ function financeValues()
           FROM finances f
           INNER JOIN categories c ON (c.id = f.id_category)
           WHERE f.id_user = $id_user";
+  if($date){
+    $month = getDateType($date)['monthTxt'];
+    $sql .= " AND MONTHNAME(f.payday) = '$month' ";
+  }
 
   $query = mysqli_query($con, $sql);
   $result = mysqli_fetch_all($query, MYSQLI_ASSOC)[0];
@@ -248,8 +244,7 @@ function financeValues()
   return $result;
 }
 
-function dataFinance($userId, $id = null)
-{
+function dataFinance($userId, $id = null, $date){
   global $con;
 
   $sql = "SELECT 
@@ -277,6 +272,10 @@ function dataFinance($userId, $id = null)
         LEFT JOIN recurrencies r ON (r.id = fr.id_recurrence)
         LEFT JOIN recurrencies_fixed rf ON (rf.id_recurrence = r.id)
         WHERE f.id_user = $userId";
+  if($date){
+    $month = getDateType($date)['monthTxt'];
+    $sql .= " AND MONTHNAME(f.payday) = '$month' ";
+  }
   if ($id) {
     $sql .= " AND f.id = $id ";
   }
@@ -298,8 +297,7 @@ function dataFinance($userId, $id = null)
 
   return $result;
 }
-function recurrence($userId, $id)
-{
+function recurrence($userId, $id){
   global $con;
 
   $sql = "SELECT 
@@ -314,8 +312,7 @@ function recurrence($userId, $id)
   return $result;
 }
 // U p d a t e
-function updateFinance($fields)
-{
+function updateFinance($fields){
   global $con;
 
   if ($fields['paid']) {
@@ -359,8 +356,7 @@ function updateFinance($fields)
 }
 
 // D e l e t e
-function deleteFinance($id)
-{
+function deleteFinance($id){
   global $con;
 
   $sqlVerifyLink = "SELECT fr.id_recurrence 
