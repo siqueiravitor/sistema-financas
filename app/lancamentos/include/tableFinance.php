@@ -4,10 +4,10 @@
         <th>Tipo</th>
         <th>Valor</th>
         <th>Categoria</th>
-        <th>Pagamento</th>
-        <th>Recorrente</th>
         <th>Descrição</th>
         <th>Pagamento</th>
+        <th>Recorrente</th>
+        <th>D. Pagamento</th>
         <th class='text-muted'><i data-feather='dollar-sign'></i></th>
         <th class='text-muted'><i data-feather='edit'></i></th>
         <th class='text-muted'><i data-feather='trash-2'></i></th>
@@ -36,11 +36,16 @@
                 <i data-feather='eye'></i></a>";
             }
             $pagamento = '-';
-            if($finance['pagamento'] == '-'){
+            if($finance['pagamento'] == '-' && $finance['idCategory'] != 1){
                 $pag = $finance['tipo'] == 'Entrada' ? 'Receber' : 'Pagar';
                 $pagamento = "<span class='badge-btn btn-outline-primary space-1' href='#' 
                                 onclick='loadFinancePayment({$finance['id']})' data-bs-toggle='modal' 
                                 data-bs-target='#modalTemplate' class='d-block'>$pag</span>";
+            }
+
+            $checkBox = '';
+            if($finance['idCategory'] != 1){
+                $checkBox = "<input type='checkbox' value='" . $finance['id'] . "' class='checkRegister' onchange='checkCheckbox()'>";
             }
 
             // $payment = match($payment){
@@ -50,25 +55,29 @@
             //     'cc' => "Débito",
             //     default => ""
             // };
-
             echo "<tr>";
-            echo "<td class='checkboxArea'><input type='checkbox' value='" . $finance['id'] . "' class='checkRegister' onchange='checkCheckbox()'></td>";
+            echo "<td class='checkboxArea'>$checkBox</td>";
             echo "<td>{$finance['tipo']}</td>";
             echo "<td>{$value}</td>";
             echo "<td>{$finance['categoria']}</td>";
+            echo "<td class='text-left' style='white-space: normal'>{$finance['descricaoFinanca']}</td>";
             echo "<td>{$finance['pagamento']}</td>";
             echo "<td>{$finance['recorrente']}</td>";
-            echo "<td class='text-left' style='white-space: normal'>{$finance['descricaoFinanca']}</td>";
             echo "<td>{$dataPagamento}</td>";
             echo "<td width='7%'>{$pagamento}</td>";
-            echo "<td><a onclick='loadFinanceData({$finance['id']})' href='#' aria-controls='ocNewRecord' 
-                        data-bs-toggle='offcanvas' data-bs-target='#ocTemplate' class='d-block'>
-                        <i data-feather='edit'></i></a>
-                </td>";
-            echo "<td><a onclick='deleteFinance({$finance['id']})' href='#' data-bs-toggle='modal' 
-                            data-bs-target='#modalTemplate' class='d-block'>
-                    <i class='text-danger' data-feather='trash-2'></i></a>
-                </td>";
+            if($finance['idCategory'] != 1){
+                echo "<td><a onclick='loadFinanceData({$finance['id']})' href='#' aria-controls='ocNewRecord' 
+                            data-bs-toggle='offcanvas' data-bs-target='#ocTemplate' class='d-block'>
+                            <i data-feather='edit'></i></a>
+                    </td>";
+                echo "<td><a onclick='deleteFinance({$finance['id']})' href='#' data-bs-toggle='modal' 
+                                data-bs-target='#modalTemplate' class='d-block'>
+                        <i class='text-danger' data-feather='trash-2'></i></a>
+                    </td>";
+            } else {
+                echo "<td></td>";
+                echo "<td></td>";
+            }
             echo "</tr>";
         }
     }

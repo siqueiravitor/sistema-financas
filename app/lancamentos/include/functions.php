@@ -280,7 +280,16 @@ function dataFinance($userId, $id = null)
   if ($id) {
     $sql .= " AND f.id = $id ";
   }
-  $sql .= " ORDER BY CASE WHEN pagamento = '-' THEN 1 ELSE 2 END, dataPagamento";
+  $sql .= " ORDER BY 
+              CASE 
+                WHEN idCategory = 1 THEN 2 
+                ELSE 1
+              END,
+              CASE 
+                WHEN pagamento = '-' THEN 1 
+                ELSE 2 
+              END,  
+            dataPagamento";
 
   $query = mysqli_query($con, $sql);
   $rows = mysqli_num_rows($query);
