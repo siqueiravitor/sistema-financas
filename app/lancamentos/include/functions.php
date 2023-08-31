@@ -214,7 +214,7 @@ function paymentType($id = null){
 
   return $result;
 }
-function financeValues($date){
+function financeValues($date = null){
   global $con;
   $id_user = $_SESSION['id'];
 
@@ -234,8 +234,25 @@ function financeValues($date){
           INNER JOIN categories c ON (c.id = f.id_category)
           WHERE f.id_user = $id_user";
   if($date){
-    $month = getDateType($date)['monthTxt'];
-    $sql .= " AND MONTHNAME(f.payday) = '$month' ";
+    if($date['month'] && $date['year']){
+      $month = getDateType($date['month'])['monthTxt'];
+      $year = $date['year'];
+      $sql .= " AND MONTHNAME(f.payday) = '$month' ";
+      $sql .= " AND YEAR(f.payday) = '$year' ";
+      
+    } elseif($date['year']){
+      $year = $date['year'];
+      $sql .= " AND YEAR(f.payday) = '$year' ";
+      
+    } elseif($date['month']){
+      $month = getDateType($date['month'])['monthTxt'];
+      $sql .= " AND MONTHNAME(f.payday) = '$month' ";
+      
+    } else {
+      $today = date('Y-m-d');
+      $sql .= " AND MONTHNAME(f.payday) = $today ";
+      $sql .= " AND YEAR(f.payday) = $today ";
+    }
   }
 
   $query = mysqli_query($con, $sql);
@@ -244,7 +261,7 @@ function financeValues($date){
   return $result;
 }
 
-function dataFinance($userId, $id = null, $date){
+function dataFinance($userId, $id = null, $date = null){
   global $con;
 
   $sql = "SELECT 
@@ -273,8 +290,25 @@ function dataFinance($userId, $id = null, $date){
         LEFT JOIN recurrencies_fixed rf ON (rf.id_recurrence = r.id)
         WHERE f.id_user = $userId";
   if($date){
-    $month = getDateType($date)['monthTxt'];
-    $sql .= " AND MONTHNAME(f.payday) = '$month' ";
+    if($date['month'] && $date['year']){
+      $month = getDateType($date['month'])['monthTxt'];
+      $year = $date['year'];
+      $sql .= " AND MONTHNAME(f.payday) = '$month' ";
+      $sql .= " AND YEAR(f.payday) = '$year' ";
+      
+    } elseif($date['year']){
+      $year = $date['year'];
+      $sql .= " AND YEAR(f.payday) = '$year' ";
+      
+    } elseif($date['month']){
+      $month = getDateType($date['month'])['monthTxt'];
+      $sql .= " AND MONTHNAME(f.payday) = '$month' ";
+      
+    } else {
+      $today = date('Y-m-d');
+      $sql .= " AND MONTHNAME(f.payday) = $today ";
+      $sql .= " AND YEAR(f.payday) = $today ";
+    }
   }
   if ($id) {
     $sql .= " AND f.id = $id ";

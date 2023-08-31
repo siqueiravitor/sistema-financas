@@ -6,8 +6,13 @@ include_once '../config/security.php';
 include_once '../config/connMysql.php';
 include_once './include/functions.php';
 
-$date = isset($get_date) ? $get_date : date('Y-m-d');
+$month = isset($_GET['month']) ? $_GET['month'] : null;
+$getYear = isset($_GET['year']) ? $_GET['year'] : null;
+$get_date = getMonthYear($month, $getYear);
+$date = $get_date ? $get_date : null;
+
 $financeValues = financeValues($date);
+
 ?>
 <!doctype html>
 <html lang="pt-br">
@@ -40,7 +45,9 @@ $financeValues = financeValues($date);
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            loadFinances()
+            let month = $("#month").val();
+            let year = $("#year").val();
+            loadFinances(month, year)
             canvaContent()
             $('#date').datepicker({ todayHighlight: true });
             $(".select2").select2();
@@ -93,6 +100,9 @@ $financeValues = financeValues($date);
         }
         .icon-btn-hover{
             display:none;
+            width: 1rem; 
+            height: 1rem;
+            margin-bottom: .3rem;
         }
         .btn-hover:hover .icon-btn-hover{
             display: unset;
@@ -109,6 +119,8 @@ $financeValues = financeValues($date);
         ?>
         <div id="main-content">
             <div class="container-fluid">
+                <input id='month' value='<?=$month?>' hidden>
+                <input id='year' value='<?=$getYear?>' hidden>
                 <?php
                 include '../include/breadcrumb.php';
 
@@ -118,12 +130,59 @@ $financeValues = financeValues($date);
                 }
                 ?>
                 <div class='top-menu-right'>
-                    <small class='font-12 btn-hover btn btn-sm' >
-                        <i class="fa fa-tasks icon-btn-hover" id="iconObservador" ></i>
+                    <small class='font-12 btn-hover btn btn-sm' aria-controls='ocNewRecord' 
+                            data-bs-toggle='offcanvas' data-bs-target='#filterPeriod' class='d-block'>
+                        <i data-feather='filter' class='icon-btn-hover'></i></a>
                         Ver Filtros
                     </small>
-                </small>
                 </div>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="filterPeriod" aria-labelledby="filterPeriod">
+                    <div class="offcanvas-header">
+                        <div class="border-bottom mb-4">
+                            <h5 class="text-muted text-center space-1">Filtros</h5>
+                        </div>
+                        <button type="button" class="btn-close text-reset float-right" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <form method='GET' action='./'>
+                            <div class="form-group">
+                                <small> <b> Mês </b> </small>
+                                <select class='form-control select2' name='month'>
+                                    <option value=''>Todo o período</option>
+                                    <?php
+                                        foreach(getMonths() as $idx=>$months){
+                                            $index = $idx+1;
+                                            $selected = $index == date('m', strtotime(date('Y-m-d'))) ? 'selected' : null;
+                                            echo "<option value='$index' $selected>$months</option>";
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <small> <b> Ano </b> </small>
+                                <select class='form-control select2' name='year'>
+                                <option value=''>Todo o período</option>
+                                    <?php
+                                        $years = range(date('Y', strtotime('+10 year')), 1900);
+                                        foreach($years as $year){
+                                            $selected = $year == date('Y', strtotime(date('Y-m-d'))) ? 'selected' : null;
+                                            echo "<option value='$year' $selected>$year</option>";
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button class="btn w-100 btn-success space-1">Aplicar</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="offcanvas-footer mr-2">
+                        <?php include '../include/footer.php' ?>
+                    </div>
+                </div>
+                
                 <div class="row">
                     <div class="col-lg-2 col-md-6">
                         <div class="card card-info">
@@ -183,7 +242,7 @@ $financeValues = financeValues($date);
                                         <h5 class="text-muted space-1">Lançamentos</h5>
                                     </div>
                                     <div class='flex-5 text-right'>
-                                        <h5 class="text-muted space-1"><?= $date ?></h5>
+                                        <h5 class="text-muted space-1"><?= dateText($month, $getYear) ?></h5>
                                     </div>
                                 </div>
                                 <div class='table-responsive'>

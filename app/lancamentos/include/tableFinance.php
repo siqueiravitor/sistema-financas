@@ -22,7 +22,12 @@
     include_once './functions.php';
 
     $userId = $_SESSION['id'];
-    $date = isset($get_date) ? $get_date : date('Y-m-d');
+
+    $month = isset($_GET['month']) ? $_GET['month'] : null;
+    $year = isset($_GET['year']) ? $_GET['year'] : null;
+    $get_date = getMonthYear($month, $year);
+    $date = $get_date ? $get_date : null;
+
     $finances = dataFinance($userId, null, $date);
     if ($finances[0] > 0) {
         array_shift($finances);

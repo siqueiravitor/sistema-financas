@@ -57,7 +57,7 @@ function deleteSelected() {
     }
 }
 // A j a x
-function loadFinances() {
+function loadFinances(month = null, year = null) {
     let url = './include/tableFinance.php';
     const request = $.ajax({
         url,
@@ -65,9 +65,14 @@ function loadFinances() {
         dataType: "html",
         beforeSend: function() {
             $("#management-table").html(divLoading);
+        },
+        data: {
+            month,
+            year
         }
     });
     request.done(function(data) {
+        console.log(data)
         $("#management-table").html(data);
         $("#management-table").dataTable({
             "aaSorting": [],

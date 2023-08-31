@@ -36,6 +36,79 @@ function dateConvert($dt, $separator, $separate, $reverse = true) {
     $dt = implode($separate, $data);
     return $dt; // 29/06/2019
 }
+function dateFormat($date){
+    $dateArray = explode('-', $date);      // [2019][06][29]
+    $reverse = array_reverse($dateArray); // [29][06][2019]
+    $dateFormat = implode('/', $reverse);     // 29/06/2019
+    return $dateFormat;
+}
+function dateText($getMonth = null, $getYear = null){
+    $months = getMonths();
+    if($getMonth && $getYear){
+        $dateMonth = date('n', strtotime(date("Y-$getMonth-d")))-1;
+        $year = date('Y', strtotime(date("$getYear-m-d")));
+        $dateTxt = $months[$dateMonth] . ' de ' . $year;
+    } elseif($getMonth){
+        $dateMonth = date('n', strtotime(date("Y-$getMonth-d")))-1;
+        $dateTxt = $months[$dateMonth];
+    } elseif($getYear){
+        $year = date('Y', strtotime(date("$getYear-m-d")));
+        $dateTxt = $year;
+    } else {
+        $dateMonth = date('n', strtotime(date('Y-m-d')));
+        $year = date('Y', strtotime(date('Y-m-d')));
+        $dateTxt = "Tudo";
+    }
+    return $dateTxt;
+}
+function getMonths(){
+    $months = [
+        'Janeiro',
+        'Fevereiro',
+        'Março',
+        'Abril',
+        'Maio',
+        'Junho',
+        'Julho',
+        'Agosto',
+        'Setembro',
+        'Outubro',
+        'Novembro',
+        'Dezembro'
+    ];
+    
+    return $months;
+}
+function getDateType($date){
+    $day = date('d', strtotime($date)); //day 01
+    $monthNum = date('m', strtotime($date)); //month 01
+    $monthTxt = date('F', strtotime($date)); //month January
+    $yearShort = date('y', strtotime($date)); //year 01
+    $yearLong = date('Y', strtotime($date)); //year 2001
+
+    $dateType = [
+        'day'=> $day,
+        'monthNum'=> $monthNum,
+        'monthTxt'=> $monthTxt,
+        'yearShort'=> $yearShort,
+        'yearLong'=> $yearLong
+    ];
+
+    return $dateType;
+}
+function getMonthYear($month = null, $year = null){
+    $array = array();
+    if($month){
+        $month = date('Y-m-d', strtotime(date("Y-$month-d")));
+        $array = array('month' => $month) + $array;
+    }
+    if($year){
+        $year = date('Y-m-d', strtotime(date("$year-m-d")));
+        $array = array('year' => $year) + $array;
+    }
+    
+    return $array;
+}
 
 function timestampToDate($timestamp) {
     $date_time = explode(' ', $timestamp); //[2019][06][29]
@@ -94,23 +167,6 @@ function montaAlert($status, $text) {
             </script>';
 }
 
-function getDateType($date){
-    $day = date('d', strtotime($date)); //day 01
-    $monthNum = date('m', strtotime($date)); //month 01
-    $monthTxt = date('F', strtotime($date)); //month January
-    $yearShort = date('y', strtotime($date)); //year 01
-    $yearLong = date('Y', strtotime($date)); //year 2001
-
-    $dateType = [
-        'day'=> $day,
-        'monthNum'=> $monthNum,
-        'monthTxt'=> $monthTxt,
-        'yearShort'=> $yearShort,
-        'yearLong'=> $yearLong
-    ];
-
-    return $dateType;
-}
 
 function getEnum($var) {
     $var = str_replace("(", "", $var);
