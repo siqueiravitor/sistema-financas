@@ -3,17 +3,19 @@
 function registerFinance($description, $value){
   global $con;
   $date = date('Y-m-d H:i:s');
+  $today = date('Y-m-d');
 
-  $insert = "INSERT INTO finances (id_user, id_category, value, description, created_at, updated_at) 
-    VALUES (?, ?, ?, ?, ?, ?)";
+  $insert = "INSERT INTO finances (id_user, id_category, value, description, payday, created_at, updated_at) 
+    VALUES (?, ?, ?, ?, ?, ?, ?)";
 
   $prepareInsert = mysqli_prepare($con, $insert);
-  mysqli_stmt_bind_param($prepareInsert, 'iidsss', $fieldUser, $fieldCategory, $fieldValue, $fieldDesc, $fieldCreatedAt, $fieldUpdatedAt);
+  mysqli_stmt_bind_param($prepareInsert, 'iidssss', $fieldUser, $fieldCategory, $fieldValue, $fieldDesc, $fieldPayday, $fieldCreatedAt, $fieldUpdatedAt);
 
   $fieldUser = $_SESSION['id'];
   $fieldCategory = 1;
   $fieldValue = $value;
   $fieldDesc = $description;
+  $fieldPayday = $today;
   $fieldCreatedAt = $date;
   $fieldUpdatedAt = $date;
 
@@ -57,6 +59,34 @@ function createSavings($fields){
         return $id;
     } catch(Exception $e) {
         return ['success' => false, 'message' => "Erro ao criar poupança", 'error' => $e];
+    }
+}
+function linkSavingsFinances($fields){
+    try{
+        global $con;
+
+        $insert = "INSERT INTO savings_finances (id_finance, id_savings, entry, created_at, updated_at) 
+        VALUES (?, ?, ?, ?, ?)";
+
+        $prepareInsert = mysqli_prepare($con, $insert);
+        mysqli_stmt_bind_param($prepareInsert, 'iisss', $fieldIdFinance, $fieldIdSavings, $fieldEntry, $fieldCreatedAt, $fieldUpdatedAt);
+
+        $datetime = date('Y-m-d H:i:s');
+        $fieldIdFinance = $fields['id_finance'];
+        $fieldIdSavings = $fields['id_savings'];
+        $fieldEntry = $fields['entry'];
+        $fieldCreatedAt = $datetime;
+        $fieldUpdatedAt = $datetime;
+
+        $result = mysqli_stmt_execute($prepareInsert);
+        if (!$result) {
+            mysqli_stmt_close($prepareInsert);
+            return false;
+        }
+        mysqli_stmt_close($prepareInsert);
+        return true;
+    } catch (Exception $e){
+        return ['success' => false, 'message' => "Erro ao ligar poupança/finança", 'error' => $e];
     }
 }
 
@@ -172,11 +202,11 @@ function updateSavingsReserved($fields){
             return ['success' => false, 'message' => "Erro ao atualizar dados"];
         }
         $finance = savingsFinance($fields['id']);
-        $data = [
-            'id_finance' => $finance['id_finance'],
-            'value' => $finance['reserved']
-        ];
-        updateFinanceReserved($data);
+        // $data = [
+        //     'id_finance' => $finance['id_finance'],
+        //     'value' => $finance['reserved']
+        // ];
+        // updateFinanceReserved($data);
 
         mysqli_stmt_close($prepareUpdate);
         return ['success' => true, 'message' => "Dados atualizados"];
@@ -184,33 +214,33 @@ function updateSavingsReserved($fields){
         return ['success' => false, 'message' => "Erro ao atualizar dados", 'error' => $e];
     }
 }
-function updateFinanceReserved($fields){
-    try{
-        global $con;
-        $datetime = date('Y-m-d H:i:s');
+// function updateFinanceReserved($fields){
+//     try{
+//         global $con;
+//         $datetime = date('Y-m-d H:i:s');
 
-        $update = "UPDATE finances SET 
-                    value = ?,
-                    updated_at = ?
-                WHERE id = ?";
+//         $update = "UPDATE finances SET 
+//                     value = ?,
+//                     updated_at = ?
+//                 WHERE id = ?";
 
-        $prepareUpdate = mysqli_prepare($con, $update);
-        mysqli_stmt_bind_param($prepareUpdate, 'dsi', $fieldValue, $fieldUpdated, $fieldId);
+//         $prepareUpdate = mysqli_prepare($con, $update);
+//         mysqli_stmt_bind_param($prepareUpdate, 'dsi', $fieldValue, $fieldUpdated, $fieldId);
 
-        $fieldValue = $fields['value'];
-        $fieldUpdated = $datetime;
-        $fieldId = $fields['id_finance'];
-        if (!mysqli_stmt_execute($prepareUpdate)) {
-            mysqli_stmt_close($prepareUpdate);
-            return ['success' => false, 'message' => "Erro ao atualizar dados"];
-        }
+//         $fieldValue = $fields['value'];
+//         $fieldUpdated = $datetime;
+//         $fieldId = $fields['id_finance'];
+//         if (!mysqli_stmt_execute($prepareUpdate)) {
+//             mysqli_stmt_close($prepareUpdate);
+//             return ['success' => false, 'message' => "Erro ao atualizar dados"];
+//         }
 
-        mysqli_stmt_close($prepareUpdate);
-        return ['success' => true, 'message' => "Dados atualizados"];
-    } catch(Exception $e) {
-        return ['success' => false, 'message' => "Erro ao atualizar dados", 'error' => $e];
-    }
-}
+//         mysqli_stmt_close($prepareUpdate);
+//         return ['success' => true, 'message' => "Dados atualizados"];
+//     } catch(Exception $e) {
+//         return ['success' => false, 'message' => "Erro ao atualizar dados", 'error' => $e];
+//     }
+// }
 function updateFinanceSavings($fields){
     try{
         global $con;
@@ -244,10 +274,17 @@ function deleteSavings($fields){
     try{
         global $con;
 
-        $idSaving = $fields['id'];
-        $idFinance = $fields['id_finance'];
+        $idSavings = $fields['id'];
 
-        $sql = "DELETE FROM savings WHERE id = $idSaving AND id_user = " . $_SESSION['id'];
+        $sqlLinkFinances = "SELECT id_finance FROM savings_finances WHERE id_savings = $idSavings";
+        $queryLinkFinances = mysqli_query($con, $sqlLinkFinances);
+        $rowLinkFinances = mysqli_fetch_array($queryLinkFinances);
+        $financesId = implode(',', $rowLinkFinances);
+
+        $sqlLink = "DELETE FROM savings_finances WHERE id_savings = $idSavings";
+        mysqli_query($con, $sqlLink);
+
+        $sql = "DELETE FROM savings WHERE id = $idSavings AND id_user = " . $_SESSION['id'];
         $query = mysqli_query($con, $sql);
 
         if (!$query) {
@@ -255,7 +292,7 @@ function deleteSavings($fields){
         }
         $rows = mysqli_affected_rows($con);
 
-        $sqlFinance = "DELETE FROM finances WHERE id = $idFinance AND id_user = " . $_SESSION['id'];
+        $sqlFinance = "DELETE FROM finances WHERE id in ($financesId) AND id_user = " . $_SESSION['id'];
         mysqli_query($con, $sqlFinance);
         
         return ['success' => true, 'message' => "Dados apagados ($rows)"];

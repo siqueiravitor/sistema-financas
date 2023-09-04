@@ -147,10 +147,75 @@ if ($goal) {
                 </div>
             </div>
         </form>
+
+        <!-- <div class='border-top mt-4'>
+            <h6 class='text-muted text-center my-3'>Histórico</h6>
+
+            <table class='table dataTable' id='history'>
+                <tbody>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                        <th>Data</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td>Entrada</td>
+                        <td>100</td>
+                        <td>03/09/2023</td>
+                        <td><i class='text-danger' data-feather='trash-2'></td>
+                    </tr>
+                    <tr>
+                        <td>Entrada</td>
+                        <td>60</td>
+                        <td>03/09/2023</td>
+                        <td><i class='text-danger' data-feather='trash-2'></td>
+                    </tr>
+                    <tr>
+                        <td>Saída</td>
+                        <td>100</td>
+                        <td>03/09/2023</td>
+                        <td><i class='text-danger' data-feather='trash-2'></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> -->
     </div>
 <?php
 }
 ?>
+<!-- <style>
+    #history{
+        /* width: 110%;
+        margin-left: -1.3rem; */
+        border: none!important;
+    }
+    table * {
+        text-align: center;
+    }
+    table.dataTable tbody{
+        border: none!important;
+    }
+    table.table.dataTable tbody tr {
+        border-bottom: 1px solid var(--color-border)!important;
+    }
+    table.dataTable th, table.dataTable td {
+        /* padding: 0.5rem 2rem!important; */
+    }
+
+    td:first-child,
+    th:first-child {
+        /* width: 100%;
+        margin-left: 0rem; */
+    }
+    tr:first-child {
+        border-top: unset!important;
+    }
+    td:last-child{
+        /* width: 50%!important; */
+    }
+</style> -->
+<script src="<?= ICON ?>/feather.js"></script>
 <script>
     function changeValue(reserved, goal) {
         let value = moneytToFloat($("#newValue").val());

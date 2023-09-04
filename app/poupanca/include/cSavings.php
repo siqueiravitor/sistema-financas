@@ -25,9 +25,21 @@ $savings = [
     'id_finance' => $idFinance,
     'description' => $description
 ];
-if(!createSavings($savings)){
+
+$idSavings = createSavings($savings);
+
+if(!$idSavings){
     $msg = 'Erro ao registrar dados';
     $msg .= "&alert=1";
+    exit(header("Location: ../?msg=$msg"));
 }
+
+$link = [
+    'id_finance' => $idFinance,
+    'id_savings' => $idSavings,
+    'entry' => 'in'
+];
+
+linkSavingsFinances($link);
 
 header("Location: ../?msg=$msg");
