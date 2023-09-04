@@ -219,19 +219,33 @@ function financeValues($date = null){
   $id_user = $_SESSION['id'];
 
   $sql = "SELECT
-            SUM(CASE WHEN c.type = 'in' THEN f.value ELSE 0 END) as receita,
-            SUM(CASE WHEN c.type = 'in' AND paid = 'n' THEN f.value ELSE 0 END) as receber,
-            SUM(CASE WHEN c.type = 'in' AND paid = 'y' THEN f.value ELSE 0 END) as recebido,
-            SUM(CASE WHEN c.type = 'out' THEN f.value ELSE 0 END) as despesa,
-            SUM(CASE WHEN c.type = 'out' AND paid = 'n' THEN f.value ELSE 0 END) as pagar,
-            SUM(CASE WHEN c.type = 'out' AND paid = 'y' THEN f.value ELSE 0 END) as pago,
-            SUM(CASE WHEN c.type = 'in' THEN f.value ELSE -f.value END) as total,
+            SUM(CASE WHEN c.type = 'in' THEN f.value ELSE 0 END) AS receita,
             SUM(CASE 
-                  WHEN c.type = 'in' and paid = 'y' THEN f.value 
-                  ELSE if(c.type = 'out' and paid = 'y', -f.value, 0) 
-            END) as totalRecebido
+                  WHEN (c.type = 'in' AND paid = 'n') OR (sf.entry = 'out')
+                    THEN f.value 
+                  ELSE 0 
+                END) AS receber,
+            SUM(CASE WHEN c.type = 'in' AND paid = 'y' THEN f.value ELSE 0 END) AS recebido,
+            SUM(CASE WHEN c.type = 'out' THEN f.value ELSE 0 END) AS despesa,
+            SUM(CASE WHEN c.type = 'out' AND paid = 'n' THEN f.value ELSE 0 END) AS pagar,
+            SUM(CASE 
+                  WHEN (c.type = 'out' AND paid = 'y') OR (sf.entry = 'in')
+                    THEN f.value
+                  ELSE 0 
+                END) AS pago,
+            SUM(CASE 
+                  WHEN c.type = 'in' OR sf.entry = 'out'
+                    THEN f.value 
+                  ELSE -f.value 
+                END) AS total,
+            SUM(CASE 
+                  WHEN (c.type = 'in' and paid = 'y') OR (sf.entry = 'out')
+                    THEN f.value 
+                  ELSE if((c.type = 'out' and paid = 'y') OR (sf.entry = 'in'), -f.value, 0) 
+                END) AS totalRecebido
           FROM finances f
           INNER JOIN categories c ON (c.id = f.id_category)
+          LEFT JOIN savings_finances sf ON (sf.id_finance = f.id)
           WHERE f.id_user = $id_user";
   if($date){
     if($date['month'] && $date['year']){
