@@ -220,12 +220,12 @@ function financeValues($date = null){
 
   $sql = "SELECT
             SUM(CASE WHEN c.type = 'in' THEN f.value ELSE 0 END) AS receita,
+            SUM(CASE WHEN c.type = 'in' AND paid = 'n'THEN f.value ELSE 0 END) AS receber,
             SUM(CASE 
-                  WHEN (c.type = 'in' AND paid = 'n') OR (sf.entry = 'out')
+                  WHEN (c.type = 'in' AND paid = 'y') OR (sf.entry = 'out')
                     THEN f.value 
                   ELSE 0 
-                END) AS receber,
-            SUM(CASE WHEN c.type = 'in' AND paid = 'y' THEN f.value ELSE 0 END) AS recebido,
+                END) AS recebido,
             SUM(CASE WHEN c.type = 'out' THEN f.value ELSE 0 END) AS despesa,
             SUM(CASE WHEN c.type = 'out' AND paid = 'n' THEN f.value ELSE 0 END) AS pagar,
             SUM(CASE 
