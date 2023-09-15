@@ -37,10 +37,9 @@ function verifyUser($user, $password){
         if ($result[4] != 'a') {
             return ['error' => errors(2) . $result[4]];
         }
-        // if (md5($password) != $result[3]) {
-        // if (password_verify($password, $result[3])) {
-        //     return ['error' => errors(3)];
-        // }
+        if (!password_verify($password, $result[3])) {
+            return ['error' => errors(3)];
+        }
     } else {
         return ['error' => errors(1)];
     }
