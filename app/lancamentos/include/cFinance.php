@@ -60,30 +60,31 @@ if ($financeRecurrent == 'y') {
     ];
 
     $id_recurrence = registerRecurrence($data);
+    if($id_recurrence){
+        if ($finance['recurrent'] == 'f') {
+            $data['fixed'] = [
+                'id_recurrence' => $id_recurrence,
+                'value' => $value,
+                'payday' => $date
+            ];
+            $fixed = registerRecurrenceFixed($data);
+        }
+        if ($finance['recurrent'] == 'i') {
+            $data['installment'] = [
+                'id_recurrence' => $id_recurrence,
+                'value' => $value,
+            ];
+        }
 
-    if ($finance['recurrent'] == 'f') {
-        $data['fixed'] = [
-            'id_recurrence' => $id_recurrence,
-            'value' => $value,
-            'payday' => $date
+        $newFinance = registerFinance($data);
+        $id_finance = $newFinance['id'];
+
+        $link = [
+            'id_finance' => $id_finance,
+            'id_recurrence' => $id_recurrence
         ];
-        $fixed = registerRecurrenceFixed($data);
+        finance_recurrence($link);
     }
-    if ($finance['recurrent'] == 'i') {
-        $data['installment'] = [
-            'id_recurrence' => $id_recurrence,
-            'value' => $value,
-        ];
-    }
-
-    $newFinance = registerFinance($data);
-    $id_finance = $newFinance['id'];
-
-    $link = [
-        'id_finance' => $id_finance,
-        'id_recurrence' => $id_recurrence
-    ];
-    finance_recurrence($link);
 } else {
     // U n i q u e
     $newFinance = registerFinance($data);

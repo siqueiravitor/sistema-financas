@@ -1,93 +1,123 @@
 <?php
 // C r e a t e 
 function registerFinance($fields){
-  global $con;
-  $finance = $fields['finance'];
-  $date = date('Y-m-d H:i:s');
+  try{
+    global $con;
+    $finance = $fields['finance'];
+    $date = date('Y-m-d H:i:s');
 
-  $insert = "INSERT INTO finances (id_user, id_category, value, description, recurrent, paid, payday, created_at, updated_at) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $insert = "INSERT INTO finances (id_user, id_category, value, description, recurrent, paid, payday, created_at, updated_at) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-  $prepareInsert = mysqli_prepare($con, $insert);
-  mysqli_stmt_bind_param($prepareInsert, 'iidssssss', $fieldUser, $fieldCategory, $fieldValue, $fieldDesc, $fieldRecurrent, $fieldPaid, $fieldPayday, $fieldCreatedAt, $fieldUpdatedAt);
+    $prepareInsert = mysqli_prepare($con, $insert);
+    mysqli_stmt_bind_param($prepareInsert, 'iidssssss', $fieldUser, $fieldCategory, $fieldValue, $fieldDesc, $fieldRecurrent, $fieldPaid, $fieldPayday, $fieldCreatedAt, $fieldUpdatedAt);
 
-  $fieldUser = $finance['iduser'];
-  $fieldCategory = $finance['idcategory'];
-  $fieldValue = $finance['value'];
-  $fieldDesc = $finance['description'];
-  $fieldRecurrent = $finance['recurrent'];
-  $fieldPaid = $finance['paid'];
-  $fieldPayday = $finance['payday'];
-  $fieldCreatedAt = $date;
-  $fieldUpdatedAt = $date;
+    $fieldUser = $finance['iduser'];
+    $fieldCategory = $finance['idcategory'];
+    $fieldValue = $finance['value'];
+    $fieldDesc = $finance['description'];
+    $fieldRecurrent = $finance['recurrent'];
+    $fieldPaid = $finance['paid'];
+    $fieldPayday = $finance['payday'];
+    $fieldCreatedAt = $date;
+    $fieldUpdatedAt = $date;
 
-  $result = mysqli_stmt_execute($prepareInsert);
-  if (!$result) {
+    $result = mysqli_stmt_execute($prepareInsert);
+    if (!$result) {
+      mysqli_stmt_close($prepareInsert);
+      genLog('finances', 'register', "Erro ao registrar", 'error');
+
+      return ['success' => false];
+    }
+    genLog('finances', 'register', "Dados registrados", 'success');
+
+    $id = mysqli_stmt_insert_id($prepareInsert);
     mysqli_stmt_close($prepareInsert);
-    return ['success' => false];
+
+    return ['success' => true, 'id' => $id];
+      
+  } catch (Exception $e) {
+    genLog('finances', 'exception', $e->getMessage(), 'register');
+
+    return ['success' => false, 'message' => 'Erro ao registrar finança', 'error' => $e->getMessage()];
   }
-
-  $id = mysqli_stmt_insert_id($prepareInsert);
-  mysqli_stmt_close($prepareInsert);
-
-  return ['success' => true, 'id' => $id];
 }
 
 function registerPayment($fields){
-  global $con;
-  $date = date('Y-m-d H:i:s');
+  try{
+    global $con;
+    $date = date('Y-m-d H:i:s');
 
-  $insert = "INSERT INTO payments (id_finance, id_type, value, created_at, updated_at) 
-  VALUES (?, ?, ?, ?, ?)";
+    $insert = "INSERT INTO payments (id_finance, id_type, value, created_at, updated_at) 
+    VALUES (?, ?, ?, ?, ?)";
 
-  $prepareInsert = mysqli_prepare($con, $insert);
-  mysqli_stmt_bind_param($prepareInsert, 'iidss', $fieldIdFinance, $fieldType, $fieldValue, $fieldCreatedAt, $fieldUpdatedAt);
+    $prepareInsert = mysqli_prepare($con, $insert);
+    mysqli_stmt_bind_param($prepareInsert, 'iidss', $fieldIdFinance, $fieldType, $fieldValue, $fieldCreatedAt, $fieldUpdatedAt);
 
-  $fieldIdFinance = $fields['id_finance'];
-  $fieldType = $fields['type'];
-  $fieldValue = $fields['value'];
-  $fieldCreatedAt = $date;
-  $fieldUpdatedAt = $date;
+    $fieldIdFinance = $fields['id_finance'];
+    $fieldType = $fields['type'];
+    $fieldValue = $fields['value'];
+    $fieldCreatedAt = $date;
+    $fieldUpdatedAt = $date;
 
-  $result = mysqli_stmt_execute($prepareInsert);
-  if (!$result) {
+    $result = mysqli_stmt_execute($prepareInsert);
+    if (!$result) {
+      genLog('payments', 'register', "Erro ao registrar", 'error');
+      mysqli_stmt_close($prepareInsert);
+
+      return ['success' => false, 'message' => 'Erro ao registrar pagamento'];
+    }
+    genLog('payments', 'register', "Dados registrados", 'success');
+
     mysqli_stmt_close($prepareInsert);
-    return ['success' => false, 'message' => 'Erro ao registrar pagamento'];
-  }
-  mysqli_stmt_close($prepareInsert);
 
-  return ['success' => true];
+    return ['success' => true];
+
+  } catch (Exception $e) {
+    genLog('payments', 'exception', $e->getMessage(), 'register');
+
+    return ['success' => false, 'message' => 'Erro ao registrar pagamento', 'error' => $e->getMessage()];
+  }
 }
 
 function registerRecurrence($fields){
-  global $con;
-  $date = date('Y-m-d H:i:s');
-  $recurrencies = $fields['recurrence'];
+  try{
+    global $con;
+    $date = date('Y-m-d H:i:s');
+    $recurrencies = $fields['recurrence'];
 
-  $insert = "INSERT INTO recurrencies (value, type, status, recurrence, period, created_at, updated_at) 
-              VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $insert = "INSERT INTO recurrencies (value, type, status, recurrence, period, created_at, updated_at) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-  $prepareInsert = mysqli_prepare($con, $insert);
-  mysqli_stmt_bind_param($prepareInsert, 'dsssiss', $fieldValue, $fieldType, $fieldStatus, $fieldRecurrence, $fieldPeriod, $fieldCreatedAt, $fieldUpdatedAt);
+    $prepareInsert = mysqli_prepare($con, $insert);
+    mysqli_stmt_bind_param($prepareInsert, 'dsssiss', $fieldValue, $fieldType, $fieldStatus, $fieldRecurrence, $fieldPeriod, $fieldCreatedAt, $fieldUpdatedAt);
 
-  $fieldValue = $recurrencies['value'];
-  $fieldType = $recurrencies['type'];
-  $fieldStatus = $recurrencies['status'];
-  $fieldRecurrence = $recurrencies['recurrence'];
-  $fieldPeriod = $recurrencies['period'];
-  $fieldCreatedAt = $date;
-  $fieldUpdatedAt = $date;
+    $fieldValue = $recurrencies['value'];
+    $fieldType = $recurrencies['type'];
+    $fieldStatus = $recurrencies['status'];
+    $fieldRecurrence = $recurrencies['recurrence'];
+    $fieldPeriod = $recurrencies['period'];
+    $fieldCreatedAt = $date;
+    $fieldUpdatedAt = $date;
 
-  $result = mysqli_stmt_execute($prepareInsert);
+    $result = mysqli_stmt_execute($prepareInsert);
 
-  if (!$result) {
+    if (!$result) {
+      genLog('recurrencies', 'register', "Erro ao registrar", 'error');
+      mysqli_stmt_close($prepareInsert);
+      return false;
+    }
+    genLog('recurrencies', 'register', "Dados registrados", 'success');
+
+    $id_recurrence = mysqli_stmt_insert_id($prepareInsert);
     mysqli_stmt_close($prepareInsert);
-    return false;
-  }
+    return $id_recurrence;
 
-  $id_recurrence = mysqli_stmt_insert_id($prepareInsert);
-  mysqli_stmt_close($prepareInsert);
-  return $id_recurrence;
+  } catch (Exception $e) {
+    genLog('recurrencies', 'exception', $e->getMessage(), 'register');
+
+    return ['success' => false, 'message' => 'Erro ao registrar recorrência', 'error' => $e->getMessage()];
+  }
 }
 function registerRecurrenceFixed($fields){
   try {
@@ -111,36 +141,54 @@ function registerRecurrenceFixed($fields){
     $result = mysqli_stmt_execute($prepareInsert);
     if (!$result) {
       mysqli_stmt_close($prepareInsert);
+      genLog('recurrencies_fixed', 'register', "Erro ao registrar fixa", 'error');
+
       return ['success' => false, 'message' => 'Erro ao registrar recorrência fixa'];
     }
+    genLog('recurrencies_fixed', 'register', "Dados registrados", 'success');
+
     mysqli_stmt_close($prepareInsert);
 
     return ['success' => true];
+
   } catch (Exception $e) {
-    return ['success' => false, 'message' => $e];
+    genLog('recurrencies_fixed', 'exception', $e->getMessage(), 'register');
+
+    return ['success' => false, 'message' => 'Erro ao registrar recorrência fixa', 'error' => $e->getMessage()];
   }
 }
 function finance_recurrence($fields){
-  global $con;
-  $success = true;
-  $date = date('Y-m-d H:i:s');
-  $insert = "INSERT INTO finance_recurrence (id_finance, id_recurrence, created_at, updated_at)
-                VALUES (?, ?, ?, ?)";
+  try{
+    global $con;
+    $success = true;
+    $date = date('Y-m-d H:i:s');
+    $insert = "INSERT INTO finance_recurrence (id_finance, id_recurrence, created_at, updated_at)
+                  VALUES (?, ?, ?, ?)";
 
-  $prepareInsert = mysqli_prepare($con, $insert);
-  mysqli_stmt_bind_param($prepareInsert, 'iiss', $fieldIdFinance, $fieldIdRecurrence, $fieldCreatedAt, $fieldUpdatedAt);
+    $prepareInsert = mysqli_prepare($con, $insert);
+    mysqli_stmt_bind_param($prepareInsert, 'iiss', $fieldIdFinance, $fieldIdRecurrence, $fieldCreatedAt, $fieldUpdatedAt);
 
-  $fieldIdFinance = $fields['id_finance'];
-  $fieldIdRecurrence = $fields['id_recurrence'];
-  $fieldCreatedAt = $date;
-  $fieldUpdatedAt = $date;
+    $fieldIdFinance = $fields['id_finance'];
+    $fieldIdRecurrence = $fields['id_recurrence'];
+    $fieldCreatedAt = $date;
+    $fieldUpdatedAt = $date;
 
-  if (!mysqli_stmt_execute($prepareInsert)) {
-    $success = false;
+    if (!mysqli_stmt_execute($prepareInsert)) {
+      $success = false;
+
+      genLog('finance_recurrence', 'link', "Erro ao vincular", 'error');
+    }
+    genLog('finance_recurrence', 'link', "Dados vinculados", 'success');
+
+    mysqli_stmt_close($prepareInsert);
+
+    return ['success' => $success];
+
+  } catch (Exception $e) {
+    genLog('finance_recurrence', 'exception', $e->getMessage(), 'link');
+
+    return ['success' => false, 'message' => 'Erro ao vincular finança-recorrência', 'error' => $e->getMessage()];
   }
-  mysqli_stmt_close($prepareInsert);
-
-  return ['success' => $success];
 }
 function repeatFixedRecurrence($idUser, $idFinance, $value){
   global $con;
@@ -361,82 +409,118 @@ function recurrence($userId, $id){
 }
 // U p d a t e
 function updateFinance($fields){
-  global $con;
+  try{
+    global $con;
 
-  if ($fields['paid']) {
-    $update = "UPDATE finances SET 
-                id_category = ?, 
-                value = ?, 
-                description = ?,
-                paid = ?
-            WHERE id = ?";
-
-    $prepareUpdate = mysqli_prepare($con, $update);
-    mysqli_stmt_bind_param($prepareUpdate, 'idssi', $fieldCategory, $fieldValue, $fieldDesc, $fieldPaid, $fieldId);
-
-    $fieldCategory = $fields['idcategory'];
-    $fieldValue = $fields['value'];
-    $fieldDesc = $fields['description'];
-    $fieldPaid = $fields['paid'];
-    $fieldId = $fields['id'];
-  } else {
-    $update = "UPDATE finances SET 
+    if ($fields['paid']) {
+      $update = "UPDATE finances SET 
                   id_category = ?, 
                   value = ?, 
-                  description = ?
-                WHERE id = ?";
+                  description = ?,
+                  paid = ?
+              WHERE id = ?";
 
-    $prepareUpdate = mysqli_prepare($con, $update);
-    mysqli_stmt_bind_param($prepareUpdate, 'idsi', $fieldCategory, $fieldValue, $fieldDesc, $fieldId);
+      $prepareUpdate = mysqli_prepare($con, $update);
+      mysqli_stmt_bind_param($prepareUpdate, 'idssi', $fieldCategory, $fieldValue, $fieldDesc, $fieldPaid, $fieldId);
 
-    $fieldCategory = $fields['idcategory'];
-    $fieldValue = $fields['value'];
-    $fieldDesc = $fields['description'];
-    $fieldId = $fields['id'];
-  }
-  if (!mysqli_stmt_execute($prepareUpdate)) {
+      $fieldCategory = $fields['idcategory'];
+      $fieldValue = $fields['value'];
+      $fieldDesc = $fields['description'];
+      $fieldPaid = $fields['paid'];
+      $fieldId = $fields['id'];
+    } else {
+      $update = "UPDATE finances SET 
+                    id_category = ?, 
+                    value = ?, 
+                    description = ?
+                  WHERE id = ?";
+
+      $prepareUpdate = mysqli_prepare($con, $update);
+      mysqli_stmt_bind_param($prepareUpdate, 'idsi', $fieldCategory, $fieldValue, $fieldDesc, $fieldId);
+
+      $fieldCategory = $fields['idcategory'];
+      $fieldValue = $fields['value'];
+      $fieldDesc = $fields['description'];
+      $fieldId = $fields['id'];
+    }
+    if (!mysqli_stmt_execute($prepareUpdate)) {
+      mysqli_stmt_close($prepareUpdate);
+      genLog('finances', 'update', "Erro ao atualizar", 'error');
+
+      return ['success' => false, 'message' => "Erro ao atualizar dados"];
+    }
+    genLog('finances', 'update', "Dados atualizados", 'success');
+
     mysqli_stmt_close($prepareUpdate);
-    return ['success' => false, 'message' => "Erro ao atualizar dados"];
-  }
+    return ['success' => true, 'message' => "Dados atualizados"];
+    
+  } catch (Exception $e) {
+    genLog('finances', 'exception', $e->getMessage(), 'update');
 
-  mysqli_stmt_close($prepareUpdate);
-  return ['success' => true, 'message' => "Dados atualizados"];
+    return ['success' => false, 'message' => 'Erro ao atualizar finança', 'error' => $e->getMessage()];
+  }
 }
 
 // D e l e t e
 function deleteFinance($id){
-  global $con;
+  try{
+    global $con;
 
-  $sqlVerifyLink = "SELECT fr.id_recurrence 
-                      FROM finance_recurrence fr 
-                      INNER JOIN finances f on (f.id = fr.id_finance)
-                      WHERE fr.id_finance IN ($id) and f.id_user=" . $_SESSION['id'];
-  $verifyLink = mysqli_query($con, $sqlVerifyLink);
-  while ($recurrence = mysqli_fetch_array($verifyLink)) {
-    //Delete Link
-    $sqlRecurrence = "DELETE FROM finance_recurrence WHERE id_recurrence = $recurrence[0]";
-    mysqli_query($con, $sqlRecurrence);
+    $sqlVerifyLink = "SELECT fr.id_recurrence 
+                        FROM finance_recurrence fr 
+                        INNER JOIN finances f on (f.id = fr.id_finance)
+                        WHERE fr.id_finance IN ($id) and f.id_user=" . $_SESSION['id'];
+    $verifyLink = mysqli_query($con, $sqlVerifyLink);
+    while ($recurrence = mysqli_fetch_array($verifyLink)) {
+      //Delete Link
+      $sqlRecurrence = "DELETE FROM finance_recurrence WHERE id_recurrence = $recurrence[0]";
+      // logDelete(mysqli_query($con, $sqlRecurrence), 'finance_recurrence');
+      if(mysqli_query($con, $sqlRecurrence)){
+        genLog('finances', 'link', "Dados deletados", 'success');
+      } else {
+        genLog('finances', 'link', "Erro ao deletar", 'error');
+      }
 
-    //Delete recurrencies
-    $sqlRecurrenceFixed = "DELETE FROM recurrencies_fixed 
-                            WHERE id_recurrence = $recurrence[0]";
-    mysqli_query($con, $sqlRecurrenceFixed);
+      //Delete recurrencies
+      $sqlRecurrenceFixed = "DELETE FROM recurrencies_fixed 
+                              WHERE id_recurrence = $recurrence[0]";
+      // logDelete(mysqli_query($con, $sqlRecurrenceFixed), 'recurrencies_fixed');
+      mysqli_query($con, $sqlRecurrenceFixed);
 
-    $sqlRecurrence = "DELETE FROM recurrencies WHERE id =$recurrence[0]";
-    mysqli_query($con, $sqlRecurrence);
+      $sqlRecurrence = "DELETE FROM recurrencies WHERE id =$recurrence[0]";
+      // logDelete(mysqli_query($con, $sqlRecurrence), 'recurrencies');
+      mysqli_query($con, $sqlRecurrence);
+    }
+    //Delete payments
+    $sqlPayment = "DELETE FROM payments WHERE id_finance IN ($id)";
+    // logDelete(mysqli_query($con, $sqlPayment), 'payments');
+    mysqli_query($con, $sqlPayment);
+
+    //Delete finances
+    $sql = "DELETE FROM finances WHERE id IN ($id) and id_user=" . $_SESSION['id'];
+
+    $query = mysqli_query($con, $sql);
+    if (!$query) {
+      genLog('finances', 'delete', "Erro ao deletar", 'error');
+
+      return ['success' => false, 'message' => "Erro ao deletar dados"];
+    }
+    $rows = mysqli_affected_rows($con);
+    genLog('finances', 'delete', "Dados deletados", 'success');
+
+    return ['success' => true, 'message' => "Dados apagados ($rows)"];
+      
+  } catch (Exception $e) {
+    genLog('finances', 'exception', $e->getMessage(), 'delete');
+
+    return ['success' => false, 'message' => 'Erro ao deletar finança', 'error' => $e->getMessage()];
   }
-  //Delete payments
-  $sqlPayment = "DELETE FROM payments WHERE id_finance IN ($id)";
-  mysqli_query($con, $sqlPayment);
+}
 
-  //Delete finances
-  $sql = "DELETE FROM finances WHERE id IN ($id) and id_user=" . $_SESSION['id'];
-
-  $query = mysqli_query($con, $sql);
-  if (!$query) {
-    return ['success' => false, 'message' => "Erro ao deletar dados"];
+function logDelete($param, $table){
+  if($param){
+    genLog($table, 'delete', "Dados deletados", 'success');
+  } else {
+    genLog($table, 'delete', "Erro ao deletar", 'error');
   }
-  $rows = mysqli_affected_rows($con);
-
-  return ['success' => true, 'message' => "Dados apagados ($rows)"];
 }
