@@ -38,7 +38,7 @@
                         </span>
                     </div>
                 </li>
-                <li>
+                <li class="d-flex align-self-center">
                     <div id="navbar-menu">
                         <ul class="nav navbar-nav">
                             <?php
@@ -75,7 +75,7 @@
                                         <div class="text-center">
                                             <?= TITLE ?>
                                         </div>
-                                        <ul class="list-unstyled">
+                                        <ul class="list-unstyled pl-0">
                                             <li class="divider"></li>
                                             <li id="navPerfil"><a href="<?= BASED; ?>/perfil/"><i
                                                         class="icon-user"></i>Meu Perfil</a></li>
