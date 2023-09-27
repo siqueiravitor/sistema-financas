@@ -51,8 +51,6 @@ $financeValues = financeValues($date);
             canvaContent()
             $('#date').datepicker({ todayHighlight: true });
             $(".select2").select2();
-
-            $("#date-year").datepicker({altFormat: "yy-mm-dd"});
         });
     </script>
     <style>
