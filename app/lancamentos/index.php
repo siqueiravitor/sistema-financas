@@ -6,8 +6,8 @@ include_once '../config/security.php';
 include_once '../config/connMysql.php';
 include_once './include/functions.php';
 
-$month = isset($_GET['month']) ? $_GET['month'] : null;
-$getYear = isset($_GET['year']) ? $_GET['year'] : null;
+$month = isset($_GET['month']) ? $_GET['month'] : date('m');
+$getYear = isset($_GET['year']) ? $_GET['year'] : date('Y');
 $get_date = getMonthYear($month, $getYear);
 $date = $get_date ? $get_date : null;
 
@@ -51,6 +51,8 @@ $financeValues = financeValues($date);
             canvaContent()
             $('#date').datepicker({ todayHighlight: true });
             $(".select2").select2();
+
+            $("#date-year").datepicker({altFormat: "yy-mm-dd"});
         });
     </script>
     <style>
@@ -152,7 +154,7 @@ $financeValues = financeValues($date);
                                     <?php
                                         foreach(getMonths() as $idx=>$months){
                                             $index = $idx+1;
-                                            $selected = $index == date('m', strtotime(date('Y-m-d'))) ? 'selected' : null;
+                                            $selected = $index == $month ? 'selected' : null;
                                             echo "<option value='$index' $selected>$months</option>";
                                         }
                                     ?>
@@ -160,16 +162,7 @@ $financeValues = financeValues($date);
                             </div>
                             <div class="form-group">
                                 <small> <b> Ano </b> </small>
-                                <select class='form-control select2' name='year'>
-                                <option value=''>Todo o período</option>
-                                    <?php
-                                        $years = range(date('Y', strtotime('+10 year')), 1900);
-                                        foreach($years as $year){
-                                            $selected = $year == date('Y', strtotime(date('Y-m-d'))) ? 'selected' : null;
-                                            echo "<option value='$year' $selected>$year</option>";
-                                        }
-                                    ?>
-                                </select>
+                                <input class='form-control' type="number" min="1900" max="2099" step="1" value="<?= date('Y') ?>" />
                             </div>
                             
                             <div class="text-center">
