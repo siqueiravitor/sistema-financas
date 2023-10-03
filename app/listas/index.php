@@ -118,6 +118,14 @@ include_once './include/functions.php';
                                         <small><b>Descrição</b></small>
                                         <input class="form-control" name="description" autocomplete="off">
                                     </div>
+                                    <div class="form-group">
+                                        <small><b>Tipo</b></small>
+                                        <select class='form-control select2' name="description" autocomplete="off">
+                                            <option value='list' selected>Lista</option>
+                                            <option value='shopping'>Compras</option>
+                                            <option value='services'>Serviços</option>
+                                        </select>
+                                    </div>
 
                                     <div class="text-center mt-4">
                                         <button class="btn w-100 btn-success space-1">Criar</button>
