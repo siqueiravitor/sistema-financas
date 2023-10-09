@@ -5,7 +5,7 @@ include_once '../functions/func.php';
 include_once '../config/conn.php';
 ?>
 <!doctype html>
-<html lang="pt-br">s
+<html lang="pt-br">
 <head>
     <title>
         <?= SYSTEM . " - " . TITLE; ?>

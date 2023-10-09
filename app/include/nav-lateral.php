@@ -11,11 +11,6 @@ $pages = [
         'icon' => 'pocket',
     ],
     [
-        'label' => 'Grupos',
-        'href' => 'grupos',
-        'icon' => 'grid',
-    ],
-    [
         'label' => 'Listas',
         'href' => 'listas',
         'icon' => 'list',

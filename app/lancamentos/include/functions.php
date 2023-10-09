@@ -64,12 +64,13 @@ function registerRecurrence($fields){
   $date = date('Y-m-d H:i:s');
   $recurrencies = $fields['recurrence'];
 
-  $insert = "INSERT INTO recurrencies (value, type, status, recurrence, period, created_at, updated_at) 
-              VALUES (?, ?, ?, ?, ?, ?, ?)";
+  $insert = "INSERT INTO recurrencies (id_user, value, type, status, recurrence, period, created_at, updated_at) 
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
   $prepareInsert = mysqli_prepare($con, $insert);
-  mysqli_stmt_bind_param($prepareInsert, 'dsssiss', $fieldValue, $fieldType, $fieldStatus, $fieldRecurrence, $fieldPeriod, $fieldCreatedAt, $fieldUpdatedAt);
+  mysqli_stmt_bind_param($prepareInsert, 'idsssiss', $fieldUser, $fieldValue, $fieldType, $fieldStatus, $fieldRecurrence, $fieldPeriod, $fieldCreatedAt, $fieldUpdatedAt);
 
+  $fieldUser = $_SESSION['id'];
   $fieldValue = $recurrencies['value'];
   $fieldType = $recurrencies['type'];
   $fieldStatus = $recurrencies['status'];
