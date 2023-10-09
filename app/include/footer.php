@@ -4,7 +4,7 @@
         <small>
             <div>
                 ©
-                <?= date("Y") . " | Desenvolvido por " ?><a href='https://mentedev.com.br/' target="_blank">Mente Dev</a>
+                <?= date("Y") . " | Sistema Finanças | Desenvolvido por " ?><a href='https://mentedev.com.br/' target="_blank">Mente Dev</a>
             </div>
         </small>
     </div>

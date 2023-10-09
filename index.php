@@ -34,7 +34,7 @@
                         <img src="./assets/images/logo.png" alt="Finanças">
                     </div>
 
-                    <h4>Controle$Finanças</h4>
+                    <h4 style='padding-left: .8rem'>$istema Finanças</h4>
                     <h5 class="text-muted">Mente Dev</h5>
                 </div>
             </div>

@@ -73,7 +73,7 @@
                                     </div>
                                     <div class="p-3 drop-list">
                                         <div class="text-center">
-                                            <?= TITLE ?> | Finanças
+                                            Mente Dev | Finanças
                                         </div>
                                         <ul class="list-unstyled pl-0">
                                             <li class="divider"></li>

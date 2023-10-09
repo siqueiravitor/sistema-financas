@@ -13,7 +13,7 @@ $diaSemana = date('w'); // Domingo = 0
 
 <head>
     <title>
-        <?= SYSTEM . " - " . TITLE; ?>
+        <?= COMPANY . " - " . TITLE; ?>
     </title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

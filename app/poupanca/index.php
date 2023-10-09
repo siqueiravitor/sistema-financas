@@ -11,8 +11,8 @@ include_once './include/functions.php';
 <html lang="pt-br">
 
 <head>
-    <title>Poupança -
-        <?= TITLE; ?>
+    <title>Poupanças -
+        <?= COMPANY; ?>
     </title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

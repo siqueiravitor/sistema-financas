@@ -18,8 +18,8 @@ $financeValues = financeValues($date);
 <html lang="pt-br">
 
 <head>
-    <title>Lançamento -
-        <?= TITLE; ?>
+    <title>Lançamentos -
+        <?= COMPANY; ?>
     </title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

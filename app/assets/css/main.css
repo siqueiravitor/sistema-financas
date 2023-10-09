@@ -4442,8 +4442,8 @@ html.fullscreen-bg #wrapper {
     line-height: 40px;
     /*text-transform: uppercase;*/
     text-indent: 5px;
-    letter-spacing: 2px;
-    font-size: 1rem;
+    letter-spacing: 1.5px;
+    font-size: .9rem;
 }
 
 @media screen and (max-width: 768px) {

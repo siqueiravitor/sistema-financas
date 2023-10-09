@@ -12,7 +12,7 @@ include_once './include/functions.php';
 
 <head>
     <title>Categorias -
-        <?= TITLE; ?>
+        <?= COMPANY; ?>
     </title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
