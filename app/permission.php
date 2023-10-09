@@ -11,9 +11,9 @@ if ($data = dataSystem()) {
 
     if($data[0] > 0 && $system['status'] == 'a'){
         $url = $_ENV['URL'];
-        $_SESSION['COMPANY'] = "Empresa";
-        $_SESSION['SYSTEM'] = ucfirst($system['name']);
-        $_SESSION['TITLE'] = ucfirst($system['nickname']);
+        $_SESSION['COMPANY'] = "Mente Dev";
+        $_SESSION['SYSTEM'] = ucfirst($system['nickname']);
+        $_SESSION['TITLE'] = ucfirst($system['name']);
         $_SESSION['VERSION'] = ucfirst($system['version']);
         $_SESSION['LOGO'] = $url . '/app/assets/images/' . $system['logo'];
         $_SESSION['LOGOALT'] = $url . '/app/assets/images/' . $system['logo_alt'];

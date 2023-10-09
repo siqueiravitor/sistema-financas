@@ -4,7 +4,7 @@
             <a href="<?= BASED; ?>">
                 <img src="<?= LOGOALT; ?>" alt="<?= COMPANY; ?>" class="img-responsive logo">
                 <span class="name">
-                    <?= SYSTEM; ?>
+                    <?= TITLE; ?>
                 </span>
             </a>
         </div>
@@ -73,7 +73,7 @@
                                     </div>
                                     <div class="p-3 drop-list">
                                         <div class="text-center">
-                                            <?= TITLE ?>
+                                            <?= TITLE ?> | Finanças
                                         </div>
                                         <ul class="list-unstyled pl-0">
                                             <li class="divider"></li>

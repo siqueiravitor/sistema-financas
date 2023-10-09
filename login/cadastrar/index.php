@@ -2,7 +2,7 @@
 <html lang="pt-br">
 
 <head>
-    <title>Money Motion</title>
+    <title>Mente Dev - Finanças</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -47,8 +47,8 @@
                         <img src="../../assets/images/logo.png" alt="Finanças">
                     </div>
                     <div class='text-center'>
-                        <h4><span>Money</span>$Motion</h4>
-                        <h5 class="text-muted">Finance-Manager</h5>
+                        <h4>Controle$Finanças</h4>
+                        <h5 class="text-muted">Mente Dev</h5>
                     </div>
                 </div>
             </div>
@@ -111,8 +111,8 @@
             <small>
                 <div class='text-center'>
                     ©
-                    <?= date("Y") . " | Money Motion | Desenvolvido por " ?><a
-                        href='https://www.linkedin.com/in/siqueira-vitor/' target="_blank">Vitor Siqueira</a>
+                    <?= date("Y") . " | Desenvolvido por " ?><a
+                        href='https://mentedev.com.br' target="_blank">Mente Dev</a>
                 </div>
             </small>
         </div>
