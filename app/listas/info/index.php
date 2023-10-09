@@ -14,7 +14,7 @@ $list = getList($idList)[0];
 $listId = $list[0];
 $listTitle = $list[1];
 $listDesc = $list[2];
-
+$listType = $list[6];
 if (empty($list)) {
     exit(header('Location: ../?msg=Erro ao buscar lista&alert=2'));
 }
@@ -50,7 +50,9 @@ if (empty($list)) {
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+            $("body").tooltip({
+                selector: '[data-toggle=tooltip]'
+            });
 
             $('#date').datepicker({
                 todayHighlight: true
@@ -58,6 +60,9 @@ if (empty($list)) {
             $(".select2").select2();
             loadItem(<?= $listId ?>);
         });
+        function registerFinances(listId){
+            window.location = './include/cFinance.php?listid='+listId;
+        }
     </script>
     <style>
         table td:first-child,
@@ -65,6 +70,7 @@ if (empty($list)) {
             text-align: center;
             width: 50%;
         }
+
         table td:nth-last-child(3),
         table th:nth-last-child(3) {
             text-align: center;
@@ -72,6 +78,7 @@ if (empty($list)) {
             border-right: 1px solid var(--color-border-lighter) !important;
             width: 10%;
         }
+
         table td:nth-last-child(1),
         table th:nth-last-child(1),
         table td:nth-last-child(2),
@@ -117,8 +124,7 @@ if (empty($list)) {
                                     </div>
                                     <div class="form-group">
                                         <small><b>Valor</b></small>
-                                        <input class="form-control" id="value" placeholder="R$ 0,00" name="value"
-                                            onkeyup="moneyMask(this)">
+                                        <input class="form-control" id="value" placeholder="R$ 0,00" name="value" onkeyup="moneyMask(this)">
                                     </div>
 
                                     <div class="text-center mt-4">
@@ -138,6 +144,15 @@ if (empty($list)) {
                                 <div class='table-responsive'>
                                     <table class='table table-sm table-hover table-striped text-center dataTable no-footer' id='items_table'></table>
                                 </div>
+                                <?php
+                                if($listType == 'Compras'){
+                                    ?>
+                                    <div class="text-right mt-4" onclick="registerFinances(<?= $listId ?>)">
+                                        <button class="btn btn-success space-1">Realizar lançamento</button>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>

@@ -3,8 +3,6 @@
 function createList($fields){
     global $con;
 
-    global $con;
-
     $sql = "SELECT 
                 max(list_id) + 1 as id_list
             FROM lists
@@ -16,17 +14,17 @@ function createList($fields){
         $newIdList = 1;
     }
 
-    $insert = "INSERT INTO lists (id_user, id_category, list_id, title, description, created_at, updated_at) 
+    $insert = "INSERT INTO lists (id_user, list_id, title, type, description, created_at, updated_at) 
     VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     $prepareInsert = mysqli_prepare($con, $insert);
-    mysqli_stmt_bind_param($prepareInsert, 'iiissss', $fieldUser, $fieldCategory, $fieldIdList, $fieldTitle, $fieldDesc, $fieldCreatedAt, $fieldUpdatedAt);
+    mysqli_stmt_bind_param($prepareInsert, 'iisssss', $fieldUser, $fieldIdList, $fieldTitle, $fieldType, $fieldDesc, $fieldCreatedAt, $fieldUpdatedAt);
 
     $datetime = date('Y-m-d H:i:s');
     $fieldUser = $_SESSION['id'];
-    $fieldCategory = $fields['id_category'];
     $fieldIdList = $newIdList;
     $fieldTitle = $fields['title'];
+    $fieldType = $fields['type'];
     $fieldDesc = $fields['description'];
     $fieldCreatedAt = $datetime;
     $fieldUpdatedAt = $datetime;
@@ -48,12 +46,18 @@ function lists($id = null){
     $sql = "SELECT 
                 l.id,
                 l.title as name,
+                CASE 
+                    WHEN l.type = 'shopping'
+                        THEN 'Compras'
+                    ELSE 
+                        'Lista'
+                END as type,
                 l.description,
                 c.id as id_category,
                 c.description as category,
                 l.list_id
             FROM lists l
-            INNER JOIN categories c on (c.id = l.id_category)
+            LEFT JOIN categories c on (c.id = l.id_category)
             WHERE l.id_user = " . $_SESSION['id'];
     if($id){
         $sql .= " AND l.id = $id ";

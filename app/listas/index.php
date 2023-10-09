@@ -94,36 +94,16 @@ include_once './include/functions.php';
                                         <small><b>Nome</b></small>
                                         <input class="form-control" name="title" autocomplete="off" required>
                                     </div>
-                                    <div class="form-group">
-                                        <small><b>Categoria</b></small>
-                                        <select class="form-control select2" name="category" required>
-                                            <?php
-                                            $list = '';
-                                            $categorias = categories();
-                                            foreach ($categorias as $categoria) {
-                                                if ($tipo != $categoria[1]) {
-                                                    $tipo = $categoria[1] == 'in' ? 'Receita' : 'Despesa';
-                                                    echo "<optgroup label='$tipo'>";
-                                                    $tipo = $categoria[1];
-                                                }
-                                                echo "<option value='$categoria[0]'>$categoria[2]</option>";
-                                                if ($tipo != $categoria[1]) {
-                                                    echo "</optgroup>";
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
+                                    
                                     <div class="form-group">
                                         <small><b>Descrição</b></small>
                                         <input class="form-control" name="description" autocomplete="off">
                                     </div>
                                     <div class="form-group">
                                         <small><b>Tipo</b></small>
-                                        <select class='form-control select2' name="description" autocomplete="off">
+                                        <select class='form-control select2' name="type" autocomplete="off">
                                             <option value='list' selected>Lista</option>
                                             <option value='shopping'>Compras</option>
-                                            <option value='services'>Serviços</option>
                                         </select>
                                     </div>
 

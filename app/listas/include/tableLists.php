@@ -2,6 +2,7 @@
     <tr>
         <th>Categoria</th>
         <th>Nome</th>
+        <th>Tipo</th>
         <th>Descrição</th>
         <th class='text-muted'><i data-feather='eye'></i></th>
         <th class='text-muted'><i data-feather='edit'></i></th>
@@ -20,6 +21,7 @@
         <tr>
             <td><?= $list['category'] ?></td>
             <td><?= $list['name'] ?></td>
+            <td><?= $list['type'] ?></td>
             <td><?= $list['description'] ?></td>
             <td>
                 <form method="GET" action="./info">

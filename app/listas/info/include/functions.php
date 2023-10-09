@@ -26,6 +26,57 @@ function createItem($fields){
     return $id;
 }
 
+function createFinance($listId){
+    global $con;
+    try{
+        $items = items($listId);
+        foreach($items as $item){
+            $status = $item[4];
+            if($status == 'a'){
+                $description = $item[1];
+                $value = $item[2];
+
+                $date = date('Y-m-d H:i:s');
+            
+                $insert = "INSERT INTO finances (id_user, id_category, value, description, paid, payday, created_at, updated_at) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            
+                $prepareInsert = mysqli_prepare($con, $insert);
+                mysqli_stmt_bind_param($prepareInsert, 'iidsssss', $fieldUser, $fieldCategory, $fieldValue, $fieldDesc, $fieldPaid, $fieldPayday, $fieldCreatedAt, $fieldUpdatedAt);
+            
+                $fieldUser = $_SESSION['id'];
+                $fieldCategory = 14;
+                $fieldValue = $value;
+                $fieldDesc = $description;
+                $fieldPaid = 'n';
+                $fieldPayday = date('Y-m-d');
+                $fieldCreatedAt = $date;
+                $fieldUpdatedAt = $date;
+                
+                $result = mysqli_stmt_execute($prepareInsert);
+                mysqli_stmt_close($prepareInsert);
+                if (!$result) {
+                    //LOG
+                }
+                $update = "UPDATE lists SET 
+                            updated_at = ?
+                        WHERE id = ?
+                        AND id_user = ?";
+
+                $prepareUpdate = mysqli_prepare($con, $update);
+                mysqli_stmt_bind_param($prepareUpdate, 'sii', $fieldUpdatedAt, $fieldId, $fieldUser);
+
+                $fieldUpdatedAt = $date;
+                $fieldId = $listId;
+                $fieldUser = $_SESSION['id'];
+            }
+        }
+        return true;
+    } catch (Exception $e){
+        return false;
+    }
+}
+
 // R e a d
 function items($id = null, $idItem = null){
     try{
@@ -63,9 +114,15 @@ function getList($id, $idList = null){
                     l.description,
                     c.id,
                     c.description,
-                    l.list_id
+                    l.list_id,
+                    CASE 
+                        WHEN l.type = 'shopping'
+                            THEN 'Compras'
+                        ELSE 
+                            'Lista'
+                    END as type
                 FROM lists l
-                INNER JOIN categories c on (c.id = l.id_category)
+                LEFT JOIN categories c on (c.id = l.id_category)
                 WHERE l.id_user = " . $_SESSION['id'];
 
         if(!$idList){
