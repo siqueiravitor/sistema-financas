@@ -1,7 +1,7 @@
 <?php
-require('../../../required.php');
+require_once('../../../required.php');
 include_once '../../config/config.php';
-include_once '../../config/connMysql.php';
+include_once '../../config/conn.php';
 include_once '../../functions/func.php';
 include_once './functions.php';
 

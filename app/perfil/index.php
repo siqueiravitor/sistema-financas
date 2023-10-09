@@ -1,14 +1,11 @@
 <?php
-require('../../required.php');
+require_once('../../required.php');
 include_once '../config/config.php';
 include_once '../functions/func.php';
-include_once '../config/security.php';
-include_once '../config/connMysql.php';
-
+include_once '../config/conn.php';
 ?>
 <!doctype html>
-<html lang="pt-br">
-
+<html lang="pt-br">s
 <head>
     <title>
         <?= SYSTEM . " - " . TITLE; ?>
@@ -35,34 +32,19 @@ include_once '../config/connMysql.php';
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="<?= BASED; ?>/assets/css/main.css">
 
-    <script>
-        // window.addEventListener('DOMContentLoaded', () => {
-        //     $('#date').datepicker({
-        //         todayHighlight: true
-        //     });
-        //     $("#management-table").dataTable({
-        //         "aaSorting": [],
-        //         "columnDefs": [{
-        //             "targets": [6, 7],
-        //             "orderable": false
-        //         }]
-        //     });
-        //     $(".select2").select2();
-        // })
-    </script>
 </head>
 
 <body>
     <div id="wrapper">
         <?php
-        include '../include/loader.php';
-        include '../include/nav-topo.php';
-        include '../include/nav-lateral.php';
+        include_once '../include/loader.php';
+        include_once '../include/nav-topo.php';
+        include_once '../include/nav-lateral.php';
         ?>
         <div id="main-content">
             <div class="container-fluid">
                 <?php
-                include '../include/breadcrumb.php';
+                include_once '../include/breadcrumb.php';
 
                 if (!empty($_GET["msg"])) {
                     $alert = isset($_GET["alert"]) ? $_GET["alert"] : 0;
@@ -74,7 +56,7 @@ include_once '../config/connMysql.php';
                     </div>
                 </div>
             </div>
-            <?php include '../include/footer.php'; ?>
+            <?php include_once '../include/footer.php'; ?>
         </div>
     </div>
 

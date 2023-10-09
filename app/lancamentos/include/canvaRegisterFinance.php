@@ -12,7 +12,6 @@
                 <select class="form-control select2" name="recurrent" onchange='recurrenceOptions(this.value)'>
                     <option value="u">Única</option>
                     <option value="f">Fixa</option>
-                    <option value="i">Parcelada</option>
                 </select>
             </div>
 
@@ -25,6 +24,6 @@
         </form>
     </div>
     <div class="offcanvas-footer mr-2">
-        <?php include '../include/footer.php' ?>
+        <?php include_once '../include/footer.php' ?>
     </div>
 </div>

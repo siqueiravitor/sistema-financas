@@ -15,8 +15,8 @@
 </thead>
 <tbody>
     <?php
-    require('../../../required.php');
-    include_once '../../config/connMysql.php';
+    require_once('../../../required.php');
+    include_once '../../config/conn.php';
     include_once '../../config/config.php';
     include_once '../../functions/func.php';
     include_once './functions.php';
@@ -54,13 +54,6 @@
                 $checkBox = "<input type='checkbox' value='" . $finance['id'] . "' class='checkRegister' onchange='checkCheckbox()'>";
             }
 
-            // $payment = match($payment){
-            //     'p' => "Pix",
-            //     'd' => "Dinheiro",
-            //     'cd' => "Crédito",
-            //     'cc' => "Débito",
-            //     default => ""
-            // };
             echo "<tr>";
             echo "<td class='checkboxArea'>$checkBox</td>";
             echo "<td>{$finance['tipo']}</td>";

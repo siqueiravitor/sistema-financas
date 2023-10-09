@@ -7,8 +7,8 @@
 </thead>
 <tbody>
     <?php
-    require('../../../required.php');
-    include_once '../../config/connMysql.php';
+    require_once('../../../required.php');
+    include_once '../../config/conn.php';
     include_once '../../config/config.php';
     include_once './functions.php';
     $typePayments = typePayment();

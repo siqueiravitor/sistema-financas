@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="navbar-brand" style="overflow: hidden;">
             <a href="<?= BASED; ?>">
-                <img src="<?= LOGOALT; ?>" alt="<?= COMPANY; ?>" class="img-responsive logo">
+                <img src="<?= LOGO; ?>" alt="<?= COMPANY; ?>" class="img-responsive logo">
                 <span class="name">
                     <?= TITLE; ?>
                 </span>
@@ -41,9 +41,6 @@
                 <li class="d-flex align-self-center">
                     <div id="navbar-menu">
                         <ul class="nav navbar-nav">
-                            <?php
-                            //                            include 'nav-notificacao.php';
-                            ?>
                             <li class="dropdown">
                                 <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown">
                                     <?php

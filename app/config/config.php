@@ -6,7 +6,6 @@ define('SYSTEM', $_SESSION['SYSTEM']);
 define('TITLE', $_SESSION['TITLE']);
 define('VERSION', $_SESSION['VERSION']);
 define('LOGO', $_SESSION['LOGO']);
-define('LOGOALT', $_SESSION['LOGOALT']);
 define('BASE', $_ENV['BASEF']);
 define('BASED', $_ENV['BASED']);
 define('BASES', $_ENV['BASES']);

@@ -12,9 +12,8 @@ function verificaSenha($login, $senha) {
         foreach ($nomes as $nome) {
             if (strpos($senha, $nome) !== False) {
                 $erro++;
-                //$texto = "senha contem login";
             }
-            $contNome .= $nome; //concatena nome
+            $contNome .= $nome;
         }
         $tamanhoNome = strlen($contNome) - 3;
         if ($erro == 0) {

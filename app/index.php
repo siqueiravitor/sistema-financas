@@ -1,8 +1,7 @@
 <?php
-require('../required.php');
-include './config/config.php';
-include './config/security.php';
-include './config/connMysql.php';
+require_once('../required.php');
+include_once './config/config.php';
+include_once './config/conn.php';
 
 $hoje = date('Y-m-d');
 $diaSemana = date('w'); // Domingo = 0
@@ -39,9 +38,9 @@ $diaSemana = date('w'); // Domingo = 0
 <body>
     <div id="wrapper">
         <?php
-        include './include/loader.php';
-        include './include/nav-topo.php';
-        include './include/nav-lateral.php';
+        include_once './include/loader.php';
+        include_once './include/nav-topo.php';
+        include_once './include/nav-lateral.php';
         ?>
         <div id="main-content">
             <div class="container-fluid">
@@ -64,7 +63,7 @@ $diaSemana = date('w'); // Domingo = 0
             </div>
             <div class='d-flex justify-content-center mb-2'>
                 <?php
-                include './include/footer.php';
+                include_once './include/footer.php';
                 ?>
             </div>
         </div>

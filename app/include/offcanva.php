@@ -26,7 +26,6 @@
             </div>
 
             <div class="modal-footer" id='modal-footer'>
-                <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
                 <a href="#" tabindex="-1" class="btn btn-danger disabled placeholder col-2"></a>
                 <a href="#" tabindex="-1" class="btn btn-success disabled placeholder col-2"></a>
             </div>

@@ -1,10 +1,9 @@
 <?php
-require('../../../required.php');
-include '../../config/config.php';
-include '../../config/security.php';
-include '../../functions/func.php';
-include '../../config/connMysql.php';
-include './functions.php';
+require_once('../../../required.php');
+include_once '../../config/config.php';
+include_once '../../functions/func.php';
+include_once '../../config/conn.php';
+include_once './functions.php';
 
 $idUser = $_SESSION['id'];
 // Unique payment

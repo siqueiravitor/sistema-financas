@@ -5,9 +5,7 @@ function dataSystem() {
 
   $sql = "SELECT 
             name,
-            nickname,
             logo,
-            logo_alt,
             version,
             status
           FROM systems";

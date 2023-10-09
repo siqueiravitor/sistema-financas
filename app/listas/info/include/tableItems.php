@@ -9,8 +9,8 @@
 </thead>
 <tbody>
     <?php
-    require('../../../../required.php');
-    include_once '../../../config/connMysql.php';
+    require_once('../../../../required.php');
+    include_once '../../../config/conn.php';
     include_once '../../../config/config.php';
     include_once '../../../functions/func.php';
     include_once './functions.php';
@@ -18,12 +18,8 @@
     $items = items($list);
     foreach ($items as $item) {
         $status = $item[4] == 'a' ? 'Ativo' : 'Inativo';
-        // $changeTo = $item[4] == 'a' ? 'Inativar' : 'Ativar'; 
         $btnColor = $item[4] == 'a' ? 'btn-outline-success' : 'btn-outline-danger';
 
-        // $ativo = "<span class='badge-btn $btnColor space-1' href='#' 
-        //                 data-toggle='tooltip' title='$changeTo'
-        //                 onclick='changeItemStatus({$item[0]})' class='d-block'>$status</span>";
         $ativo = "<span class='badge-btn $btnColor space-1' href='#' 
                         onclick='changeItemStatus({$item[0]})' class='d-block'>$status</span>";
     ?>

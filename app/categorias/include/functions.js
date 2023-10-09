@@ -34,13 +34,11 @@ function editCategory(id){
         },
         data: id
     });
-    request.done(function(data) {
-        console.log(data)
+    request.done(function() {
         loadCategories()
     });
     request.fail(function(jqXHR, textStatus) {
         console.log(textStatus)
-        // $("#category_table").html(divError(textStatus));
     });
 }
 function deleteCategory(id){
@@ -60,6 +58,5 @@ function deleteCategory(id){
     });
     request.fail(function(jqXHR, textStatus) {
         console.log(textStatus)
-        // $("#category_table").html(divError(textStatus));
     });
 }

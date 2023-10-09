@@ -1,3 +1,37 @@
+<?php
+$pages = [
+    [
+        'label' => 'Lançamentos',
+        'href' => 'lancamentos',
+        'icon' => 'edit',
+    ],
+    [
+        'label' => 'Poupanças',
+        'href' => 'poupanca',
+        'icon' => 'pocket',
+    ],
+    [
+        'label' => 'Grupos',
+        'href' => 'grupos',
+        'icon' => 'grid',
+    ],
+    [
+        'label' => 'Listas',
+        'href' => 'listas',
+        'icon' => 'list',
+    ],
+    [
+        'label' => 'Categorias',
+        'href' => 'categorias',
+        'icon' => 'command',
+    ],
+    [
+        'label' => 'Tipo Pagamento',
+        'href' => 'tipopagamento',
+        'icon' => 'dollar-sign',
+    ],
+];
+?>
 <div id="leftsidebar" class="sidebar bg-gradient">
     <div id='sidebar-scroll' class="sidebar-scroll">
         <nav id="leftsidebar-nav" class="sidebar-nav mt-3">
@@ -41,62 +75,32 @@
                     </a>
                     <ul id="subNavMenuUsuario">
                         <?php
-                        foreach($menuUser as $menu){
+                        foreach ($menuUser as $menu) {
                             $link = $menu['url'] == $page ? '#' : BASED . "/" . $menu['url'];
-                            ?>
+                        ?>
                             <li>
                                 <a href="<?= $link ?>" class=" <?= $menu['url'] == $page ? 'active' : '' ?>">
                                     <span><?= $menu['description'] ?></span>
                                 </a>
                             </li>
-                            <?php
+                        <?php
                         }
                         ?>
                     </ul>
                 </li>
                 <li class="divider"></li>
-                <li class="middle middle-sm-hide <?= 'sistema' == $page ? 'active' : '' ?>">
-                    <a href="<?= BASED . "/sistema" ?>">
-                        <i class='iconColor navIcon' data-feather="cpu"></i>
-                        <span class='ml-2'>Sistema</span>
-                    </a>
-                </li>
-                <li class="middle middle-sm-hide <?= 'lancamentos' == $page ? 'active' : '' ?>">
-                    <a href="<?= BASED . "/lancamentos" ?>">
-                        <i class='iconColor navIcon' data-feather="edit"></i>
-                        <span class='ml-2'>Lançamentos</span>
-                    </a>
-                </li>
-                <li class="middle middle-sm-hide <?= 'poupanca' == $page ? 'active' : '' ?>">
-                    <a href="<?= BASED . "/poupanca" ?>">
-                        <i class='iconColor navIcon' data-feather="pocket"></i>
-                        <span class='ml-2'>Poupanças</span>
-                    </a>
-                </li>
-                <li class="middle middle-sm-hide <?= 'grupos' == $page ? 'active' : '' ?>">
-                    <a href="<?= BASED . "/grupos" ?>">
-                        <i class='iconColor navIcon' data-feather="grid"></i>
-                        <span class='ml-2'>Grupos</span>
-                    </a>
-                </li>
-                <li class="middle middle-sm-hide <?= 'listas' == $page ? 'active' : '' ?>">
-                    <a href="<?= BASED . "/listas" ?>">
-                        <i class='iconColor navIcon' data-feather="list"></i>
-                        <span class='ml-2'>Listas</span>
-                    </a>
-                </li>
-                <li class="middle middle-sm-hide <?= 'categorias' == $page ? 'active' : '' ?>">
-                    <a href="<?= BASED . "/categorias" ?>">
-                        <i class='iconColor navIcon' data-feather="command"></i>
-                        <span class='ml-2'>Categorias</span>
-                    </a>
-                </li>
-                <li class="middle middle-sm-hide <?= 'tipopagamento' == $page ? 'active' : '' ?>">
-                    <a href="<?= BASED . "/tipopagamento" ?>">
-                        <i class='iconColor navIcon' data-feather="dollar-sign"></i>
-                        <span class='ml-2'>Tipo Pagamento</span>
-                    </a>
-                </li>
+                <?php
+                foreach ($pages as $data) {
+                ?>
+                    <li class="middle middle-sm-hide <?= $data['href'] == $page ? 'active' : '' ?>">
+                        <a href="<?= BASED . "/" . $data['href'] ?>">
+                            <i class='iconColor navIcon' data-feather="<?= $data['icon'] ?>"></i>
+                            <span class='ml-2'><?= $data['label'] ?></span>
+                        </a>
+                    </li>
+                <?php
+                }
+                ?>
                 <li class="middle middle-sm-hide" id="navDocumentacao">
                     <a href="<?= BASED ?>/sobre">
                         <i class="icon-info"></i>

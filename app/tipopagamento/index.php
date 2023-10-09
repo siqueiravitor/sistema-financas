@@ -1,9 +1,8 @@
 <?php
-require('../../required.php');
+require_once('../../required.php');
 include_once '../config/config.php';
 include_once '../functions/func.php';
-include_once '../config/security.php';
-include_once '../config/connMysql.php';
+include_once '../config/conn.php';
 include_once './include/functions.php';
 
 ?>
@@ -66,14 +65,14 @@ include_once './include/functions.php';
 <body>
     <div id="wrapper">
         <?php
-        include '../include/loader.php';
-        include '../include/nav-topo.php';
-        include '../include/nav-lateral.php';
+        include_once '../include/loader.php';
+        include_once '../include/nav-topo.php';
+        include_once '../include/nav-lateral.php';
         ?>
         <div id="main-content">
             <div class="container-fluid">
                 <?php
-                include '../include/breadcrumb.php';
+                include_once '../include/breadcrumb.php';
 
                 if (!empty($_GET["msg"])) {
                     $alert = isset($_GET["alert"]) ? $_GET["alert"] : 0;
@@ -117,8 +116,8 @@ include_once './include/functions.php';
                 </div>
             </div>
             <?php
-            include '../include/footer.php';
-            include '../include/offcanva.php';
+            include_once '../include/footer.php';
+            include_once '../include/offcanva.php';
             ?>
         </div>
     </div>

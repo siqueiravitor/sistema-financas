@@ -1,8 +1,8 @@
 <?php
 
-require('../../../required.php');
+require_once'../../../required.php');
 include_once '../../config/config.php';
-include_once '../../config/connMysql.php';
+include_once '../../config/conn.php';
 include_once '../../functions/func.php';
 include_once './functions.php';
 
@@ -184,37 +184,6 @@ if ($goal) {
 <?php
 }
 ?>
-<!-- <style>
-    #history{
-        /* width: 110%;
-        margin-left: -1.3rem; */
-        border: none!important;
-    }
-    table * {
-        text-align: center;
-    }
-    table.dataTable tbody{
-        border: none!important;
-    }
-    table.table.dataTable tbody tr {
-        border-bottom: 1px solid var(--color-border)!important;
-    }
-    table.dataTable th, table.dataTable td {
-        /* padding: 0.5rem 2rem!important; */
-    }
-
-    td:first-child,
-    th:first-child {
-        /* width: 100%;
-        margin-left: 0rem; */
-    }
-    tr:first-child {
-        border-top: unset!important;
-    }
-    td:last-child{
-        /* width: 50%!important; */
-    }
-</style> -->
 <script src="<?= ICON ?>/feather.js"></script>
 <script>
     function changeValue(reserved, goal) {

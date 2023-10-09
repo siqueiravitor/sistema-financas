@@ -1,7 +1,7 @@
 <?php
-require('../../../required.php');
+require_once('../../../required.php');
 include_once '../../config/config.php';
-include_once '../../config/connMysql.php';
+include_once '../../config/conn.php';
 include_once '../../functions/func.php';
 include_once './functions.php';
 
@@ -9,9 +9,6 @@ $userId = $_SESSION['id'];
 $id = $_GET['id'];
 $mult = isset($_GET['mult']) ? $_GET['mult'] : null;
 
-// echo "<PRE>";
-// print_r($_GET);
-// return;
 if (!$mult) {
     $dataFinance = dataFinance($userId, $id);
     if ($dataFinance[0]) {
@@ -110,7 +107,7 @@ if (!$mult) {
 
 <style>
     #divTableModalFinance::target-text,
-    #divTableModalFinance: {
+    #divTableModalFinance {
         border-color: var(--color-primary) !important;
     }
 

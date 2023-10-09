@@ -1,9 +1,8 @@
 <?php
-require('../../required.php');
+require_once('../../required.php');
 include_once '../config/config.php';
 include_once '../functions/func.php';
-include_once '../config/security.php';
-include_once '../config/connMysql.php';
+include_once '../config/conn.php';
 include_once './include/functions.php';
 
 $month = isset($_GET['month']) ? $_GET['month'] : date('m');
@@ -113,16 +112,16 @@ $financeValues = financeValues($date);
 <body>
     <div id="wrapper">
         <?php
-        include '../include/loader.php';
-        include '../include/nav-topo.php';
-        include '../include/nav-lateral.php';
+        include_once '../include/loader.php';
+        include_once '../include/nav-topo.php';
+        include_once '../include/nav-lateral.php';
         ?>
         <div id="main-content">
             <div class="container-fluid">
                 <input id='month' value='<?=$month?>' hidden>
                 <input id='year' value='<?=$getYear?>' hidden>
                 <?php
-                include '../include/breadcrumb.php';
+                include_once '../include/breadcrumb.php';
 
                 if (!empty($_GET["msg"])) {
                     $alert = isset($_GET["alert"]) ? $_GET["alert"] : 0;
@@ -170,7 +169,7 @@ $financeValues = financeValues($date);
                     </div>
                     
                     <div class="offcanvas-footer mr-2">
-                        <?php include '../include/footer.php' ?>
+                        <?php include_once '../include/footer.php' ?>
                     </div>
                 </div>
                 
@@ -273,9 +272,9 @@ $financeValues = financeValues($date);
                 </div>
             </div>
             <?php
-            include './include/canvaRegisterFinance.php';
-            include '../include/footer.php';
-            include '../include/offcanva.php';
+            include_once './include/canvaRegisterFinance.php';
+            include_once '../include/footer.php';
+            include_once '../include/offcanva.php';
             ?>
         </div>
     </div>

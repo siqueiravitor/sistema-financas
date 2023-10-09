@@ -1,6 +1,6 @@
 <?php
 include '../config/func.php';
-include '../config/connMysql.php';
+include '../config/conn.php';
 $acao = $_GET['parametro'];
 ?>
 <div class="modal-body"> 
